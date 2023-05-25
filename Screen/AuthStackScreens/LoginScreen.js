@@ -11,7 +11,7 @@ const LoginScreen = ({ navigation }) => {
     const [userPassword, setUserPassword] = useState('')
     const loginSubmit = () => {
         let dataToSend = { user_id: userId, user_pw: userPassword };
-        let formBody = [];
+        let formBody = []; // 1
         for (let key in dataToSend) {
             let encodedKey = encodeURIComponent(key);
             let encodedValue = encodeURIComponent(dataToSend[key]);
