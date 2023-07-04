@@ -1,22 +1,35 @@
-import React from "react"
-import { SafeAreaView, Text, View } from "react-native"
-import SearchingStackScreen from "./SearchingStackScreen"
-import MyPageScreen from "../MyPageScreen"
-import HomeScreen from "../HomeScreen"
-import { createStackNavigator } from "@react-navigation/stack"
-import { NavigationContainer } from "@react-navigation/native"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import React, { useState, useEffect } from "react"
+import { Button } from "react-native"
 
+import HomeScreen from "../HomeScreen"
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
+import RegisterGifticon from "../../RegisterGifticon"
+import LoginScreen from "../AuthStackScreens/LoginScreen"
 
 const Stack = createStackNavigator()
-const Tab = createBottomTabNavigator()
-const HomeScreenStack = () => {
+
+const HomeScreenStack = ({ navigation, route }) => {
+    React.useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen'
+        if (routeName != 'HomeScreen') {
+            navigation.setOptions({ tabBarStyle: { display: 'none' } })
+        } else {
+            navigation.setOptions({ tabBarStyle: { display: undefined } })
+        }
+    }, [navigation, route])
     return (
-        <SafeAreaView>
-            <View>
-                <Text></Text>
-            </View>
-        </SafeAreaView>
+        <Stack.Navigator initialRouteName="HomeScreen">
+            <Stack.Screen name='LoginScreen' component={LoginScreen} ></Stack.Screen>
+            <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
+                headerRight: () => (
+                    <Button title='기프티콘등록' onPress={() => {
+                        navigation.navigate('RegisterGifticon')
+                    }} />
+                )
+            }}></Stack.Screen>
+            <Stack.Screen name='RegisterGifticon' component={RegisterGifticon}></Stack.Screen>
+        </Stack.Navigator>
     )
 }
 

@@ -1,4 +1,4 @@
 module.exports = {
-    // preURL: 'http://localhost:3001'
-    preURL : 'https://3.34.198.117'
+    preURL: 'http://localhost:3001'
+    // preURL : '13.209.118.225'
 };

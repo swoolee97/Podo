@@ -9,16 +9,26 @@ import MyPageScreen from "../MyPageStackScreens/MyPageScreen";
 import Profile from "../MyPageStackScreens/Profile";
 import MyPage1 from "../MyPageStackScreens/MyPage1";
 import MyPage2 from "../MyPageStackScreens/MyPage2";
-import { SafeAreaView } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 const Stack = createStackNavigator()
-const MyPageStackScreen = ({ navigation }) => {
+const MyPageStackScreen = ({ navigation, route }) => {
+    
+    React.useLayoutEffect(() => {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? 'MyPageScreen';
+        if (routeName != 'MyPageScreen') { //MyPage이외의 화면에 대해 tabBar none을 설정한다.
+          navigation.setOptions({tabBarStyle: {display: 'none'}});
+        } else {
+          navigation.setOptions({tabBarStyle: {display: undefined}});
+        }
+      }, [navigation,route]);
     return (
-            <Stack.Navigator initialRouteName="MyPageScreen">
-                <Stack.Screen name="MyPageScreen" component={MyPageScreen} options={{ headerShown: true }} />
-                <Stack.Screen name="Profile" component={Profile} options={{ headerShown: true }} />
-                <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: true }} />
-                <Stack.Screen name="MyPage2" component={MyPage2} options={{ headerShown: true }} />
-            </Stack.Navigator>
+        <Stack.Navigator initialRouteName="MyPageScreen">
+            <Stack.Screen name="MyPageScreen" component={MyPageScreen} options={{ headerShown: true }} />
+            <Stack.Screen name="Profile" component={Profile} options={{}} />
+            <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: true }} />
+            <Stack.Screen name="MyPage2" component={MyPage2} options={{ headerShown: true }} />
+        </Stack.Navigator>
     )
 }
 const styles = StyleSheet.create({

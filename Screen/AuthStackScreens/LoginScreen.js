@@ -1,16 +1,20 @@
-import { SafeAreaView, Text, View, TextInput } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import { SafeAreaView, Text, View, TextInput, StyleSheet } from "react-native"
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { useState } from "react"
-import { PreURL } from "../../PreURL/PreURL"
+import { preURL, PreURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
 import RegisterScreen from "./RegisterScreen"
+import AsyncStorage from "@react-native-community/async-storage"
 const Stack = createStackNavigator()
+
 const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userId, setUserId] = useState('')
     const [userPassword, setUserPassword] = useState('')
+    const [userEmail, setUserEmail] = useState('')
+
     const loginSubmit = () => {
-        let dataToSend = { user_id: userId, user_pw: userPassword };
+        let dataToSend = { user_email: userEmail, user_pw: userPassword };
         let formBody = []; // 1
         for (let key in dataToSend) {
             let encodedKey = encodeURIComponent(key);
@@ -19,7 +23,7 @@ const LoginScreen = ({ navigation }) => {
         }
         formBody = formBody.join('&');
         console.log(formBody)
-        fetch(PreURL.preURL + '/api/user/login', {
+        fetch(PreURL.preURL + '/api/login', {
             method: 'POST',
             body: formBody,
             headers: {
@@ -27,43 +31,89 @@ const LoginScreen = ({ navigation }) => {
             },
         }).then((response) => response.json())
             .then((responseJson) => {
+                // console.log(formBody)
                 console.log(responseJson.login)
+                console.log(responseJson.message)
                 if (responseJson.login == 'success') {
+                    console.log(responseJson.user.user_email)
+                    AsyncStorage.setItem('user_email', responseJson.user.user_email)
                     navigation.replace('Main')
                 } else {
-                    navigation.replace('RegisterScreen')
+                    console.log('Please check your id or password');
                 }
             }).catch((error) => {
-                //Hide Loader
+                // Hide Loader
                 // setLoading(false);
                 console.error(error);
             });
     }
-
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            marginTop : 0,
+            backgroundColor: '#fff',
+            justifyContent: 'center',
+            paddingHorizontal: 20,
+        },
+        title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: 20,
+        },
+        input: {
+            height: 40,
+            borderColor: '#ccc',
+            borderWidth: 1,
+            marginBottom: 10,
+            paddingHorizontal: 10,
+            borderRadius: 8,
+            marginHorizontal : 100
+        },
+        button: {
+            backgroundColor: '#4e9bde',
+            paddingVertical: 10,
+            borderRadius: 10,
+        },
+        buttonText: {
+            color: '#fff',
+            textAlign: 'center',
+            fontSize: 18,
+        },
+    });
     return (
 
-        <SafeAreaView>
-            <View>
-                <Stack.Screen name="회원가입" component={RegisterScreen} />
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('RegisterScreen')}
-                >
-                    <Text>회원가입</Text>
-                </TouchableOpacity>
-                <TextInput
-                    onChangeText={(userId) => { setUserId(userId) }}
-                    placeholder='아이디'
-                />
-                <TextInput
-                    onChangeText={(userPassword) => { setUserPassword(userPassword) }}
-                    placeholder='비밀번호'
-                />
-                <TouchableOpacity
-                    onPress={loginSubmit}
-                >
-                    <Text>로그인</Text>
-                </TouchableOpacity>
-            </View>
+        <SafeAreaView style={styles.container}>
+            <ScrollView>
+                <View>
+                    <Stack.Screen name="회원가입" component={RegisterScreen} />
+
+                    <TextInput
+                        onChangeText={(userEmail) => { setUserEmail(userEmail) }}
+                        placeholder='이메일'
+                        style={styles.input}
+                    />
+                    <TextInput
+                        onChangeText={(userPassword) => { setUserPassword(userPassword) }}
+                        placeholder='비밀번호'
+                        style={styles.input}
+                    />
+                    <View style = {{flexDirection :'row'}}>
+                        <TouchableOpacity
+                            onPress={loginSubmit}
+                            style={styles.button}
+                        >
+                            <Text style = {styles.buttonText}>로그인</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('RegisterScreen')}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>회원가입</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
