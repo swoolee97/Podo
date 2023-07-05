@@ -22,7 +22,6 @@ const LoginScreen = ({ navigation }) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
-        console.log(formBody)
         fetch(PreURL.preURL + '/api/login', {
             method: 'POST',
             body: formBody,
@@ -31,12 +30,10 @@ const LoginScreen = ({ navigation }) => {
             },
         }).then((response) => response.json())
             .then((responseJson) => {
-                // console.log(formBody)
-                console.log(responseJson.login)
-                console.log(responseJson.message)
                 if (responseJson.login == 'success') {
-                    console.log(responseJson.user.user_email)
-                    AsyncStorage.setItem('user_email', responseJson.user.user_email)
+                    console.log(responseJson.user_email)
+                    AsyncStorage.setItem('user_email', responseJson.user_email)
+                    AsyncStorage.setItem('token',responseJson.token)
                     navigation.replace('Main')
                 } else {
                     console.log('Please check your id or password');

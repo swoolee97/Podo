@@ -9,41 +9,38 @@ import axios from "axios";
 const MyPageScreen = ({ navigation }) => {
     const preURL = require('../../PreURL/PreURL').preURL
 
-    const [userId, setUserId] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
 
     useEffect(() => {
-        const fetchUserId = async () => {
+        const fetchUserEmail = async () => {
             try {
-                const user_id = await AsyncStorage.getItem('user_id')
-                setUserId(user_id)
-                console.log('user_id :', user_id)
+                const user_email = await AsyncStorage.getItem('user_email')
+                setUserEmail(user_email)
             } catch (error) {
-                console.error('Error fetching userId : ', error)
+                console.error('Error fetching userEmail : ', error)
             }
         }
-        fetchUserId();
+        fetchUserEmail();
     }, []);
 
     useEffect(() => {
         const fetchMypageData = async () => {
             try {
-                const response = await axios.get(preURL + '/api/mypage/' + userId)
-                console.log(response.data.user_email)
-                console.log(response.data.message)
-                setUserEmail(response.data.user_email)
+                if (userEmail) {
+                    const response = await axios.get(preURL + '/api/mypage/' + userEmail)
+                }
             } catch (error) {
                 console.error("Error fetching my page data:", error);
             }
         }
         fetchMypageData()
-    }, [userId])
+    }, [userEmail])
 
     return (
 
         <View style={styles.container}>
             <View style={styles.section}>
-                {userId == null ? <Text>로그인 안했을 때 프로필</Text> : <Text>로그인 했을 때 프로필</Text>}
+                {userEmail == null ? <Text>로그인 안했을 때 프로필</Text> : <Text>로그인 했을 때 프로필</Text>}
             </View>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
@@ -52,7 +49,7 @@ const MyPageScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
-                <Text>{userId}님 안녕하세요!</Text>
+                <Text>{userEmail}님 안녕하세요!</Text>
                 <Text>이메일 : {userEmail}</Text>
             </View>
             <View>
