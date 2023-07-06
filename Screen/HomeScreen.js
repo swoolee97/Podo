@@ -5,8 +5,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 const HomeScreen = ({ navigation }) => {
-    // const user = await AsyncStorage.getItem('user')
-    // const [name, setName] = useState(null)
     const [userId, setUserId] = useState(null)
     useEffect(() => {
         const fetchUserId = async () => {
@@ -28,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
             <View style = {{}}>
                 <TouchableOpacity onPress={async () => {
                     await AsyncStorage.clear()
-                    navigation.replace('LoginScreen')
+                    navigation.replace('Auth')
                     console.log('로그아웃 완료')
                 }}>
                     <Text>로그아웃</Text>
