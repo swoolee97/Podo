@@ -105,7 +105,7 @@ const RegisterScreen = ({ navigation }) => {
                 console.log(formBody)
                 console.log(responseJson.message)
                 if (responseJson.register == 'success') {
-                    navigation.replace('LoginScreen')
+                    navigation.replace('Auth')
                     console.log('회원가입 성공');
                 } else {
                     console.log('회원가입 실패');

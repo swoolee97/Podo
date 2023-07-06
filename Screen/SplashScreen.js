@@ -12,7 +12,7 @@ const SplashScreen = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
             AsyncStorage.getItem('user_email').then((value) => {
-                navigation.replace(value === null ? 'LoginScreen' : 'Main')
+                navigation.replace(value === null ? 'Auth' : 'Main')
             })
         }, 2000);
     })

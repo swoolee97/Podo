@@ -44,27 +44,23 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 
+import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './Screen/SplashScreen';
 import Main from './Main';
-import LoginScreen from './Screen/AuthStackScreens/LoginScreen';
-import RegisterScreen from './Screen/AuthStackScreens/RegisterScreen';
-import LoginStackScreen from './Screen/StackScreens/LoginStackScreen';
+import AuthStackScreen from './Screen/StackScreens/AuthStackScreen';
 
 const Stack = createStackNavigator()
 
 const App = () => {
   // rest of the code
+  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='SplashScreen'>
         <Stack.Screen name = "SplashScreen" component = {SplashScreen} options = {{headerShown :false}}/>
         <Stack.Screen name = "Main" component = {Main} options = {{headerShown :false}} />
-        <Stack.Screen name = "LoginScreen" component={LoginScreen} options = {{headerShown : false}}/>
-        <Stack.Screen name = "RegisterScreen" component={RegisterScreen} options = {{headerShown : false}}/>
+        <Stack.Screen name = 'Auth' component = {AuthStackScreen} options = {{headerShown : false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
