@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { SafeAreaView, View, Text, TextInput, StyleSheet, Touchable } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { useState } from "react"
@@ -11,12 +11,12 @@ const RegisterScreen = ({ navigation }) => {
     const [userPassword, setUserPassword] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
     const [emailValid, setEmailValid] = useState(null)
-    const [userName, setUserName] = useState('')
     const [passwordValid, setPasswordValid] = useState(null)
     const [checkPassword, setCheckPassword] = useState(null)
     const [doubleCheck, setDoubleCheck] = useState(null)
     const [randomCode, setRandomCode] = useState(null)
     const [emailAuthCode, setEmailAuthCode] = useState(null)
+    const [checkCode, setCheckCode] = useState(false)
 
     const emailCheck = (email) => {
         setUserEmail(email);
@@ -34,6 +34,14 @@ const RegisterScreen = ({ navigation }) => {
     const createRandomCode = () => {
         return (String(Math.floor(Math.random() * 1000000)).padStart(6, "0"))
     }
+    const checkRandomCode = () => {
+        if (randomCode == emailAuthCode) {
+            setCheckCode(true)
+            console.log('인증 선공')
+        }else
+            console.log('인증 실패')
+    }
+
     const emailAuthentication = () => {
         if (!emailValid) {
             console.log('유효한 이메일 주소를 적어주세요')
@@ -57,27 +65,27 @@ const RegisterScreen = ({ navigation }) => {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
                 },
-            }).then((response) => { response.json()})
+            }).then((response) => { response.json() })
                 .then((responseJson) => {
                     console.log(responseJson)
                 })
         }
     }
     const registerSubmit = () => {
-        if(!emailValid){
+        if (!emailValid) {
             console.log('유효한 이메일 주소를 입력해주세요')
             return;
-        }else if(!passwordValid){
+        } else if (!passwordValid) {
             console.log('비밀번호 재설정')
             return;
-        }else if(!doubleCheck){
+        } else if (!doubleCheck) {
             console.log('비밀번호를 다시 확인해주세요')
             return;
-        }else if(randomCode != emailAuthCode){
+        } else if (randomCode != emailAuthCode) {
             console.log('인증번호를 확인해 주세요')
             return;
         }
-        let dataToSend = { user_email: userEmail, user_pw: userPassword, check_password: checkPassword};
+        let dataToSend = { user_email: userEmail, user_pw: userPassword, check_password: checkPassword };
         let formBody = []; // 1
         for (let key in dataToSend) {
             let encodedKey = encodeURIComponent(key);
@@ -121,19 +129,13 @@ const RegisterScreen = ({ navigation }) => {
             marginBottom: 20,
         },
         input: {
-            // height: 30,
-            // borderColor: '#ccc',
-            // borderWidth: 1,
-            // marginBottom: 10,
-            // paddingHorizontal: 10,
-            // borderRadius: 8,
             height: 30,
             borderColor: '#ccc',
             borderWidth: 1,
             marginBottom: 10,
             paddingHorizontal: 10,
             borderRadius: 8,
-            marginHorizontal : 10
+            marginHorizontal: 10
 
         },
         button: {
@@ -149,29 +151,37 @@ const RegisterScreen = ({ navigation }) => {
     });
 
     return (
-        <SafeAreaView style={[styles.container,{}]}>
+        <SafeAreaView style={[styles.container, {}]}>
             <ScrollView>
                 <View>
-                    <View style={[{ flexDirection: 'row', marginTop : 100 }]}>
+                    <View style={[{ flexDirection: 'row', marginTop: 100 }]}>
                         <TextInput
                             placeholder="이메일"
+                            editable={!checkCode}
                             onChangeText={(userEmail) => { emailCheck(userEmail); }}
                             style={styles.input}
                         />
                         <Text>{emailValid == null ? '' : emailValid ? 'OK' : 'X'}</Text>
 
-                        <TouchableOpacity onPress={() => {
-                            emailAuthentication();
-                        }}>
+                        <TouchableOpacity
+                            disabled={checkCode}
+                            onPress={() => {
+                                emailAuthentication();
+                            }}>
                             <Text>인증번호 전송</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
                         <TextInput
                             placeholder="인증번호"
+                            editable={!checkCode}
                             style={styles.input}
-                            onChangeText = {(emailAuthCode)=>setEmailAuthCode(emailAuthCode)}
-                            />
+                            onChangeText={(emailAuthCode) => setEmailAuthCode(emailAuthCode)}
+                        />
+                        <TouchableOpacity
+                            disabled={checkCode}
+                            onPress = {() => {checkRandomCode()}}
+                        ><Text>인증번호 확인</Text></TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <TextInput

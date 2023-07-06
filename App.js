@@ -52,6 +52,7 @@ import SplashScreen from './Screen/SplashScreen';
 import Main from './Main';
 import LoginScreen from './Screen/AuthStackScreens/LoginScreen';
 import RegisterScreen from './Screen/AuthStackScreens/RegisterScreen';
+import LoginStackScreen from './Screen/StackScreens/LoginStackScreen';
 
 const Stack = createStackNavigator()
 
