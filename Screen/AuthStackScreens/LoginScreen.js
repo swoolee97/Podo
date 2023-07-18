@@ -9,7 +9,6 @@ const Stack = createStackNavigator()
 
 const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
-    const [userId, setUserId] = useState('')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState('')
 

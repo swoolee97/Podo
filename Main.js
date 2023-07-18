@@ -9,7 +9,7 @@ import SearchingStackScreen from "./Screen/StackScreens/SearchingStackScreen"
 import MyPageStackScreen from "./Screen/StackScreens/MyPageStackScreen"
 import HomeScreen from "./Screen/HomeScreen.js"
 import MyPageScreen from "./Screen/MyPageScreen.js"
-import RegisterGifticon from "./RegisterGifticon"
+import RegisterGifticon from "./UploadGifticon"
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()

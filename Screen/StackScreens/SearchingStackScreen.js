@@ -1,15 +1,16 @@
 import React from "react";
-import { Image } from "react-native";
-import { SafeAreaView, View, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import TestPage from "../TestPage";
+import SearchingMainScreen from "../SearchingScreens/SearchingMainScreen";
+import SearchingResultScreen from "../SearchingScreens/SearchingResultScreen";
+
 const Stack = createStackNavigator()
 const SearchingScreen = () => {
     return (
-        <SafeAreaView>
-            <View><Text>sdfasdf</Text></View>
-        </SafeAreaView>
+        <Stack.Navigator initialRouteName="SearchingMainScreen">
+            <Stack.Screen component = {SearchingMainScreen} name = 'SearchingMainScreen'/>
+            <Stack.Screen component={SearchingResultScreen} name = 'SearchingResultScreen'/>
+        </Stack.Navigator>
     )
 }
 export default SearchingScreen
