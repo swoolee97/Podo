@@ -3,7 +3,7 @@ import { View, Image, Text, SafeAreaView } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 // import junImage from '../Image/IMG_3346.jpg';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreenStack from "./StackScreens/HomeStackScreen";
 import LoginScreen from "./AuthStackScreens/LoginScreen";
 const SplashScreen = ({ navigation }) => {

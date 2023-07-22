@@ -4,7 +4,7 @@ import { useState } from "react"
 import { preURL, PreURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
 import RegisterScreen from "./RegisterScreen"
-import AsyncStorage from "@react-native-community/async-storage"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createStackNavigator()
 
 const LoginScreen = ({ navigation }) => {

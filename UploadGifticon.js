@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { preURL } from './PreURL/PreURL';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { SafeAreaView } from 'react-native-safe-area-context';
 
 const UploadGifticon = ({navigation}) => {
