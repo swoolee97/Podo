@@ -27,13 +27,8 @@ const HomeScreenStack = ({ navigation, route }) => {
                         navigation.navigate('UploadGifticon')
                     }} />
                 )
-<<<<<<< HEAD
-            }}/>
-            <Stack.Screen name='UploadGifticon' component={UploadGifticon}/>
-=======
             }}></Stack.Screen>
             <Stack.Screen name='RegisterGifticon' component={RegisterGifticon}></Stack.Screen>
->>>>>>> parent of b7a1e63 (mod_login)
         </Stack.Navigator>
     )
 }
