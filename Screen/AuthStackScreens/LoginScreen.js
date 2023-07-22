@@ -11,7 +11,7 @@ const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState('')
-
+    
     const loginSubmit = () => {
         let dataToSend = { user_email: userEmail, user_pw: userPassword };
         let formBody = []; // 1
@@ -21,6 +21,7 @@ const LoginScreen = ({ navigation }) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
+        console.log(PreURL.preURL + '/api/login')
         fetch(PreURL.preURL + '/api/login', {
             method: 'POST',
             body: formBody,

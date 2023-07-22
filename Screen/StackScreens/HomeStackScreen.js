@@ -20,14 +20,20 @@ const HomeScreenStack = ({ navigation, route }) => {
     }, [navigation, route])
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
+            <Stack.Screen name='LoginScreen' component={LoginScreen} ></Stack.Screen>
             <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
                 headerRight: () => (
                     <Button title='기프티콘등록' onPress={() => {
                         navigation.navigate('UploadGifticon')
                     }} />
                 )
+<<<<<<< HEAD
             }}/>
             <Stack.Screen name='UploadGifticon' component={UploadGifticon}/>
+=======
+            }}></Stack.Screen>
+            <Stack.Screen name='RegisterGifticon' component={RegisterGifticon}></Stack.Screen>
+>>>>>>> parent of b7a1e63 (mod_login)
         </Stack.Navigator>
     )
 }

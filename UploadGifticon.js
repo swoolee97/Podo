@@ -37,9 +37,9 @@ const UploadGifticon = ({navigation}) => {
             await fetch(preURL + '/api/uploadgifticon', {
                 method: 'POST',
                 body: formdata,
-            //response는 응답 전반에 관한 내용을 담고 있음.
+            //response는 응답 전반 상태에 관한 내용을 담고 있음.
             }).then((response) => {
-                console.log(response)
+                console.log('response : ', response)
                     if (response.status == 500) {
                         Alert.alert('기부 실패 멘트')
                         // navigation.navigate('HomeScreen')
@@ -56,7 +56,6 @@ const UploadGifticon = ({navigation}) => {
             console.log(error);
         }
     }
-
 
     return (
         <View>
