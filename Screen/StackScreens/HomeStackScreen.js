@@ -28,7 +28,7 @@ const HomeScreenStack = ({ navigation, route }) => {
                     }} />
                 )
             }}></Stack.Screen>
-            <Stack.Screen name='RegisterGifticon' component={RegisterGifticon}></Stack.Screen>
+            <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
         </Stack.Navigator>
     )
 }
