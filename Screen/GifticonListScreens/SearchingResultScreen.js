@@ -5,7 +5,7 @@ const SearchingResultScreen = () => {
     <SafeAreaView>
         <View>
             <Text>
-                결과페이지
+                검색결과페이지
             </Text>
         </View>
     </SafeAreaView>

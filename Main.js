@@ -1,20 +1,15 @@
 import React from "react"
-import { View, Text } from "react-native"
-import { getFocusedRouteNameFromRoute, NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import HomeStackScreen from "./Screen/StackScreens/HomeStackScreen"
 import SearchingStackScreen from "./Screen/StackScreens/SearchingStackScreen"
 import MyPageStackScreen from "./Screen/StackScreens/MyPageStackScreen"
-import HomeScreen from "./Screen/HomeScreen.js"
-import MyPageScreen from "./Screen/MyPageScreen.js"
-import RegisterGifticon from "./UploadGifticon"
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator()
 
-const Main = ({navigation,route}) => {
+const Main = () => {
     return (
             <Tab.Navigator>
                 <Tab.Screen name="HomeStackScreen" component={HomeStackScreen} options = {{headerShown :false}} />
