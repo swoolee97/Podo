@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
             <View style = {{}}>
                 <TouchableOpacity onPress={async () => {
                     await AsyncStorage.clear()
-                    navigation.replace('LoginScreen')
+                    navigation.replace('Auth')
                     console.log('로그아웃 완료')
                 }}>
                     <Text>로그아웃</Text>
