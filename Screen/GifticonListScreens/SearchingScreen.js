@@ -27,7 +27,7 @@ const SearchingScreen = ({navigation}) => {
         <SafeAreaView>
             <Text>서칭 메인 스크린</Text>
             <View style={{ flexDirection: 'row' }}>
-                <TextInput onChangeText={setText} placeholder='asdf'></TextInput>
+                <TextInput onChangeText={setText} placeholder='기프티콘'></TextInput>
                 <TouchableOpacity onPress={() => {
                     searchingButton();
                 }}>

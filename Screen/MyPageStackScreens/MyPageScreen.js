@@ -45,7 +45,13 @@ const MyPageScreen = ({ navigation }) => {
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Profile', { screen: 'Profile' })
-                }}><Text>프로필 보기</Text>
+                }}><Text>프로필 관리</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.section}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('Certification', { screen: 'Certification' })
+                }}><Text>수혜자 인증</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
