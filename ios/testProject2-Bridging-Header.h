@@ -1,17 +1,4 @@
 //
-//  testProject2-Bridging-Header.h
-//  testProject2
-//
-//  Created by seung-u on 7/26/23.
+//  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-#ifndef testProject2_Bridging_Header_h
-#define testProject2_Bridging_Header_h
-#import "RCTBridgeModule.h"
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
-#import "RCTRootView.h"
-#import "RCTUtils.h"
-#import "RCTConvert.h"
-
-#endif /* testProject2_Bridging_Header_h */

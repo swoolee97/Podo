@@ -5,6 +5,7 @@ import { preURL, PreURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
 import RegisterScreen from "./RegisterScreen"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as kakaoLogin from '@react-native-seoul/kakao-login'
 const Stack = createStackNavigator()
 
 const LoginScreen = ({ navigation }) => {
@@ -43,6 +44,9 @@ const LoginScreen = ({ navigation }) => {
                 // setLoading(false);
                 console.error(error);
             });
+    }
+    const loginWithKakao = () => {
+        kakaoLogin.login()
     }
     const styles = StyleSheet.create({
         container: {
@@ -107,6 +111,14 @@ const LoginScreen = ({ navigation }) => {
                             style={styles.button}
                         >
                             <Text style={styles.buttonText}>회원가입</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                    loginWithKakao()
+                                }}
+                            style={styles.button}
+                        >
+                            <Text style = {styles.buttonText}>카카오로그인</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
