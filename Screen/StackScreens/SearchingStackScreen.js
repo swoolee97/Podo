@@ -2,9 +2,9 @@ import React from "react";
 import { Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import GifticonListScreen from "../\bGifticonListScreens/GifticonListScreen";
-import SearchingResultScreen from "../\bGifticonListScreens/SearchingResultScreen";
-import SearchingScreen from "../\bGifticonListScreens/SearchingScreen";
+import GifticonListScreen from "../GifticonListScreens/GifticonListScreen";
+import SearchingResultScreen from "../GifticonListScreens/SearchingResultScreen";
+import SearchingScreen from "../GifticonListScreens/SearchingScreen";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Stack = createStackNavigator()
