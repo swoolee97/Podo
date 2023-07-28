@@ -96,7 +96,8 @@ android {
     namespace "com.testproject2"
     defaultConfig {
         applicationId "com.testproject2"
-        minSdkVersion rootProject.ext.minSdkVersion
+//        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
