@@ -27,20 +27,20 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakao67717a39d2adecdbd35c66747d24be8b</string>
+				<string>kakao56c3e2aede7d59b5b68cb97930979ac6</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>KAKAO_APP_KEY</key>
- <string>67717a39d2adecdbd35c66747d24be8b</string>
- <key>LSApplicationQueriesSchemes</key>
- <array>
-   <string>kakaokompassauth</string>
-   <string>storykompassauth</string>
-   <string>kakaolink</string>
- </array>
+	<string>56c3e2aede7d59b5b68cb97930979ac6</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakao56c3e2aede7d59b5b68cb97930979ac6</string>
+		<string>kakaolink</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
