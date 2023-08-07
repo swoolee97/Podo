@@ -68,6 +68,7 @@ const LoginScreen = ({ navigation }) => {
                 return response.json()})
             .then(responseJson => {
                 if(responseJson.login == 'success'){
+                    console.log(responseJson.message)
                     AsyncStorage.setItem('user_email', responseJson.user_email)
                     AsyncStorage.setItem('token', responseJson.token)
                     navigation.replace('Main')
