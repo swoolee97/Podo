@@ -1,18 +1,16 @@
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Text, TextInput } from "react-native";
-import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { preURL } from "../../PreURL/PreURL";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const GifticonListScreen = ({ navigation }) => {
-    const [text, setText] = useState('')
-    
+const PurchaseScreen = () => {
     return (
         <SafeAreaView>
-            <View style={{ flexDirection: 'row' }}>
-                <Text>기프티콘 리스트</Text>
+            <View>
+                <Text>기프티콘 구매창</Text>
             </View>
         </SafeAreaView>
     )
 }
-
-export default GifticonListScreen;
+export default PurchaseScreen;

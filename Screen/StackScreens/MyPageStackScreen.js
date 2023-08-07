@@ -9,6 +9,7 @@ import MyPageScreen from "../MyPageStackScreens/MyPageScreen";
 import Profile from "../MyPageStackScreens/Profile";
 import MyPage1 from "../MyPageStackScreens/MyPage1";
 import MyPage2 from "../MyPageStackScreens/MyPage2";
+import Certification from "../MyPageStackScreens/Certification";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 const Stack = createStackNavigator()
@@ -28,6 +29,7 @@ const MyPageStackScreen = ({ navigation, route }) => {
             <Stack.Screen name="Profile" component={Profile} options={{}} />
             <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: true }} />
             <Stack.Screen name="MyPage2" component={MyPage2} options={{ headerShown: true }} />
+            <Stack.Screen name="Certification" component={Certification} options={{ headerShown: true }} />
         </Stack.Navigator>
     )
 }

@@ -19,7 +19,12 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View>
             <View style = {{}}>
-                <Text>{userEmail}</Text>
+                <Text>{userEmail}님, 안녕하세요!</Text>
+            </View>
+            <View style = {{}}>
+                <Text></Text>
+                <Text>나무 그림</Text>
+                <Text></Text>
             </View>
             <View>
                 <TouchableOpacity onPress={ () => {
@@ -62,6 +67,7 @@ const HomeScreen = ({ navigation }) => {
                     navigation.replace('Auth')
                     console.log('로그아웃 완료')
                 }}>
+                    <Text></Text>
                     <Text>로그아웃</Text>
                 </TouchableOpacity>
             </View>
