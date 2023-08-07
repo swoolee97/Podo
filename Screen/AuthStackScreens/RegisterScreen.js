@@ -4,7 +4,8 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { useState } from "react"
 
 const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-const passwordRegEx = /^[A-Za-z0-9]{8,20}$/
+const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/;
+
 
 const RegisterScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
@@ -94,7 +95,7 @@ const RegisterScreen = ({ navigation }) => {
         }
         formBody = formBody.join('&');
         console.log(formBody)
-        fetch(PreURL.preURL + '/api/register', {
+        fetch(PreURL.preURL + '/api/auth/register', {
             method: 'POST',
             body: formBody,
             headers: {
