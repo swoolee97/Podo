@@ -1,13 +1,15 @@
-import React, { useEffect } from "react"
+import React from "react"
+import { Alert } from "react-native"
 import { SafeAreaView, View, Text, TextInput, StyleSheet, Touchable } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { useState } from "react"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/;
 
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, onClose }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
@@ -39,7 +41,7 @@ const RegisterScreen = ({ navigation }) => {
         if (randomCode == emailAuthCode) {
             setCheckCode(true)
             console.log('인증 선공')
-        }else
+        } else
             console.log('인증 실패')
     }
 
@@ -102,13 +104,18 @@ const RegisterScreen = ({ navigation }) => {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             },
         }).then((response) => response.json())
-            .then((responseJson) => {
+            .then(async (responseJson) => {
                 console.log(formBody)
                 console.log(responseJson.message)
-                if (responseJson.register == 'success') {
-                    navigation.replace('Auth')
-                    console.log('회원가입 성공');
+                if (responseJson.register) {
+                    console.log(responseJson)
+                    AsyncStorage.setItem('user_email',responseJson.user_email);
+                    AsyncStorage.setItem('accessToken',responseJson.accessToken);
+                    navigation.replace('Main')
+                    console.log(responseJson.message)
+                    onClose()
                 } else {
+                    Alert.alert('회원가입 실패')
                     console.log('회원가입 실패');
                 }
             }).catch((error) => {
@@ -152,8 +159,11 @@ const RegisterScreen = ({ navigation }) => {
     });
 
     return (
-        <SafeAreaView style={[styles.container, {}]}>
+        <SafeAreaView style={[styles.container]}>
             <ScrollView>
+                <View>
+                    <TouchableOpacity onPress={onClose}><Text>닫기</Text></TouchableOpacity>
+                </View>
                 <View>
                     <View style={[{ flexDirection: 'row', marginTop: 100 }]}>
                         <TextInput
@@ -181,7 +191,7 @@ const RegisterScreen = ({ navigation }) => {
                         />
                         <TouchableOpacity
                             disabled={checkCode}
-                            onPress = {() => {checkRandomCode()}}
+                            onPress={() => { checkRandomCode() }}
                         ><Text>인증번호 확인</Text></TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row' }}>

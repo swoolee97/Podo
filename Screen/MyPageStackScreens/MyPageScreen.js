@@ -1,47 +1,66 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useState, useContext } from "react";
+import { StyleSheet, Alert } from "react-native";
 import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { PreURL } from "../../PreURL/PreURL";
-import axios from "axios";
+import { useIsFocused } from '@react-navigation/native';
+import { Modal } from 'react-native';
+import AuthStackScreen from '../StackScreens/AuthStackScreen';
 
 const MyPageScreen = ({ navigation }) => {
     const preURL = require('../../PreURL/PreURL').preURL
-
     const [userEmail, setUserEmail] = useState(null)
+    const [modalVisible, setModalVisible] = useState(false)
 
+    const isFocused = useIsFocused();
     useEffect(() => {
-        const fetchUserEmail = async () => {
-            try {
-                const user_email = await AsyncStorage.getItem('user_email')
-                setUserEmail(user_email)
-            } catch (error) {
-                console.error('Error fetching userEmail : ', error)
+        if (isFocused) {
+            const fetchEmail = async () => {
+                const email = await AsyncStorage.getItem('user_email')
+                    setUserEmail(email)
             }
+            fetchEmail()
         }
-        fetchUserEmail();
-    }, []);
+    }, [isFocused]);
 
-    useEffect(() => {
-        const fetchMypageData = async () => {
-            try {
-                if (userEmail) {
-                    const response = await axios.get(preURL + '/api/mypage/' + userEmail)
-                }
-            } catch (error) {
-                console.error("Error fetching my page data:", error);
-            }
-        }
-        fetchMypageData()
-    }, [userEmail])
-
+    const handleLoginSuccess = (email) => {
+        setUserEmail(email)
+    };
+    const handleLoginFail = () => {
+        // Alert.alert('로그인 실패')
+    }
+    const handleRegisterSuccess = () => {
+        Alert.alert('회원가입 성공')
+        setUserEmail(email)
+    }
+    const handleRegisterFail = () => {
+        Alert.alert('회원가입 실패')
+    }
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
+    };
     return (
 
         <View style={styles.container}>
-            <View style={styles.section}>
-                {userEmail == null ? <Text>로그인 안했을 때 프로필</Text> : <Text>로그인 했을 때 프로필</Text>}
-            </View>
+            {
+                userEmail === null && (
+                    <TouchableOpacity onPress={() => { setModalVisible(true) }}><Text>로그인하기</Text></TouchableOpacity>
+                )
+            }
+            <Modal
+                animationType="none"
+                transparent={false}
+                visible={modalVisible}
+                swipeDirection={['down']}  // up,down,left,right
+                onSwipeComplete={toggleModal}
+                onRequestClose={() => {setModalVisible(false)}}
+                >
+                <AuthStackScreen onClose={() => { setModalVisible(false); }}
+                    onLoginSuccess={handleLoginSuccess}
+                    onLoginFail={handleLoginFail}
+                    onRegisterSuccess = {handleRegisterSuccess}
+                    onRegisterFail = {handleRegisterFail}/>
+            </Modal>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Profile', { screen: 'Profile' })

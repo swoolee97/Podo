@@ -1,30 +1,20 @@
 import { SafeAreaView, Text, View, TextInput, StyleSheet } from "react-native"
+import { Alert } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
-import { useState } from "react"
-import { preURL, PreURL } from "../../PreURL/PreURL"
+import { useState, useContext } from "react"
+import { preURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
 import RegisterScreen from "./RegisterScreen"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'
-
-import { useDispatch } from 'react-redux';
-import {
-    KakaoOAuthToken,
-    KakaoProfile,
-    getProfile,
-    login,
-    logout,
-    unlink,
-    loginWithKakaoAccount
-} from '@react-native-seoul/kakao-login'
+import { getProfile, login } from '@react-native-seoul/kakao-login'
 const Stack = createStackNavigator()
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, onClose, onLoginSuccess, onLoginFail }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
-    const [userEmail, setUserEmail] = useState('')
+    const [userEmail, setUserEmail] = useState(null)
 
-    const loginSubmit = () => {
+    const loginSubmit = async () => {
         let dataToSend = { user_email: userEmail, user_pw: userPassword };
         let formBody = []; // 1
         for (let key in dataToSend) {
@@ -39,20 +29,24 @@ const LoginScreen = ({ navigation }) => {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             },
-        }).then((response) => {
-            return response.json()
-        })
-            .then((responseJson) => {
-                if (responseJson.login == 'success') {
-                    AsyncStorage.setItem('user_email', responseJson.user_email)
-                    AsyncStorage.setItem('token', responseJson.token)
-                    navigation.replace('Main')
+        }).then(response => response.json())
+            .then(async (responseJson) => {
+                if (responseJson.login) {
+                    console.log('로그인 성공 :', responseJson.user_email)
+                    await AsyncStorage.setItem('user_email', responseJson.user_email)
+                    await AsyncStorage.setItem('accessToken', responseJson.accessToken)
+                    const email = await AsyncStorage.getItem('user_email');
+                    Alert.alert('로그인 성공')
+                    onLoginSuccess(email);
+                    onClose();
                 } else {
-                    console.log(responseJson.message);
+                    Alert.alert('로그인 실패')
+                    onLoginFail();
                 }
             }).catch((error) => {
                 console.error(error);
             });
+
     }
     const loginWithKakao = async () => {
         let result = await login();
@@ -65,15 +59,21 @@ const LoginScreen = ({ navigation }) => {
                     'Content-Type': 'application/json'
                 },
             }).then(response => {
-                return response.json()})
-            .then(responseJson => {
-                if(responseJson.login == 'success'){
-                    console.log(responseJson.message)
-                    AsyncStorage.setItem('user_email', responseJson.user_email)
-                    AsyncStorage.setItem('token', responseJson.token)
-                    navigation.replace('Main')
-                }
+                return response.json()
             })
+                .then(async responseJson => {
+                    if (responseJson.login == true) {
+                        await AsyncStorage.setItem('user_email', responseJson.user_email)
+                        await AsyncStorage.setItem('accessToken', responseJson.accessToken)
+                        const email = await AsyncStorage.getItem('user_email');
+                        Alert.alert('로그인 성공')
+                        onLoginSuccess(email);
+                        onClose();
+                    } else {
+                        Alert.alert('로그인 실패')
+                        onLoginFail();
+                    }
+                })
         }
     }
     const styles = StyleSheet.create({
@@ -114,43 +114,47 @@ const LoginScreen = ({ navigation }) => {
 
         <SafeAreaView style={styles.container}>
             <ScrollView>
-                <View>
-                    <Stack.Screen name="회원가입" component={RegisterScreen} />
-                    <TextInput
-                        onChangeText={(userEmail) => { setUserEmail(userEmail) }}
-                        placeholder='이메일'
-                        style={styles.input}
-                    />
-                    <TextInput
-                        onChangeText={(userPassword) => { setUserPassword(userPassword) }}
-                        placeholder='비밀번호'
-                        style={styles.input}
-                    />
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity
-                            onPress={loginSubmit}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>로그인</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('RegisterScreen')}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>회원가입</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                loginWithKakao()
-                            }}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>카카오로그인</Text>
-                        </TouchableOpacity>
-                    </View>
+            <View>
+                <TouchableOpacity onPress={onClose}><Text>닫기</Text></TouchableOpacity>
+            </View>
+            <View>
+                <Stack.Screen name="회원가입" component={RegisterScreen} />
+                <TextInput
+                    onChangeText={(userEmail) => { setUserEmail(userEmail) }}
+                    placeholder='이메일'
+                    style={styles.input}
+                />
+                <TextInput
+                    onChangeText={(userPassword) => { setUserPassword(userPassword) }}
+                    placeholder='비밀번호'
+                    style={styles.input}
+                />
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                        onPress={() => { loginSubmit(); }}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>로그인</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('RegisterScreen')}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>회원가입</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            loginWithKakao()
+                        }}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>카카오로그인</Text>
+                    </TouchableOpacity>
                 </View>
+            </View>
             </ScrollView>
         </SafeAreaView>
+
     )
 }
 export default LoginScreen
