@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View, TextInput, StyleSheet } from "react-native"
+import { SafeAreaView, Text, View, TextInput, StyleSheet, Image, TouchableHighlight } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { useState } from "react"
 import { preURL, PreURL } from "../../PreURL/PreURL"
@@ -138,15 +138,14 @@ const LoginScreen = ({ navigation }) => {
                         >
                             <Text style={styles.buttonText}>회원가입</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                loginWithKakao()
-                            }}
-                            style={styles.button}
-                        >
-                            <Text style={styles.buttonText}>카카오로그인</Text>
-                        </TouchableOpacity>
                     </View>
+                    <TouchableHighlight onPress = {
+                        () => { 
+                            loginWithKakao()
+                        }
+                    }>
+                    <Image source = {require('../../images/kakao_login_medium_wide.png')}/>
+                    </TouchableHighlight>
                 </View>
             </ScrollView>
         </SafeAreaView>
