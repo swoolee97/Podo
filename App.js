@@ -7,7 +7,8 @@ import SplashScreen from './Screen/SplashScreen';
 import Main from './Main';
 import AuthStackScreen from './Screen/StackScreens/AuthStackScreen';
 import { UserProvider } from './userContext';
-
+import { enableScreens } from 'react-native-screens';
+enableScreens()
 const Stack = createStackNavigator()
 
 const App = () => {
