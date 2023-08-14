@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { View, Text, SafeAreaView, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused } from "@react-navigation/native";
 const HomeScreen = ({ navigation }) => {
@@ -13,11 +12,30 @@ const HomeScreen = ({ navigation }) => {
         if (isFocused) {
             const fetchEmail = async () => {
                 const email = await AsyncStorage.getItem('user_email')
-                    setUserEmail(email)
+                setUserEmail(email)
             }
             fetchEmail()
         }
     }, [isFocused]);
+    const logout = () => {
+        const preURL = PreURL.preURL
+        fetch(preURL + '/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_email: userEmail
+            })
+        }).then((response) => {
+            if (response.status == 200) {
+                AsyncStorage.removeItem('accessToken')
+                AsyncStorage.removeItem('user_email')
+                Alert.alert('로그아웃 완료')
+                navigation.replace('HomeScreen')
+            }
+        })
+    }
     return (
         <View>
             <View style={{}}>
@@ -63,34 +81,18 @@ const HomeScreen = ({ navigation }) => {
                     <Text>미션창</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{}}>
-                <TouchableOpacity onPress={() => {
-                    const preURL = PreURL.preURL
-                    fetch(preURL + '/api/auth/logout', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            user_email: userEmail
-                        })
-                    }).then((response) => {
-                        if (response.status == 200) {
-                            console.log('로그아웃 완료')
-                            AsyncStorage.removeItem('accessToken')
-                            AsyncStorage.removeItem('user_email')
-                            Alert.alert('로그아웃 완료')
-                            navigation.replace('HomeScreen')
-                        }
-                    })
-                }}>
-                    <Text></Text>
-                    <Text>로그아웃</Text>
-                </TouchableOpacity>
-            </View>
+            <>{userEmail &&
+                <View style={{}}>
+                    <TouchableOpacity onPress={() => {
+                        logout()
+                    }}>
+                        <Text>로그아웃</Text>
+                    </TouchableOpacity>
+                </View>
+            }</>
             <View>
             </View>
-        </View>
+        </View >
     )
 }
 export default HomeScreen

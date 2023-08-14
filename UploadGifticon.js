@@ -6,18 +6,12 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PreURL from './PreURL/PreURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-// import { SafeAreaView } from 'react-native-safe-area-context';
-const logout = () => {
-    AsyncStorage.removeItem('user_email')
-    AsyncStorage.removeItem('accessToken')
-}
+
 const UploadGifticon = ({ navigation }) => {
     const [imageUri, setImageUri] = useState(null);
 
     const showPicker = () => {
-        //launchImageLibrary : 사용자 앨범 접근
-
+        //launchImageLibrary : 사용자 앨범 접근 메서드
         launchImageLibrary({}, (res) => {
             if (res && res.assets && res.assets.length > 0) {
                 const formdata = new FormData();
@@ -28,10 +22,6 @@ const UploadGifticon = ({ navigation }) => {
     }
 
     const sendImage = async () => {
-        // if(await AsyncStorage.getItem('user_email') == null){
-        //     Alert.alert('로그인 후 이용해주세요')
-        //     return;
-        // }
         let formdata = new FormData();
         formdata.append('file', {
             uri: imageUri,
@@ -55,7 +45,7 @@ const UploadGifticon = ({ navigation }) => {
                 //response는 응답 전반 상태에 관한 내용을 담고 있음.
             }).then(async (response) => {
                 const data = await response.json();
-                if(data.accessToken){
+                if (data.accessToken) {
                     AsyncStorage.setItem('accessToken', data.accessToken)
                 }
                 if (response.status == 500) {
@@ -91,13 +81,13 @@ const UploadGifticon = ({ navigation }) => {
                         })
                         .catch(error => {
                             console.error("Error during logout:", error);
-                            
+
                             Alert.alert('다시 로그인해주세요')
                             AsyncStorage.removeItem('accessToken');
                             navigation.replace('Auth');
                         });
                     return;
-                } else if(response.status == 402){
+                } else if (response.status == 402) {
                     Alert.alert('로그인 후 가능합니다');
                     navigation.navigate('HomeScreen')
                 } else if (response.status == 200) {
