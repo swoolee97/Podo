@@ -9,39 +9,34 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getProfile, login } from '@react-native-seoul/kakao-login'
 const Stack = createStackNavigator()
 
-const LoginScreen = ({ navigation, onClose, onLoginSuccess, onLoginFail }) => {
+const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState(null)
 
     const loginSubmit = async () => {
-        let dataToSend = { user_email: userEmail, user_pw: userPassword };
-        let formBody = []; // 1
-        for (let key in dataToSend) {
-            let encodedKey = encodeURIComponent(key);
-            let encodedValue = encodeURIComponent(dataToSend[key]);
-            formBody.push(encodedKey + '=' + encodedValue);
+        data = {
+            'user_email' : userEmail,
+            'user_pw' : userPassword
         }
-        formBody = formBody.join('&');
+        
         fetch(PreURL.preURL + '/api/auth/login', {
             method: 'POST',
-            body: formBody,
+            body: JSON.stringify(data),
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                'Content-Type': 'application/json',
             },
         }).then(response => response.json())
             .then(async (responseJson) => {
                 if (responseJson.login) {
-                    console.log('로그인 성공 :', responseJson.user_email)
                     await AsyncStorage.setItem('user_email', responseJson.user_email)
                     await AsyncStorage.setItem('accessToken', responseJson.accessToken)
                     const email = await AsyncStorage.getItem('user_email');
                     Alert.alert('로그인 성공')
-                    onLoginSuccess(email);
-                    onClose();
+                    navigation.replace('Main')
+                    
                 } else {
-                    Alert.alert('로그인 실패')
-                    onLoginFail();
+                    Alert.alert('로그인 실패 : ',responseJson.message)
                 }
             }).catch((error) => {
                 console.error(error);
@@ -62,16 +57,13 @@ const LoginScreen = ({ navigation, onClose, onLoginSuccess, onLoginFail }) => {
                 return response.json()
             })
                 .then(async responseJson => {
-                    if (responseJson.login == true) {
+                    if (responseJson.login) {
                         await AsyncStorage.setItem('user_email', responseJson.user_email)
                         await AsyncStorage.setItem('accessToken', responseJson.accessToken)
                         const email = await AsyncStorage.getItem('user_email');
                         Alert.alert('로그인 성공')
-                        onLoginSuccess(email);
-                        onClose();
                     } else {
                         Alert.alert('로그인 실패')
-                        onLoginFail();
                     }
                 })
         }
@@ -111,12 +103,8 @@ const LoginScreen = ({ navigation, onClose, onLoginSuccess, onLoginFail }) => {
         },
     });
     return (
-
         <SafeAreaView style={styles.container}>
             <ScrollView>
-            <View>
-                <TouchableOpacity onPress={onClose}><Text>닫기</Text></TouchableOpacity>
-            </View>
             <View>
                 <Stack.Screen name="회원가입" component={RegisterScreen} />
                 <TextInput
@@ -154,7 +142,6 @@ const LoginScreen = ({ navigation, onClose, onLoginSuccess, onLoginFail }) => {
             </View>
             </ScrollView>
         </SafeAreaView>
-
     )
 }
 export default LoginScreen

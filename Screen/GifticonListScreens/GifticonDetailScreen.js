@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Text, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { preURL } from "../../PreURL/PreURL";
-import { createStackNavigator } from "@react-navigation/stack";
-import PurchaseScreen from "../GifticonListScreens/PurchaseScreen";
-import { NavigationContainer } from "@react-navigation/native";
 
 const GifticonDetailScreen = ({ navigation }) => {
     return (

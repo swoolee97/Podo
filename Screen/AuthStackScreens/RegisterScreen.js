@@ -9,7 +9,7 @@ const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-
 const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/;
 
 
-const RegisterScreen = ({ navigation, onClose }) => {
+const RegisterScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
@@ -96,7 +96,6 @@ const RegisterScreen = ({ navigation, onClose }) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
-        console.log(formBody)
         fetch(PreURL.preURL + '/api/auth/register', {
             method: 'POST',
             body: formBody,
@@ -105,18 +104,13 @@ const RegisterScreen = ({ navigation, onClose }) => {
             },
         }).then((response) => response.json())
             .then(async (responseJson) => {
-                console.log(formBody)
-                console.log(responseJson.message)
                 if (responseJson.register) {
                     console.log(responseJson)
                     AsyncStorage.setItem('user_email',responseJson.user_email);
                     AsyncStorage.setItem('accessToken',responseJson.accessToken);
                     navigation.replace('Main')
-                    console.log(responseJson.message)
-                    onClose()
                 } else {
                     Alert.alert('회원가입 실패')
-                    console.log('회원가입 실패');
                 }
             }).catch((error) => {
                 console.error(error);
@@ -161,9 +155,6 @@ const RegisterScreen = ({ navigation, onClose }) => {
     return (
         <SafeAreaView style={[styles.container]}>
             <ScrollView>
-                <View>
-                    <TouchableOpacity onPress={onClose}><Text>닫기</Text></TouchableOpacity>
-                </View>
                 <View>
                     <View style={[{ flexDirection: 'row', marginTop: 100 }]}>
                         <TextInput

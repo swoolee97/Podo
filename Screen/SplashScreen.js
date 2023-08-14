@@ -1,18 +1,13 @@
 import { React, useEffect, useState } from "react";
-import { View, Image, Text, SafeAreaView } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { View, Text, SafeAreaView } from "react-native";
 
-// import junImage from '../Image/IMG_3346.jpg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import HomeScreenStack from "./StackScreens/HomeStackScreen";
-import LoginScreen from "./AuthStackScreens/LoginScreen";
+
 const SplashScreen = ({ navigation }) => {
-    const [animating, setAnimating] = useState(true);
-    // AsyncStorage.setItem('user_id' , null)
+    
     useEffect(() => {
         setTimeout(() => {
             AsyncStorage.getItem('user_email').then((value) => {
-                // navigation.replace(value === null ? 'Auth' : 'Main')
                 navigation.replace('Main')
             })
         }, 2000);
