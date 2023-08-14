@@ -62,6 +62,7 @@ const LoginScreen = ({ navigation }) => {
                         await AsyncStorage.setItem('accessToken', responseJson.accessToken)
                         const email = await AsyncStorage.getItem('user_email');
                         Alert.alert('로그인 성공')
+                        navigation.replace('Main')
                     } else {
                         Alert.alert('로그인 실패')
                     }
