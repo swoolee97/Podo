@@ -40,7 +40,7 @@ const RegisterScreen = ({ navigation }) => {
     const checkRandomCode = () => {
         if (randomCode == emailAuthCode) {
             setCheckCode(true)
-            console.log('인증 선공')
+            console.log('인증 성공')
         } else
             console.log('인증 실패')
     }
@@ -68,7 +68,7 @@ const RegisterScreen = ({ navigation }) => {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
                 },
-            }).then((response) => { response.json() })
+            }).then((response) => {response.json()})
                 .then((responseJson) => {
                     console.log(responseJson)
                 })
@@ -106,8 +106,8 @@ const RegisterScreen = ({ navigation }) => {
             .then(async (responseJson) => {
                 if (responseJson.register) {
                     console.log(responseJson)
-                    AsyncStorage.setItem('user_email',responseJson.user_email);
-                    AsyncStorage.setItem('accessToken',responseJson.accessToken);
+                    AsyncStorage.setItem('user_email', responseJson.user_email);
+                    AsyncStorage.setItem('accessToken', responseJson.accessToken);
                     navigation.replace('Main')
                 } else {
                     Alert.alert('회원가입 실패')

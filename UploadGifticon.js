@@ -35,7 +35,7 @@ const UploadGifticon = ({ navigation }) => {
         formdata.append('accessToken', accessToken)
         try {
             const preURL = PreURL.preURL
-            await fetch(preURL + '/api/uploadgifticon', {
+            await fetch(preURL + '/api/gifticon/upload', {
                 method: 'POST',
                 body: formdata,
                 headers: {
