@@ -119,6 +119,7 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     placeholder='비밀번호'
                     style={styles.input}
+                    secureTextEntry
                 />
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
@@ -141,6 +142,11 @@ const LoginScreen = ({ navigation }) => {
                     >
                         <Text style={styles.buttonText}>카카오로그인</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={() => navigation.navigate('ForgotPasswordScreen')}
+                >
+                    <Text>비밀번호 찾기</Text>
+                </TouchableOpacity>
                 </View>
             </View>
             </ScrollView>
