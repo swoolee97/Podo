@@ -140,6 +140,11 @@ const LoginScreen = ({ navigation }) => {
                     >
                         <Text style={styles.buttonText}>카카오로그인</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={() => navigation.navigate('ForgotPasswordScreen')}
+                >
+                    <Text>비밀번호 찾기</Text>
+                </TouchableOpacity>
                 </View>
             </View>
             </ScrollView>
