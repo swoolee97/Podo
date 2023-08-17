@@ -44,7 +44,9 @@ const LoginScreen = ({ navigation }) => {
 
     }
     const loginWithKakao = async () => {
-        let result = await login();
+        console.log(login)
+        let result =  await login();
+        console.log('result:' ,  result)
         if (result) {
             let profile = await getProfile();
             fetch(preURL + '/api/auth/kakao', {
