@@ -5,7 +5,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused } from "@react-navigation/native";
-import Button from "../../Button";
 const HomeScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
     const isFocused = useIsFocused();
