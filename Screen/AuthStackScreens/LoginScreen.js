@@ -117,6 +117,7 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     placeholder='비밀번호'
                     style={styles.input}
+                    secureTextEntry
                 />
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity
