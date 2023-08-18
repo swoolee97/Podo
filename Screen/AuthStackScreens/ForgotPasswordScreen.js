@@ -22,6 +22,10 @@ const ForgotPasswordScreen = ({ navigation }) => {
     }
 
     const checkRandomCode = () => {
+        if (!verificationCode) {
+            Alert.alert('오류', '인증번호를 입력해주세요.');
+            return;
+        }
         if (verificationCode === generatedCode) {
             setCodeSent(true);
             Alert.alert('성공', '인증번호가 확인되었습니다.', [
