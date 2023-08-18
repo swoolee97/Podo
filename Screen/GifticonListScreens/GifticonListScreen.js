@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
 const GiftIconList = () => {
@@ -7,17 +7,11 @@ const GiftIconList = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
-    useEffect(() => {
-        if(hasMore) {
-            fetchGifts();
-        }
-    }, [hasMore]);
     
     const onRefresh = async () => {
         setRefreshing(true);
         setHasMore(true)
         setPage(1);
-        setGifts([]);
         await fetchGifts(1); // 첫 페이지 로드.
         setRefreshing(false);
     }
