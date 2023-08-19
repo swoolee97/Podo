@@ -2,7 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import React, { useState } from "react"
 import LoginScreen from "../AuthStackScreens/LoginScreen"
 import RegisterScreen from "../AuthStackScreens/RegisterScreen"
-import  ForgotPasswordScreen from "../AuthStackScreens/ForgotPasswordScreen"
+import ForgotPasswordScreen from "../AuthStackScreens/ForgotPasswordScreen"
 import PasswordResetScreen from "../AuthStackScreens/PasswordResetScreen";
 
 const AuthStackScreen = ({}) => {
