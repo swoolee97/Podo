@@ -8,15 +8,38 @@ import { useIsFocused } from "@react-navigation/native";
 const HomeScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
     const isFocused = useIsFocused();
+    const [userPoints, setUserPoints] = useState(0);
+
     useEffect(() => {
         if (isFocused) {
-            const fetchEmail = async () => {
-                const email = await AsyncStorage.getItem('user_email')
-                setUserEmail(email)
-            }
-            fetchEmail()
+            const fetchUserPoints = async () => {
+                const email = await AsyncStorage.getItem('user_email');
+                setUserEmail(email); 
+    
+                if (email) {
+                    fetch(`${PreURL.preURL}/api/user/points?user_email=${encodeURIComponent(email)}`)
+                    .then(res => {
+                        // HTTP 응답 상태 코드가 성공 범위에 있지 않으면 오류를 던집니다.
+                        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (data && data.points !== undefined) {
+                            setUserPoints(data.points);
+                        } else {
+                            console.error("Unexpected response structure:", data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching user points:", error);
+                    });
+                }
+            };
+    
+            fetchUserPoints();
         }
     }, [isFocused]);
+    
     const logout = () => {
         const preURL = PreURL.preURL
         fetch(preURL + '/api/auth/logout', {
@@ -50,7 +73,7 @@ const HomeScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('PointDetailScreen')
                 }}>
-                    <Text>포인트 적립내역화면</Text>
+                    <Text>포인트 적립내역화면: {userPoints} 포인트</Text>
                 </TouchableOpacity>
             </View>
             <View>
