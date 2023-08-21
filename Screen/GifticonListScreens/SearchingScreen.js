@@ -25,17 +25,22 @@ const SearchingScreen = ({ navigation }) => {
         }
         // 받아올 데이터가 더 없는데 추가데이터를 불러오려고 할 때 return
         if (!hasMore && !isSearchButton) {
-            console.log('뭔가 이상함')
             return;
         }
         try {
+            if(!isSearchButton){
+                setPage(page+1)
+            }
             const fetchKeyword = isSearchButton ? keyword : firstKeyword;
             const nextPage = isSearchButton ? 1 : page + 1;
             const response = await fetch(`${PreURL.preURL}/api/gifticon/search?keyword=${fetchKeyword}&page=${nextPage}`)
             const data = await response.json()
-            setGifts(prevGifts => [...prevGifts, ...data.gifticons])
+            if (isSearchButton) {
+                setGifts(data.gifticons)
+            } else {
+                setGifts(prevGifts => [...prevGifts, ...data.gifticons])
+            }
             setHasMore(data.hasMore)
-            console.log(data.gifticons)
         } catch (error) {
             console.error(error)
         }
@@ -51,7 +56,7 @@ const SearchingScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View>
-                
+
                 <FlatList
                     data={gifts}
                     numColumns={2}
@@ -78,7 +83,7 @@ const SearchingScreen = ({ navigation }) => {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={() => {
-                                
+
                             }}
                         />
                     }
