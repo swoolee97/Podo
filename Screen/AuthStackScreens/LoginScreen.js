@@ -15,58 +15,49 @@ const LoginScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
 
     const loginSubmit = async () => {
-        data = {
-            'user_email' : userEmail,
-            'user_pw' : userPassword
+        formdata = {
+            'user_email': userEmail,
+            'user_pw': userPassword
         }
-        
-        fetch(PreURL.preURL + '/api/auth/login', {
+
+        const response = await fetch(PreURL.preURL + '/api/auth/login', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(formdata),
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then(response => response.json())
-            .then(async (responseJson) => {
-                if (responseJson.login) {
-                    await AsyncStorage.setItem('user_email', responseJson.user_email)
-                    await AsyncStorage.setItem('accessToken', responseJson.accessToken)
-                    const email = await AsyncStorage.getItem('user_email');
-                    Alert.alert('로그인 성공')
-                    navigation.replace('Main')
-                    
-                } else {
-                    Alert.alert('로그인 실패 : ',responseJson.message)
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
+        })
+        const data = await response.json()
+        if (data.login) {
+            await AsyncStorage.setItem('user_email', data.user_email)
+            await AsyncStorage.setItem('accessToken', data.accessToken)
+            navigation.replace('Main')
+
+        } else {
+            Alert.alert('로그인 실패 : ', data.message)
+        }
 
     }
     const loginWithKakao = async () => {
         let result = await login();
         if (result) {
             let profile = await getProfile();
-            fetch(preURL + '/api/auth/kakao', {
+            const response = await fetch(preURL + '/api/auth/kakao', {
                 method: 'POST',
                 body: JSON.stringify(profile),
                 headers: {
                     'Content-Type': 'application/json'
                 },
-            }).then(response => {
-                return response.json()
             })
-                .then(async responseJson => {
-                    if (responseJson.login) {
-                        await AsyncStorage.setItem('user_email', responseJson.user_email)
-                        await AsyncStorage.setItem('accessToken', responseJson.accessToken)
-                        const email = await AsyncStorage.getItem('user_email');
-                        Alert.alert('로그인 성공')
-                        navigation.replace('Main')
-                    } else {
-                        Alert.alert('로그인 실패')
-                    }
-                })
+            const data = await response.json()
+
+            if (data.login) {
+                await AsyncStorage.setItem('user_email', data.user_email)
+                await AsyncStorage.setItem('accessToken', data.accessToken)
+                navigation.replace('Main')
+            } else {
+                Alert.alert('로그인 실패')
+            }
         }
     }
     const styles = StyleSheet.create({
@@ -106,47 +97,47 @@ const LoginScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
-            <View>
-                <Stack.Screen name="회원가입" component={RegisterScreen} />
-                <TextInput
-                    onChangeText={(userEmail) => { setUserEmail(userEmail) }}
-                    placeholder='이메일'
-                    style={styles.input}
-                />
-                <TextInput
-                    onChangeText={(userPassword) => { setUserPassword(userPassword) }}
-                    placeholder='비밀번호'
-                    style={styles.input}
-                    secureTextEntry
-                />
-                <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity
-                        onPress={() => { loginSubmit(); }}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>로그인</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('RegisterScreen')}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>회원가입</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            loginWithKakao()
-                        }}
-                        style={styles.button}
-                    >
-                        <Text style={styles.buttonText}>카카오로그인</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                    onPress={() => navigation.navigate('ForgotPasswordScreen')}
-                >
-                    <Text>비밀번호 찾기</Text>
-                </TouchableOpacity>
+                <View>
+                    <Stack.Screen name="회원가입" component={RegisterScreen} />
+                    <TextInput
+                        onChangeText={(userEmail) => { setUserEmail(userEmail) }}
+                        placeholder='이메일'
+                        style={styles.input}
+                    />
+                    <TextInput
+                        onChangeText={(userPassword) => { setUserPassword(userPassword) }}
+                        placeholder='비밀번호'
+                        style={styles.input}
+                        secureTextEntry
+                    />
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity
+                            onPress={() => { loginSubmit(); }}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>로그인</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('RegisterScreen')}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>회원가입</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                loginWithKakao()
+                            }}
+                            style={styles.button}
+                        >
+                            <Text style={styles.buttonText}>카카오로그인</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('ForgotPasswordScreen')}
+                        >
+                            <Text>비밀번호 찾기</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
             </ScrollView>
         </SafeAreaView>
     )

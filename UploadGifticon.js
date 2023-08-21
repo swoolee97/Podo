@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Image, Alert } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 //카메라, 앨범 접근 라이브러리
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PreURL from './PreURL/PreURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const UploadGifticon = ({ navigation }) => {
+import {checkLoginStatus} from './CommonMethods/CheckLoginStatus';
+const UploadGifticon = ({ }) => {
     const [imageUri, setImageUri] = useState(null);
-
+    // 로그인 안 돼있으면 빠꾸
+    const navigation = useNavigation(navigation)
+    useEffect(() => {
+        checkLoginStatus(navigation);
+    }, []);
+    
     const showPicker = () => {
         //launchImageLibrary : 사용자 앨범 접근 메서드
         launchImageLibrary({}, (res) => {
@@ -30,7 +35,7 @@ const UploadGifticon = ({ navigation }) => {
         });
         const user_email = await AsyncStorage.getItem('user_email')
         const accessToken = await AsyncStorage.getItem('accessToken')
-
+        
         formdata.append('user_email', user_email)
         formdata.append('accessToken', accessToken)
         try {
@@ -39,31 +44,34 @@ const UploadGifticon = ({ navigation }) => {
                 method: 'POST',
                 body: formdata,
                 headers: {
-                    'authorization': 'Bearer ' + await AsyncStorage.getItem('accessToken'),
+                    'authorization': 'Bearer ' + accessToken,
                     'user_email': user_email,
                 }
             })
-            const data = response.json();
+            const data = await response.json();
             if (response.status == 200) {
+                console.log(data)
                 Alert.alert(`${data.message}`)
                 return navigation.replace('Main')
             }
             // 토큰 권한 에러
             else if (response.status == 401) {
                 try {
-                    const res = fetch(preURL + '/api/auth/logout', {
+                    const res = await fetch(preURL + '/api/auth/logout', {
                         method: 'POST',
-                        body: user_email,
                         headers: {
                             'Content-Type': 'application/json',
                         },
+                        body: JSON.stringify({
+                            user_email : user_email
+                        }),
                     });
-                    const logoutData = res.json();
+                    const logoutData = await res.json();
                     if (logoutData.success) {
                         AsyncStorage.removeItem('accessToken');
                         AsyncStorage.removeItem('user_email');
-                        Alert.alert(`${data.message}`)
-                        navigation.replace('Auth');
+                        Alert.alert(`${logoutData.message}`)
+                        navigation.goBack();
                     }
                 } catch (error) {
                     console.log(response.status)
