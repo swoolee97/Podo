@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Image, Alert } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 //카메라, 앨범 접근 라이브러리
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PreURL from './PreURL/PreURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const UploadGifticon = ({ navigation }) => {
+import {checkLoginStatus} from './CommonMethods/CheckLoginStatus';
+const UploadGifticon = ({ }) => {
     const [imageUri, setImageUri] = useState(null);
-
+    // 로그인 안 돼있으면 빠꾸
+    const navigation = useNavigation(navigation)
+    useEffect(() => {
+        checkLoginStatus(navigation);
+    }, []);
+    
     const showPicker = () => {
         //launchImageLibrary : 사용자 앨범 접근 메서드
         launchImageLibrary({}, (res) => {
@@ -30,75 +35,57 @@ const UploadGifticon = ({ navigation }) => {
         });
         const user_email = await AsyncStorage.getItem('user_email')
         const accessToken = await AsyncStorage.getItem('accessToken')
-
+        
         formdata.append('user_email', user_email)
         formdata.append('accessToken', accessToken)
         try {
             const preURL = PreURL.preURL
-            await fetch(preURL + '/api/gifticon/upload', {
+            const response = await fetch(preURL + '/api/gifticon/upload', {
                 method: 'POST',
                 body: formdata,
                 headers: {
-                    'authorization': 'Bearer ' + await AsyncStorage.getItem('accessToken'),
+                    'authorization': 'Bearer ' + accessToken,
                     'user_email': user_email,
                 }
-                //response는 응답 전반 상태에 관한 내용을 담고 있음.
-            }).then(async (response) => {
-                const data = await response.json();
-                if (data.accessToken) {
-                    AsyncStorage.setItem('accessToken', data.accessToken)
-                }
-                if (response.status == 500) {
-                    Alert.alert('기부 실패 멘트')
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                else if (response.status == 401) {
-                    // 여기다 로그아웃 라우터 보내는거 쓰는건가 ? 
-                    console.log(response.json().message)
-                    fetch(preURL + '/api/auth/logout', {
+            })
+            const data = await response.json();
+            if (response.status == 200) {
+                console.log(data)
+                Alert.alert(`${data.message}`)
+                return navigation.replace('Main')
+            }
+            // 토큰 권한 에러
+            else if (response.status == 401) {
+                try {
+                    const res = await fetch(preURL + '/api/auth/logout', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            user_email: user_email
-                        })
-                    })
-                        .then(res => {
-                            console.log(res)
-                            return res.json()
-                        }
-                        ).then(data => {
-                            // 로그아웃 처리가 성공적으로 이루어진 경우 (서버가 로그아웃 성공 메시지를 반환한 경우)
-                            if (data.success) {
-                                Alert.alert('다시 로그인해주세요')
-                                AsyncStorage.removeItem('accessToken');
-                                AsyncStorage.removeItem('user_email');
-                                navigation.replace('Auth');
-                            } else {
-                                console.error("Logout failed on the server side");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error during logout:", error);
-
-                            Alert.alert('다시 로그인해주세요')
-                            AsyncStorage.removeItem('accessToken');
-                            navigation.replace('Auth');
-                        });
-                    return;
-                } else if (response.status == 402) {
-                    Alert.alert('로그인 후 가능합니다');
-                    navigation.navigate('HomeScreen')
-                } else if (response.status == 200) {
-                    Alert.alert('기부 성공 멘트');
-                    navigation.navigate('HomeScreen')
+                            user_email : user_email
+                        }),
+                    });
+                    const logoutData = await res.json();
+                    if (logoutData.success) {
+                        AsyncStorage.removeItem('accessToken');
+                        AsyncStorage.removeItem('user_email');
+                        Alert.alert(`${logoutData.message}`)
+                        navigation.goBack();
+                    }
+                } catch (error) {
+                    console.log(response.status)
+                    console.error(error)
                 }
-                //response.json()은 응답 본문에 관한 내용을 담음.
-                return response.json()
-            })
+            }
+            else if (response.status == 500) {
+                Alert.alert(`${data.message}`)
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
         } catch (error) {
-            console.log(error);
+            console.log(response.message)
+            console.error(error)
         }
     }
 
