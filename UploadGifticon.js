@@ -50,7 +50,7 @@ const UploadGifticon = ({ }) => {
             })
             const data = await response.json();
             if (response.status == 200) {
-                console.log(data)
+                await AsyncStorage.setItem('accessToken', data.accessToken)
                 Alert.alert(`${data.message}`)
                 return navigation.replace('Main')
             }
