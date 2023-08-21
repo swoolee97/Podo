@@ -35,70 +35,49 @@ const UploadGifticon = ({ navigation }) => {
         formdata.append('accessToken', accessToken)
         try {
             const preURL = PreURL.preURL
-            await fetch(preURL + '/api/gifticon/upload', {
+            const response = await fetch(preURL + '/api/gifticon/upload', {
                 method: 'POST',
                 body: formdata,
                 headers: {
                     'authorization': 'Bearer ' + await AsyncStorage.getItem('accessToken'),
                     'user_email': user_email,
                 }
-                //response는 응답 전반 상태에 관한 내용을 담고 있음.
-            }).then(async (response) => {
-                const data = await response.json();
-                if (data.accessToken) {
-                    AsyncStorage.setItem('accessToken', data.accessToken)
-                }
-                if (response.status == 500) {
-                    Alert.alert('기부 실패 멘트')
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                else if (response.status == 401) {
-                    // 여기다 로그아웃 라우터 보내는거 쓰는건가 ? 
-                    console.log(response.json().message)
-                    fetch(preURL + '/api/auth/logout', {
+            })
+            const data = response.json();
+            if (response.status == 200) {
+                Alert.alert(`${data.message}`)
+                return navigation.replace('Main')
+            }
+            // 토큰 권한 에러
+            else if (response.status == 401) {
+                try {
+                    const res = fetch(preURL + '/api/auth/logout', {
                         method: 'POST',
+                        body: user_email,
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({
-                            user_email: user_email
-                        })
-                    })
-                        .then(res => {
-                            console.log(res)
-                            return res.json()
-                        }
-                        ).then(data => {
-                            // 로그아웃 처리가 성공적으로 이루어진 경우 (서버가 로그아웃 성공 메시지를 반환한 경우)
-                            if (data.success) {
-                                Alert.alert('다시 로그인해주세요')
-                                AsyncStorage.removeItem('accessToken');
-                                AsyncStorage.removeItem('user_email');
-                                navigation.replace('Auth');
-                            } else {
-                                console.error("Logout failed on the server side");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error during logout:", error);
-
-                            Alert.alert('다시 로그인해주세요')
-                            AsyncStorage.removeItem('accessToken');
-                            navigation.replace('Auth');
-                        });
-                    return;
-                } else if (response.status == 402) {
-                    Alert.alert('로그인 후 가능합니다');
-                    navigation.navigate('HomeScreen')
-                } else if (response.status == 200) {
-                    Alert.alert('기부 성공 멘트');
-                    navigation.navigate('HomeScreen')
+                    });
+                    const logoutData = res.json();
+                    if (logoutData.success) {
+                        AsyncStorage.removeItem('accessToken');
+                        AsyncStorage.removeItem('user_email');
+                        Alert.alert(`${data.message}`)
+                        navigation.replace('Auth');
+                    }
+                } catch (error) {
+                    console.log(response.status)
+                    console.error(error)
                 }
-                //response.json()은 응답 본문에 관한 내용을 담음.
-                return response.json()
-            })
+            }
+            else if (response.status == 500) {
+                Alert.alert(`${data.message}`)
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
         } catch (error) {
-            console.log(error);
+            console.log(response.message)
+            console.error(error)
         }
     }
 
