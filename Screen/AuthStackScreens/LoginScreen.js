@@ -209,7 +209,7 @@ const LoginScreen = ({ navigation }) => {
             width: 16,
             height: 15,
             position: 'absolute',
-            left: 138,
+            left: 136,
             top: 15, 
         },
         passwordText: {
@@ -228,7 +228,7 @@ const LoginScreen = ({ navigation }) => {
        
     });
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.podo}>
                 PODO
             </Text>
@@ -270,7 +270,7 @@ const LoginScreen = ({ navigation }) => {
             <View style ={styles.kakaoButton}>
                 <TouchableOpacity style={styles.kakaoButton2} onPress={() => loginWithKakao()}>
                 <Image source={require('C:/Users/playg/OneDrive/Desktop/paran/Gibu/images/KakaoTalk_logo.png')} style={styles.kakaoIcon} />
-                <Text style={styles.kakaoText}>       카카오 로그인</Text>
+                <Text style={styles.kakaoText}>      카카오 로그인</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.passwordText}>
@@ -280,7 +280,7 @@ const LoginScreen = ({ navigation }) => {
                 <Text>비밀번호 찾기</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 export default LoginScreen
