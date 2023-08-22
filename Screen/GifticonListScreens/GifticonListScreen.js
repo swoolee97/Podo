@@ -22,7 +22,7 @@ const GiftIconList = ({navigation}) => {
             const currentPage = refreshPage ? 1 : page
             const response = await fetch(PreURL.preURL + `/api/gifticon/list?page=${currentPage}`);
             const data = await response.json();
-
+            
             if (currentPage === 1) {  // 첫 페이지인 경우 기존 데이터 대체
                 setGifts(data.gifticons);
             } else {
