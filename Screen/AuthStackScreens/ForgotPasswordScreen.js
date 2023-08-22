@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
-
+import PreURL from '../../PreURL/PreURL';
 const ForgotPasswordScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 
     const handleRequestReset = async () => {
         try {
-            const response = await fetch('/api/auth/login/reset', {
+            const response = await fetch(PreURL.preURL+'/api/emailAuth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ user_email : email }), // 인증번호랑 목적(회원가입 때인지, 비밀번호 변경시 이메일 인증인지) 추가해야함.
             });
 
             const data = await response.json();
 
             if (data.success) {
+                console.log
                 Alert.alert('성공', '비밀번호 재설정 메일이 전송되었습니다.');
                 navigation.navigate('PasswordResetScreen');
             } else {

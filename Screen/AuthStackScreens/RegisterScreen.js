@@ -40,7 +40,7 @@ const RegisterScreen = ({ navigation }) => {
     const checkRandomCode = () => {
         if (randomCode == emailAuthCode) {
             setCheckCode(true)
-            console.log('인증 선공')
+            console.log('인증 성공')
         } else
             console.log('인증 실패')
     }
