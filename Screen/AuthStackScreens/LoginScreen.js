@@ -101,7 +101,18 @@ const LoginScreen = ({ navigation }) => {
             letterSpacing: 0.59,
             color: '#3BCDA1',
         },
-        email: {
+        emailtext: {
+            position: 'absolute',
+            left: '3.33%',
+            top: 223,
+            fontStyle: 'normal',
+            fontWeight: '400',
+            fontSize: 14,
+            color: '#000000',
+
+        },
+
+        emailInput: {
             position: 'absolute',
             height: 45,
             left: '2.56%',  // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
@@ -112,7 +123,19 @@ const LoginScreen = ({ navigation }) => {
             borderWidth: 1,
             borderRadius: 8,
         },
-        password: {
+
+        passwordtext: {
+            position: 'absolute',
+            left: '3.33%',
+            top: 306,
+            fontStyle: 'normal',
+            fontWeight: '400',
+            fontSize: 14,
+            color: '#000000',
+
+        },
+
+        passwordInput: {
             position: 'absolute',
             height: 45,
             left: '2.56%',  // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
@@ -212,19 +235,21 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.postDonation}>
                 POST DONATION
             </Text>
-        
-                <TextInput style={styles.email}
+            <Text style={styles.emailtext} >
+                이메일
+            </Text>
+                <TextInput style={styles.emailInput}
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
-                    placeholder='이메일'
                 />
             
-            
-                <TextInput style={styles.password}
+            <Text style={styles.passwordtext} >
+                비밀번호
+            </Text>
+                <TextInput style={styles.passwordInput}
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
-                    placeholder='비밀번호'
                     secureTextEntry
                 />
-        
+
             <View style={styles.loginbox} >
                 <TouchableOpacity 
                     style={styles.loginButton}
