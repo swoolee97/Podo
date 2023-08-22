@@ -1,18 +1,15 @@
-import { SafeAreaView, Text,Image, View, TextInput, StyleSheet } from "react-native"
-import { Alert } from "react-native"
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
-import { useState, useContext } from "react"
-import { preURL } from "../../PreURL/PreURL"
-import { createStackNavigator } from "@react-navigation/stack"
-import RegisterScreen from "./RegisterScreen"
+import {SafeAreaView, Text, View, TextInput, StyleSheet} from 'react-native';
+import {Alert} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {useState, useContext} from 'react';
+import {preURL} from '../../PreURL/PreURL';
+import {createStackNavigator} from '@react-navigation/stack';
+import RegisterScreen from './RegisterScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getProfile, login } from '@react-native-seoul/kakao-login'
-const Stack = createStackNavigator()
+import {getProfile, login} from '@react-native-seoul/kakao-login';
+import styles from '../Styles/AuthStyles.js';
 
-const LoginScreen = ({ navigation }) => {
-    const PreURL = require('../../PreURL/PreURL')
-    const [userPassword, setUserPassword] = useState('')
-    const [userEmail, setUserEmail] = useState(null)
+const Stack = createStackNavigator();
 
     const loginSubmit = async () => {
         formdata = {
@@ -273,5 +270,4 @@ const LoginScreen = ({ navigation }) => {
             </View>
         </SafeAreaView>
     )
-}
 export default LoginScreen
