@@ -228,7 +228,7 @@ const LoginScreen = ({ navigation }) => {
        
     });
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container}>            
             <Text style={styles.podo}>
                 PODO
             </Text>
