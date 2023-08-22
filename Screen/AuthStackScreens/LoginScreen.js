@@ -1,4 +1,5 @@
 import {SafeAreaView, Text, View, TextInput, StyleSheet} from 'react-native';
+import { Image } from 'react-native';
 import {Alert} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {useState, useContext} from 'react';
@@ -7,10 +8,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import RegisterScreen from './RegisterScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getProfile, login} from '@react-native-seoul/kakao-login';
-import styles from '../Styles/AuthStyles.js';
-
+import PreURL from '../../PreURL/PreURL';
+// import styles from '../Styles/AuthStyles.js';
+const LoginScreen = ({navigation}) =>{
 const Stack = createStackNavigator();
-
+    const [userEmail,setUserEmail] = useState('')
+    const [userPassword,setUserPassword] = useState('')
     const loginSubmit = async () => {
         formdata = {
             'user_email': userEmail,
@@ -209,11 +212,6 @@ const Stack = createStackNavigator();
             fontSize: 14,
             color: '#000000',
         },
-
-    
-
-
-       
     });
     return (
         <SafeAreaView style={styles.container}>            
@@ -270,4 +268,5 @@ const Stack = createStackNavigator();
             </View>
         </SafeAreaView>
     )
+}
 export default LoginScreen
