@@ -90,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
         },
         postDonation: {
             position: 'absolute',
-            width: 120,
+            width: 125,
             height: 22,
             left: 135,
             top: 165,  // 프로젝트에 이 글꼴이 포함되어 있어야 합니다.
