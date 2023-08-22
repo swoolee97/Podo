@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 import {
   SafeAreaView,
   View,
@@ -8,8 +8,8 @@ import {
   StyleSheet,
   Touchable,
 } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { useState } from 'react';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../Styles/AuthStyles.js';
 
@@ -17,7 +17,7 @@ const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/;
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({navigation}) => {
   const PreURL = require('../../PreURL/PreURL');
   const [userPassword, setUserPassword] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -60,7 +60,7 @@ const RegisterScreen = ({ navigation }) => {
       // 6자리 인증번호 생성
       const code = createRandomCode();
       setRandomCode(code);
-      let dataToSend = { user_email: userEmail, randomCode: code };
+      let dataToSend = {user_email: userEmail, randomCode: code};
       let formBody = [];
       for (let key in dataToSend) {
         let encodedKey = encodeURIComponent(key);
@@ -110,26 +110,24 @@ const RegisterScreen = ({ navigation }) => {
     }
     const checkRandomCode = () => {
       if (randomCode == emailAuthCode) {
-        setCheckCode(true)
-        console.log('인증 성공')
-      } else
-        console.log('인증 실패')
-    }
+        setCheckCode(true);
+        console.log('인증 성공');
+      } else console.log('인증 실패');
+    };
 
     const emailAuthentication = () => {
       if (!emailValid) {
-        console.log('유효한 이메일 주소를 적어주세요')
+        console.log('유효한 이메일 주소를 적어주세요');
         return;
-      }
-      else {
+      } else {
         // 6자리 인증번호 생성
-        const code = createRandomCode()
-        setRandomCode(code)
-        let dataToSend = { user_email: userEmail, randomCode: code };
+        const code = createRandomCode();
+        setRandomCode(code);
+        let dataToSend = {user_email: userEmail, randomCode: code};
         let formBody = [];
         for (let key in dataToSend) {
-          let encodedKey = encodeURIComponent(key)
-          let encodedValue = encodeURIComponent(dataToSend[key])
+          let encodedKey = encodeURIComponent(key);
+          let encodedValue = encodeURIComponent(dataToSend[key]);
           formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
@@ -139,27 +137,34 @@ const RegisterScreen = ({ navigation }) => {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
           },
-        }).then((response) => { response.json() })
-          .then((responseJson) => {
-            console.log(responseJson)
+        })
+          .then(response => {
+            response.json();
           })
+          .then(responseJson => {
+            console.log(responseJson);
+          });
       }
-    }
+    };
     const registerSubmit = () => {
       if (!emailValid) {
-        console.log('유효한 이메일 주소를 입력해주세요')
+        console.log('유효한 이메일 주소를 입력해주세요');
         return;
       } else if (!passwordValid) {
-        console.log('비밀번호 재설정')
+        console.log('비밀번호 재설정');
         return;
       } else if (!doubleCheck) {
-        console.log('비밀번호를 다시 확인해주세요')
+        console.log('비밀번호를 다시 확인해주세요');
         return;
       } else if (randomCode != emailAuthCode) {
-        console.log('인증번호를 확인해 주세요')
+        console.log('인증번호를 확인해 주세요');
         return;
       }
-      let dataToSend = { user_email: userEmail, user_pw: userPassword, check_password: checkPassword };
+      let dataToSend = {
+        user_email: userEmail,
+        user_pw: userPassword,
+        check_password: checkPassword,
+      };
       let formBody = []; // 1
       for (let key in dataToSend) {
         let encodedKey = encodeURIComponent(key);
@@ -173,21 +178,23 @@ const RegisterScreen = ({ navigation }) => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         },
-      }).then((response) => response.json())
-        .then(async (responseJson) => {
+      })
+        .then(response => response.json())
+        .then(async responseJson => {
           if (responseJson.register) {
-            console.log(responseJson)
+            console.log(responseJson);
             AsyncStorage.setItem('user_email', responseJson.user_email);
             AsyncStorage.setItem('accessToken', responseJson.accessToken);
-            navigation.replace('Main')
+            navigation.replace('Main');
           } else {
-            Alert.alert('회원가입 실패')
+            Alert.alert('회원가입 실패');
           }
-        }).catch((error) => {
+        })
+        .catch(error => {
           console.error(error);
         });
-    }
-  }
+    };
+  };
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -209,15 +216,14 @@ const RegisterScreen = ({ navigation }) => {
       marginBottom: 10,
       paddingHorizontal: 10,
       borderRadius: 8,
-      marginHorizontal: 10
+      marginHorizontal: 10,
     },
-  }
-  )
+  });
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
-          <View style={[styles.inputContainer, { marginTop: 100 }]}>
+          <View style={[styles.inputContainer, {marginTop: 100}]}>
             <TextInput
               placeholder="이메일"
               editable={!checkCode}
@@ -279,7 +285,7 @@ const RegisterScreen = ({ navigation }) => {
         <View>
           <TouchableOpacity
             onPress={registerSubmit}
-            style={[styles.button, { marginTop: 20 }]}>
+            style={[styles.button, {marginTop: 20}]}>
             <Text style={styles.buttonText}>회원가입</Text>
           </TouchableOpacity>
         </View>
