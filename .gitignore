@@ -86,4 +86,4 @@ yarn-error.log
 .metro-health-check*
 
 # 김혜성 개인설정
-/android/build.gradle
+# /android/build.gradle

@@ -5,6 +5,7 @@ import SplashScreen from './Screen/SplashScreen';
 import Main from './Main';
 const Stack = createStackNavigator()
 import { enableScreens } from 'react-native-screens';
+import AuthStackScreen from './Screen/StackScreens/AuthStackScreen';
 enableScreens();
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Stack.Navigator initialRouteName='SplashScreen'>
           <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
+          <Stack.Screen name="Auth" component={AuthStackScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
   )

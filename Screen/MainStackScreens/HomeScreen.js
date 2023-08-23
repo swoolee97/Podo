@@ -17,9 +17,9 @@ const HomeScreen = ({ navigation }) => {
             fetchEmail()
         }
     }, [isFocused]);
-    const logout = () => {
+    const logout = async () => {
         const preURL = PreURL.preURL
-        fetch(preURL + '/api/auth/logout', {
+        const response = await fetch(preURL + '/api/auth/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,14 +27,15 @@ const HomeScreen = ({ navigation }) => {
             body: JSON.stringify({
                 user_email: userEmail
             })
-        }).then((response) => {
-            if (response.status == 200) {
-                AsyncStorage.removeItem('accessToken')
-                AsyncStorage.removeItem('user_email')
-                Alert.alert('로그아웃 완료')
-                navigation.replace('HomeScreen')
-            }
         })
+        if (response.status == 200) {
+            const data = await response.json();
+            AsyncStorage.removeItem('accessToken')
+            AsyncStorage.removeItem('user_email')
+            Alert.alert(`${data.message}`)
+            navigation.replace('HomeScreen')
+        }
+
     }
     return (
         <View>

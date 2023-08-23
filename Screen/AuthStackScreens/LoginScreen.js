@@ -81,6 +81,7 @@ const LoginScreen = ({ navigation }) => {
             height: 40,
             left: 137,
             top: 124,
+            fontFamily: 'Pretendard-Black',
             fontWeight: '800',
             fontSize: 40,
             lineHeight: 50,
@@ -151,7 +152,7 @@ const LoginScreen = ({ navigation }) => {
             width: 370,
             height: 45,
             top: 412,
-            opacity: 0.5,
+            
         },
 
         loginButton: {
@@ -199,7 +200,7 @@ const LoginScreen = ({ navigation }) => {
         kakaoText: {
 
             top: -1.5,
-            fontFamily: 'Pretendard',
+            fontFamily: 'Pretendard-Bold',
             fontStyle: 'normal',
             fontWeight: '700',
             fontSize: 14,
