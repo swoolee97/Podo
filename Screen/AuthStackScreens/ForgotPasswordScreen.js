@@ -10,7 +10,6 @@ const ForgotPasswordScreen = ({ navigation }) => {
     const [emailValid, setEmailValid] = useState(null);
     const [checkCode,setCheckCode] = useState(false);
 
-
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 
     const emailCheck = (inputEmail) => {
@@ -31,7 +30,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
             Alert.alert('성공', '인증번호가 확인되었습니다.', [
                 {
                     text: '확인',
-                    onPress: () => navigation.navigate('PasswordResetScreen')
+                    onPress: () => navigation.navigate('PasswordResetScreen', { userEmail: email })
                 }
             ]);
         } else {
@@ -54,24 +53,25 @@ const ForgotPasswordScreen = ({ navigation }) => {
             formBody.push(encodedKey + '=' + encodedValue);
         }
         formBody = formBody.join('&');
-        fetch(PreURL.preURL + '/api/emailAuth', {
-            method: 'POST',
-            body: formBody,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-            },
-        })
-        .then((response) => response.json())
-        .then((responseJson) => {
+        try {
+            const response = await fetch(PreURL.preURL + '/api/emailAuth', {
+                method: 'POST',
+                body: formBody,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                },
+            });
+            const responseJson = await response.json();
+
             if (responseJson.success) {
                 Alert.alert('성공', '인증 메일이 전송되었습니다.');
             } else {
                 Alert.alert('오류', responseJson.message || '메일 전송 실패');
             }
-        })
-        .catch(error => console.error(error));
-    }
-
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -118,6 +118,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
                         placeholder="이메일 주소"
                         style={styles.input}
                         editable={!checkCode}
+                        autoCapitalize="none"
                     />
                 </View>
                 <TouchableOpacity onPress={emailAuthentication} style={styles.button}>
@@ -133,9 +134,14 @@ const ForgotPasswordScreen = ({ navigation }) => {
                     <TouchableOpacity onPress={checkRandomCode} style={styles.button}>
                         <Text style={styles.buttonText}>인증번호 확인</Text>
                     </TouchableOpacity>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+    
+                    {checkCode && (
+                <>
+                </>
+            )}
+            </View>
+        </ScrollView>
+    </SafeAreaView>
     );
 }
 

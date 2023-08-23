@@ -2,18 +2,35 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
 
-const PasswordResetScreen = ({ navigation }) => {
+const PasswordResetScreen = ({ route,navigation }) => {
     const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const userEmail = route.params.userEmail;
 
     const handlePasswordReset = async () => {
+        if (newPassword !== confirmPassword) {
+            Alert.alert('오류', '비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
         fetch(PreURL.preURL + '/api/resetPassword', {
             method: 'POST',
-            body: JSON.stringify({ password: newPassword }),
+            body: JSON.stringify({user_email: userEmail, new_password: newPassword, confirm_password: confirmPassword}),
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-        .then((response) => response.json())
+        .then((response) => {
+            console.log("Server Response: ", response); 
+            if(response.ok) {
+                return response.json();
+            } else {
+                if (response.headers.get('Content-Type').startsWith('text/html')) {
+                    return Promise.reject('Invalid server response');
+                }
+                return response.json().then(err => Promise.reject(err));
+            }
+        })
         .then((responseJson) => {
             if (responseJson.success) {
                 Alert.alert('성공', '비밀번호가 성공적으로 변경되었습니다.', [
@@ -29,12 +46,21 @@ const PasswordResetScreen = ({ navigation }) => {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>비밀번호 재설정</Text>
+            
             <TextInput
                 placeholder="새로운 비밀번호"
                 secureTextEntry
                 style={styles.input}
                 onChangeText={setNewPassword}
             />
+
+            <TextInput
+                placeholder="비밀번호 확인"
+                secureTextEntry
+                style={styles.input}
+                onChangeText={setConfirmPassword}
+            />
+            
             <TouchableOpacity onPress={handlePasswordReset} style={styles.button}>
                 <Text style={styles.buttonText}>비밀번호 재설정</Text>
             </TouchableOpacity>
