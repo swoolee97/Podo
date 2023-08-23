@@ -113,6 +113,7 @@ const LoginScreen = ({ navigation }) => {
             borderColor: '#D9D9D9',
             borderWidth: 1,
             borderRadius: 8,
+            autoCapitalize: "none",
         },
 
         passwordtext: {
@@ -136,6 +137,7 @@ const LoginScreen = ({ navigation }) => {
             borderColor: '#D9D9D9',
             borderWidth: 1,
             borderRadius: 8,
+            autoCapitalize: "none",
         },
         loginbox: {
             position: 'absolute',
@@ -230,6 +232,7 @@ const LoginScreen = ({ navigation }) => {
                 이메일
             </Text>
                 <TextInput style={styles.emailInput}
+                    autoCapitalize="none"
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
                 />
             
@@ -237,6 +240,7 @@ const LoginScreen = ({ navigation }) => {
                 비밀번호
             </Text>
                 <TextInput style={styles.passwordInput}
+                    autoCapitalize="none"
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     secureTextEntry
                 />
