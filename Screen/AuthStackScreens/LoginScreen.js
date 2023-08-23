@@ -9,7 +9,7 @@ import RegisterScreen from './RegisterScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getProfile, login} from '@react-native-seoul/kakao-login';
 import PreURL from '../../PreURL/PreURL';
-import styles from '../Styles/AuthStyles.js';
+import styles from '../Styles/Styles.js';
 
 const LoginScreen = ({navigation}) => {
   const Stack = createStackNavigator();
