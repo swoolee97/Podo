@@ -13,7 +13,7 @@ const PasswordResetScreen = ({ route,navigation }) => {
             return;
         }
 
-        fetch(PreURL.preURL + '/api/resetPassword', {
+        fetch(PreURL.preURL + '/api/auth/resetPassword', {
             method: 'POST',
             body: JSON.stringify({user_email: userEmail, new_password: newPassword, confirm_password: confirmPassword}),
             headers: {
