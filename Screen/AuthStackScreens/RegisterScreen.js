@@ -11,7 +11,7 @@ import {
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import styles from '../Styles/AuthStyles.js';
+import styles from '../Styles/Styles.js';
 
 const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
