@@ -246,7 +246,6 @@ const RegisterScreen = ({navigation}) => {
       </Text>
 
       <TextInput
-        placeholder="비밀번호"
         secureTextEntry
         onChangeText={userPassword => {
           passwordCheck(userPassword);
@@ -262,7 +261,6 @@ const RegisterScreen = ({navigation}) => {
         {doubleCheck == null ? '' : doubleCheck ? 'OK' : 'X'}
       </Text>
       <TextInput
-        placeholder="비밀번호 확인"
         secureTextEntry
         onChangeText={checkPassword => {
           passwordDoubleCheck(checkPassword);
