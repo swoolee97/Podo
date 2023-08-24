@@ -84,12 +84,12 @@ const ForgotPasswordScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={[styles.container]}>
-        <Text style={[styles.title, {top:10}]}>회원가입한 이메일을 입력해주세요.</Text>
+        <Text style={[styles.title, {top:20}]}>회원가입한 이메일을 입력해주세요.</Text>
         <TextInput
           placeholder="이메일 주소"
           value={email}
           editable={!checkCode}
-          style={[styles.Input, {top:50}]}
+          style={[styles.Input, {top:70}]}
           onChangeText={email => {
           emailCheck(email);
           }}
@@ -97,15 +97,16 @@ const ForgotPasswordScreen = ({navigation}) => {
         <TextInput
           placeholder="인증번호"
           editable={!checkCode}
-          style={[styles.Input, {top:150}]}
+          style={[styles.Input, {top:220}]}
           onChangeText={code => setVerificationCode(code)}
          />
-        <TouchableOpacity onPress={emailAuthentication} style={[styles.loginbox, {top: 410}]}>
+         
+        <TouchableOpacity onPress={emailAuthentication} style={[styles.loginbox, {top: 130}]}>
           <Text style={styles.loginText}>인증번호 전송</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={checkRandomCode} style={styles.button}>
-          <Text style={styles.buttonText}>인증번호 확인</Text>
+        <TouchableOpacity onPress={checkRandomCode}style={[styles.loginbox, {top: 280}]}>
+          <Text style={styles.loginText}>인증번호 확인</Text>
         </TouchableOpacity>
         
     </SafeAreaView>

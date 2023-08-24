@@ -1,6 +1,6 @@
 import { SafeAreaView, Text,Image, View, TextInput, StyleSheet } from "react-native"
 import { Alert } from "react-native"
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
+import { ScrollView, TouchableOpacity } from "react-native"
 import { useState, useContext } from "react"
 import { preURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
@@ -92,19 +92,15 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     secureTextEntry
             />
-            <View style={[styles.loginbox, {top: 412}]}>
-                <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.loginButton]}>
-                    <Text style={styles.loginText}>로그인</Text>
-                </TouchableOpacity>
-            </View>
             
-            <View style={styles.registerText}>
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate('RegisterScreen')}                    
-                >
-                    <Text>회원가입</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.loginbox, {top:412}]}>
+                <Text style={styles.loginText}>로그인</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} style={styles.registerText} >
+                <Text>회원가입</Text>
+            </TouchableOpacity>
+           
 
             <TouchableOpacity style={styles.kakaoButton} onPress={() => loginWithKakao()}>
                 <View style={styles.innerContainer}>
@@ -114,14 +110,12 @@ const LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
 
             
-            <View style={styles.passwordText}>
-                <TouchableOpacity
-                onPress={() => navigation.navigate('ForgotPasswordScreen')}
-                >
-                <Text>비밀번호 찾기</Text>
+            
+                <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')} style={styles.passwordText}>
+                    <Text>비밀번호 찾기</Text>
                 </TouchableOpacity>
-            </View>
+            
         </SafeAreaView>
-    )
-}
-export default LoginScreen
+      );
+    };
+export default LoginScreen;

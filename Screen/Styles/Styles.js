@@ -87,12 +87,9 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: '#3BCDA1',
     borderRadius: 8,
-  },
-
-  loginButton: {
-    height: 45,
     justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
     alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
+    
   },
 
   loginText: {
@@ -115,18 +112,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#FEE500',
     top: 532,
+    justifyContent: 'center'
   },
-  kakaoButton2: {
-    height: 45,
-    justifyContent: 'center', // 이것은 유지
-  },
+ 
   innerContainer: {
     flexDirection: 'row',  // 가로로 배열
     justifyContent: 'center', // 가운데 정렬
     alignItems: 'center', // 세로 방향으로도 가운데 정렬
   },
   kakaoIcon: {
-    top: 0.5,
+    top: 0,
     width: 16,
     height: 15,
     marginRight: 5, // 로고와 텍스트 사이의 간격
