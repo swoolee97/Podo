@@ -282,13 +282,13 @@ const RegisterScreen = ({navigation}) => {
             <Text>{doubleCheck == null ? '' : doubleCheck ? 'OK' : 'X'}</Text>
           </View>
         </View>
-        <View>
-          <TouchableOpacity
-            onPress={registerSubmit}
-            style={[styles.button, {marginTop: 20}]}>
-            <Text style={styles.buttonText}>회원가입</Text>
-          </TouchableOpacity>
-        </View>
+        
+        <TouchableOpacity
+          onPress={registerSubmit}
+          style={[styles.button, {marginTop: 20}]}>
+          <Text style={styles.buttonText}>회원가입</Text>
+        </TouchableOpacity>
+        
       </ScrollView>
     </SafeAreaView>
   );

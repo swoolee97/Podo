@@ -3,40 +3,24 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 0,
-    backgroundColor: '#fff',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    alignItems: 'center',
   },
 
   title: {
+    position: 'absolute',
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
   },
   inputContainer: {
     flexDirection: 'row',
   },
-  input: {
-    height: 40,
-    // top: 100,
-    // position: 'absolute',
-    left: '0%', // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
-    backgroundColor: '#F4F4F4',
-    borderColor: '#D9D9D9',
-    borderWidth: 1,
-    marginBottom: 5,
-    paddingHorizontal: 10,
-    borderRadius: 8,
-    marginHorizontal: 1,
-  },
-  emailInput: {
+
+  Input: {
     position: 'absolute',
     height: 45,
     left: '2.56%', // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
     right: '2.56%',
-    top: 246,
     backgroundColor: '#F4F4F4',
     borderColor: '#D9D9D9',
     borderWidth: 1,
@@ -52,15 +36,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
-  loginButton: {
-    height: 45,
-    left: '2.56%',
-    right: '2.56%',
-    backgroundColor: '#3BCDA1',
-    borderRadius: 8,
-    justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
-    alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
-  },
 
   buttonText: {
     color: '#fff',
@@ -69,37 +44,28 @@ const styles = StyleSheet.create({
   },
   podo: {
     position: 'absolute',
-    width: 117,
-    height: 40,
-    left: 137,
-    top: 124,
-    
-    fontWeight: '800',
+    top: 132,
+    fontFamily:'Pretendard-ExtraBold',
+    lineHeight: 40,
     fontSize: 40,
-    lineHeight: 50,
     textAlign: 'center',
     letterSpacing: 0.59,
     color: '#3BCDA1',
   },
   postDonation: {
+    fontFamily:'Pretendard-Bold',
     position: 'absolute',
-    width: 120,
-    height: 22,
-    left: 135,
-    top: 165,
-    fontWeight: '700',
+    top: 167,
     fontSize: 14,
-    lineHeight: 22,
+    lineHeight: 14,
     textAlign: 'center',
     letterSpacing: 0.59,
     color: '#3BCDA1',
   },
   emailtext: {
+    fontFamily:'Pretendard-Regular',
     position: 'absolute',
     left: '3.33%',
-    top: 223,
-    fontStyle: 'normal',
-    fontWeight: '400',
     fontSize: 14,
     color: '#000000',
   },
@@ -113,31 +79,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000000',
   },
-
-  passwordInput: {
-    position: 'absolute',
-    height: 45,
-    left: '2.56%', // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
-    right: '2.56%',
-    top: 329,
-    backgroundColor: '#F4F4F4',
-    borderColor: '#D9D9D9',
-    borderWidth: 1,
-    borderRadius: 8,
-  },
+  
   loginbox: {
     position: 'absolute',
-    width: 370,
+    left: '2.56%',
+    right: '2.56%',
     height: 45,
-    top: 412,
-    opacity: 0.5,
+    backgroundColor: '#3BCDA1',
+    borderRadius: 8,
+  },
+
+  loginButton: {
+    height: 45,
+    justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
+    alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
   },
 
   loginText: {
     fontWeight: '700',
     fontSize: 14,
-    lineHeight: 22,
-    letterSpacing: -0.408,
     color: '#FFFFFF',
     textAlign: 'center',
   },
@@ -145,43 +105,43 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '3.33%',
     top: 477,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    color: '#000000',
+
   },
   kakaoButton: {
     position: 'absolute',
-    width: 370,
     left: '2.56%',
+    right: '2.56%',
     height: 45,
     borderRadius: 8,
     backgroundColor: '#FEE500',
     top: 532,
-    
   },
   kakaoButton2: {
     height: 45,
-    
-
+    justifyContent: 'center', // 이것은 유지
+  },
+  innerContainer: {
+    flexDirection: 'row',  // 가로로 배열
+    justifyContent: 'center', // 가운데 정렬
+    alignItems: 'center', // 세로 방향으로도 가운데 정렬
+  },
+  kakaoIcon: {
+    top: 0.5,
+    width: 16,
+    height: 15,
+    marginRight: 5, // 로고와 텍스트 사이의 간격
   },
   kakaoText: {
+    top:-1,
     fontFamily: 'Pretendard-Medium',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,
     color: '#000000',
   },
-  kakaoIcon: {
-    width: 16,
-    height: 15,
-    position: 'absolute',
-    left: 136,
-    top: 15,
-  },
   passwordText: {
     position: 'absolute',
-    right: '2.56%',
+    right: '3.33%',
     top: 477,
     fontStyle: 'normal',
     fontWeight: '400',
