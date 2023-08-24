@@ -5,18 +5,43 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused } from "@react-navigation/native";
+import { useMissions } from '../MissionStackScreens/MissionContents';
+
 const HomeScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
+    const [dailyMission, setDailyMission] = useState(null);
+    const [missionViewed, setMissionViewed] = useState(false);
+    const { missions } = useMissions(); 
     const isFocused = useIsFocused();
+
     useEffect(() => {
         if (isFocused) {
-            const fetchEmail = async () => {
-                const email = await AsyncStorage.getItem('user_email')
-                setUserEmail(email)
-            }
-            fetchEmail()
+            const fetchEmailAndMission = async () => {
+                const email = await AsyncStorage.getItem('user_email');
+                setUserEmail(email);
+                
+                const lastMissionUpdate = await AsyncStorage.getItem('last_mission_update');
+                const today = new Date().toDateString();
+                
+                if (lastMissionUpdate !== today) {
+                    const randomMission = missions[Math.floor(Math.random() * missions.length)];
+                    setDailyMission(randomMission);
+                    await AsyncStorage.setItem('last_mission_update', today);
+                    await AsyncStorage.setItem('daily_mission', JSON.stringify(randomMission));
+                  } else {
+                    const savedMission = await AsyncStorage.getItem('daily_mission');
+                    setDailyMission(JSON.parse(savedMission));
+                }
+            };
+            fetchEmailAndMission()
         }
     }, [isFocused]);
+
+    const showMission = () => {
+        setMissionViewed(true);
+    };
+
+
     const logout = async () => {
         const preURL = PreURL.preURL
         const response = await fetch(preURL + '/api/auth/logout', {
@@ -77,9 +102,22 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <View>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate('MissionScreen')
+                if (missionViewed) {
+                        if (dailyMission) {
+                            navigation.navigate('MissionScreen', { mission: dailyMission });
+                        } else {
+                            Alert.alert("오늘의 미션이 아직 업데이트되지 않았습니다.");
+                        }
+                    } else {
+                        showMission();  // 미션을 확인 업데이트
+                    }
                 }}>
-                    <Text>미션창</Text>
+                    <Text>
+                        {missionViewed ?
+                            (dailyMission ? "오늘의 미션: " + dailyMission.title : "오늘의 미션을 불러오는 중...")
+                            :
+                            "오늘의 미션이 도착했어요!"
+                        }</Text>
                 </TouchableOpacity>
             </View>
             <>{userEmail &&

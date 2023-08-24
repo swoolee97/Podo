@@ -70,6 +70,161 @@ const LoginScreen = ({ navigation }) => {
                 })
         }
     }
+    // const styles = StyleSheet.create({
+    //     container: {
+    //         width: 390,
+    //         height: 844,
+    //         backgroundColor: '#ffffff'
+    //     },
+    //     podo: {
+    //         position: 'absolute',
+    //         width: 117,
+    //         height: 40,
+    //         left: 137,
+    //         top: 124,
+    //         fontWeight: '800',
+    //         fontSize: 40,
+    //         lineHeight: 50,
+    //         textAlign: 'center',
+    //         letterSpacing: 0.59,
+    //         color: '#3BCDA1',
+    //     },
+    //     postDonation: {
+    //         position: 'absolute',
+    //         width: 120,
+    //         height: 22,
+    //         left: 135,
+    //         top: 165,  // 프로젝트에 이 글꼴이 포함되어 있어야 합니다.
+    //         fontWeight: '700',
+    //         fontSize: 14,
+    //         lineHeight: 22,
+    //         textAlign: 'center',
+    //         letterSpacing: 0.59,
+    //         color: '#3BCDA1',
+    //     },
+    //     emailtext: {
+    //         position: 'absolute',
+    //         left: '3.33%',
+    //         top: 223,
+    //         fontStyle: 'normal',
+    //         fontWeight: '400',
+    //         fontSize: 14,
+    //         color: '#000000',
+
+    //     },
+
+    //     emailInput: {
+    //         position: 'absolute',
+    //         height: 45,
+    //         left: '2.56%',  // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
+    //         right: '2.56%',
+    //         top: 246,
+    //         backgroundColor: '#F4F4F4',
+    //         borderColor: '#D9D9D9',
+    //         borderWidth: 1,
+    //         borderRadius: 8,
+    //         autoCapitalize: "none",
+    //     },
+
+    //     passwordtext: {
+    //         position: 'absolute',
+    //         left: '3.33%',
+    //         top: 306,
+    //         fontStyle: 'normal',
+    //         fontWeight: '400',
+    //         fontSize: 14,
+    //         color: '#000000',
+
+    //     },
+
+    //     passwordInput: {
+    //         position: 'absolute',
+    //         height: 45,
+    //         left: '2.56%',  // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
+    //         right: '2.56%',
+    //         top: 329,
+    //         backgroundColor: '#F4F4F4',
+    //         borderColor: '#D9D9D9',
+    //         borderWidth: 1,
+    //         borderRadius: 8,
+    //         autoCapitalize: "none",
+    //     },
+    //     loginbox: {
+    //         position: 'absolute',
+    //         width: 370,
+    //         height: 45,
+    //         top: 412,
+    //         opacity: 0.5,
+    //     },
+
+    //     loginButton: {
+    //         height: 45,
+    //         left: '2.56%',
+    //         right: '2.56%',
+    //         backgroundColor: '#3BCDA1',
+    //         borderRadius: 8,
+    //         justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
+    //         alignItems: 'center',     // 텍스트를 가로로 중앙에 위치시키기 위해 추가
+    //     },
+    //     loginText: {
+    //         fontWeight: '700',
+    //         fontSize: 14,
+    //         lineHeight: 22,
+    //         letterSpacing: -0.408,
+    //         color: '#FFFFFF',
+    //         textAlign: 'center',
+    //     },
+    //     registerText: {
+    //         position: 'absolute',
+    //         left: '3.33%',
+    //         top: 477,
+    //         fontStyle: 'normal',
+    //         fontWeight: '400',
+    //         fontSize: 14,
+    //         color: '#000000',
+    //     },
+    //     kakaoButton: {
+    //         position: 'absolute',
+    //         width: 370,
+    //         height: 45,
+    //         top: 532,
+            
+    //     },
+    //     kakaoButton2: {
+    //         height: 45,
+    //         left: '2.56%',
+    //         right: '2.56%',
+    //         backgroundColor: '#FEE500',
+    //         borderRadius: 8,
+    //         alignItems: 'center', // 센터 정렬
+    //         justifyContent: 'center', // 센터 정렬
+    //     },
+    //     kakaoText: {
+
+    //         top: -1.5,
+    //         fontFamily: 'Pretendard',
+    //         fontStyle: 'normal',
+    //         fontWeight: '700',
+    //         fontSize: 14,
+    //         color: '#000000',
+    //     },
+    //     kakaoIcon: {
+    //         width: 16,
+    //         height: 15,
+    //         position: 'absolute',
+    //         left: 136,
+    //         top: 15, 
+    //     },
+    //     passwordText: {
+    //         position: 'absolute',
+    //         right: '2.56%',
+    //         top: 477,
+    //         fontStyle: 'normal',
+    //         fontWeight: '400',
+    //         fontSize: 14,
+    //         color: '#000000',
+    //     },
+
     
     return (
         <SafeAreaView style={styles.container}>            
@@ -83,6 +238,7 @@ const LoginScreen = ({ navigation }) => {
                 이메일
             </Text>
                 <TextInput style={styles.emailInput}
+                    autoCapitalize="none"
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
                 />
             
@@ -90,6 +246,7 @@ const LoginScreen = ({ navigation }) => {
                 비밀번호
             </Text>
                 <TextInput style={styles.passwordInput}
+                    autoCapitalize="none"
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     secureTextEntry
                 />

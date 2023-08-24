@@ -7,7 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import UploadGifticon from "../../UploadGifticon"
 import PointDetailScreen from "../MainStackScreens/PointDetailScreen"
 import WishListScreen from "../MainStackScreens/WishListScreen"
-import MissionScreen from "../MainStackScreens/MissionScreen"
+import MissionDetailScreen from "../MissionStackScreens/MissionDetailScreen"
 import NotificationScreen from "../MainStackScreens/NotificationScreen"
 import DonationHistoryScreen from "../MainStackScreens/DonationHistory"
 import AuthStackScreen from "./AuthStackScreen"
@@ -36,7 +36,7 @@ const HomeScreenStack = ({ navigation, route }) => {
             <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
             <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
             <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
-            <Stack.Screen component={MissionScreen} name = "MissionScreen"></Stack.Screen>
+            <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
             <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
             <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
 
