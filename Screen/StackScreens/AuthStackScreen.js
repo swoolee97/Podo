@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import LoginScreen from '../AuthStackScreens/LoginScreen';
 import RegisterScreen from '../AuthStackScreens/RegisterScreen';
 import ForgotPasswordScreen from '../AuthStackScreens/ForgotPasswordScreen';
+import ForgotPasswordScreen2 from '../AuthStackScreens/ForgotPasswordScreen2';
 import PasswordResetScreen from '../AuthStackScreens/PasswordResetScreen';
 
 const AuthStackScreen = ({}) => {
@@ -35,6 +36,17 @@ const AuthStackScreen = ({}) => {
       <Stack.Screen
         name="ForgotPasswordScreen"
         component={ForgotPasswordScreen}
+        options={{
+          title: '비밀번호 찾기', // 타이틀 설정
+          headerTitleAlign: 'center', // 헤더 타이틀 중앙 정렬
+          headerTitleStyle: {
+            fontWeight: 'bold', // 헤더 타이틀 굵게 설정
+          },
+        }}></Stack.Screen>
+
+      <Stack.Screen
+        name="ForgotPasswordScreen2"
+        component={ForgotPasswordScreen2}
         options={{
           title: '비밀번호 찾기', // 타이틀 설정
           headerTitleAlign: 'center', // 헤더 타이틀 중앙 정렬

@@ -12,7 +12,7 @@ import {
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 
-const ForgotPasswordScreen = ({navigation}) => {
+const ForgotPasswordScreen2 = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
@@ -28,10 +28,48 @@ const ForgotPasswordScreen = ({navigation}) => {
     setEmailValid(emailRegEx.test(inputEmail));
   };
 
+  const createRandomCode = () => {
+    return String(Math.floor(Math.random() * 1000000)).padStart(6, '0');
+  };
+
+  // const checkRandomCode = () => {
+  //   if (!verificationCode) {
+  //     Alert.alert('오류', '인증번호를 입력해주세요.');
+  //     return;
+  //   }
+  //   if (verificationCode === generatedCode) {
+  //     setCodeSent(true);
+  //     Alert.alert('성공', '인증번호가 확인되었습니다.', [
+  //       {
+  //         text: '확인',
+  //         onPress: () => navigation.navigate('PasswordResetScreen'),
+  //       },
+  //     ]);
+  //   } else {
+  //     Alert.alert('오류', '인증번호가 일치하지 않습니다.');
+  //   }
+  // };
+  const handleButtonPress = () => {
+    // emailAuthentication 관련 로직 추가 (인증번호 전송 등)
+    // checkRendomcode(); // 기존의 emailAuthentication 함수를 실행
+
+    // 화면 전환
+    navigation.navigate('PasswordResetScreen');
+  };
+
   const emailAuthentication = async () => {
     if (!emailValid) {
       Alert.alert('오류', '유효한 이메일 주소를 적어주세요.');
       return;
+    }
+    const code = createRandomCode();
+    setGeneratedCode(code);
+    let dataToSend = {user_email: email, randomCode: code};
+    let formBody = [];
+    for (let key in dataToSend) {
+      let encodedKey = encodeURIComponent(key);
+      let encodedValue = encodeURIComponent(dataToSend[key]);
+      formBody.push(encodedKey + '=' + encodedValue);
     }
     formBody = formBody.join('&');
     fetch(PreURL.preURL + '/api/emailAuth', {
@@ -51,14 +89,6 @@ const ForgotPasswordScreen = ({navigation}) => {
       })
       .catch(error => console.error(error));
   };
-  const handleButtonPress = () => {
-    // emailAuthentication 관련 로직 추가 (인증번호 전송 등)
-    emailAuthentication(); // 기존의 emailAuthentication 함수를 실행
-
-    // 화면 전환
-    navigation.navigate('ForgotPasswordScreen2');
-  };
-
   return (
     <SafeAreaView style={[styles.container]}>
       <ScrollView>
@@ -77,9 +107,18 @@ const ForgotPasswordScreen = ({navigation}) => {
           />
         </View>
 
+        <View style={styles.input}>
+          <TextInput
+            placeholder="인증번호"
+            editable={!checkCode}
+            onChangeText={code => setVerificationCode(code)}
+          />
+        </View>
+
         <View style={styles.button}>
           <TouchableOpacity onPress={handleButtonPress}>
-            <Text style={styles.buttonText}>인증번호 전송</Text>
+            {/* <TouchableOpacity onPress={checkRandomCode}> */}
+            <Text style={styles.buttonText}>인증번호 확인</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -87,4 +126,4 @@ const ForgotPasswordScreen = ({navigation}) => {
   );
 };
 
-export default ForgotPasswordScreen;
+export default ForgotPasswordScreen2;

@@ -6,9 +6,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
     backgroundColor: '#fff',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 11,
   },
-
   title: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -19,17 +18,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   input: {
-    height: 40,
-    // top: 100,
-    // position: 'absolute',
-    left: '0%', // 리액트 네이티브에서는 백분율로 위치를 지정할 수 있습니다.
+    height: 45,
     backgroundColor: '#F4F4F4',
     borderColor: '#D9D9D9',
     borderWidth: 1,
     marginBottom: 5,
-    paddingHorizontal: 10,
     borderRadius: 8,
-    marginHorizontal: 1,
   },
   emailInput: {
     position: 'absolute',
