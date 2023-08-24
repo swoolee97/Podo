@@ -80,23 +80,15 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.postDonation}>
                 POST DONATION
             </Text>
-            <Text style={[styles.PretendardRegular, 
-                {position: 'absolute', 
-                top:223, 
-                left: '3.33%', 
-                fontsize: 14,
-                color: '#000000'}]} >
+            <Text style={[styles.lefttext, {top: 223}]}>
                 이메일
             </Text>
             <TextInput style={[styles.Input, {top: 246}]}
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
             />
-            <Text style={[styles.PretendardRegular, {
-                position: 'absolute', 
-                top:306, 
-                left: '3.33%', 
-                fontsize: 14,
-                color: '#000000'}]}>비밀번호</Text>
+            <Text style={[styles.lefttext, {top: 306}]}>
+                비밀번호
+            </Text>
 
             <TextInput style={[styles.Input, {top: 329}]}
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
@@ -104,9 +96,8 @@ const LoginScreen = ({ navigation }) => {
             />
             
             <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.touchbox, {top:412}]}>
-                <Text style={[styles.PretendardBold, 
-                    {fontSize: 16,
-                    color: '#ffffff'}]}>로그인
+                <Text style={styles.buttonText}>
+                    로그인
                 </Text>
             </TouchableOpacity>
 

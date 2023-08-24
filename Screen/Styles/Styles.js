@@ -13,10 +13,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  inputContainer: {
-    flexDirection: 'row',
+  lefttext: {
+    fontFamily:'Pretendard-Regular',
+    position: 'absolute',
+    left: '4%', 
+    fontSize: 14,
+    color: '#000000',
   },
-
+  smallInput: {
+    position: 'absolute',
+    height: 45,
+    left: '2.56%', 
+    right: '34.62%',
+    backgroundColor: '#F4F4F4',
+    borderColor: '#D9D9D9',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
   Input: {
     position: 'absolute',
     height: 45,
@@ -28,9 +41,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 18,
+    fontFamily: 'Pretendard-Bold',
+    color: '#ffffff',
+    fontSize: 16,
   },
   podo: {
     position: 'absolute',
@@ -57,6 +70,18 @@ const styles = StyleSheet.create({
   },
   PretendardBold: {
     fontFamily:'Pretendard-Bold',
+  },
+  smalltouchbox: {
+    position: 'absolute',
+    left: '67.94%',
+    right: '2.56%',
+    height: 45,
+    backgroundColor: '#3BCDA1',
+    borderRadius: 8,
+    justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
+    alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
+    
+
   },  
   touchbox: {
     position: 'absolute',

@@ -195,101 +195,86 @@ const RegisterScreen = ({navigation}) => {
         });
     };
   };
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      marginTop: 0,
-      backgroundColor: '#fff',
-      justifyContent: 'center',
-      paddingHorizontal: 20,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      marginBottom: 20,
-    },
-    input: {
-      height: 30,
-      borderColor: '#ccc',
-      borderWidth: 1,
-      marginBottom: 10,
-      paddingHorizontal: 10,
-      borderRadius: 8,
-      marginHorizontal: 10,
-    },
-  });
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View>
-          <View style={[styles.inputContainer, {marginTop: 100}]}>
-            <TextInput
-              placeholder="이메일"
-              editable={!checkCode}
-              onChangeText={userEmail => {
-                emailCheck(userEmail);
-              }}
-              style={styles.input}
-            />
-            <Text>{emailValid == null ? '' : emailValid ? 'OK' : 'X'}</Text>
+      <Text style={[styles.lefttext, {top:140}]} >
+        이메일
+      </Text>
+      <TextInput 
+        editable={!checkCode}
+        onChangeText={userEmail => {emailCheck(userEmail)}}
+        style={[styles.smallInput, {top: 163}]}
+      />
 
-            <TouchableOpacity
-              disabled={checkCode}
-              onPress={() => {
-                emailAuthentication();
-              }}>
-              <Text>인증번호 전송</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="인증번호"
-              editable={!checkCode}
-              style={styles.input}
-              onChangeText={emailAuthCode => setEmailAuthCode(emailAuthCode)}
-            />
-            <TouchableOpacity
-              disabled={checkCode}
-              onPress={() => {
-                checkRandomCode();
-              }}>
-              <Text>인증번호 확인</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="비밀번호"
-              secureTextEntry
-              onChangeText={userPassword => {
-                passwordCheck(userPassword);
-              }}
-              style={styles.input}
-            />
-            <Text>
-              {passwordValid == null ? '' : passwordValid ? 'OK' : 'X'}
-            </Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="비밀번호 확인"
-              secureTextEntry
-              onChangeText={checkPassword => {
-                passwordDoubleCheck(checkPassword);
-              }}
-              style={styles.input}
-            />
-            <Text>{doubleCheck == null ? '' : doubleCheck ? 'OK' : 'X'}</Text>
-          </View>
-        </View>
-        
-        <TouchableOpacity
-          onPress={registerSubmit}
-          style={[styles.button, {marginTop: 20}]}>
-          <Text style={styles.buttonText}>회원가입</Text>
-        </TouchableOpacity>
-        
-      </ScrollView>
+      <Text style={[styles.PretendardRegular, {position:'absolute',top:140, right:"36%", color:'#ff2f2f'}]}>
+        {emailValid == null ? '' : emailValid ? 'OK' : '올바른 이메일 형식이 아닙니다.'}
+        </Text>  
+
+      <TouchableOpacity 
+        disabled={checkCode} 
+        onPress={() => {emailAuthentication();}}
+        style={[styles.smalltouchbox, {top:163}]}>
+        <Text style={styles.buttonText}>
+          인증번호 전송
+        </Text>
+      </TouchableOpacity>
+
+      <Text style={[styles.lefttext, {top:223}]} >
+        인증번호
+      </Text>   
+
+      <TextInput
+        editable={!checkCode}
+        onChangeText={emailAuthCode => setEmailAuthCode(emailAuthCode)}
+        style={[styles.smallInput, {top:246}]}
+      />
+      <TouchableOpacity
+        disabled={checkCode}
+        onPress={() => {checkRandomCode();}}
+        style={[styles.smalltouchbox, {top:246}]}>
+        <Text style={styles.buttonText}>
+          인증번호 확인
+        </Text>
+      </TouchableOpacity>
+    
+      <Text style={[styles.lefttext, {top:306}]} >
+        비밀번호
+      </Text>  
+
+      <Text style={[styles.PretendardRegular, {position:'absolute',top:306, right:"3%", color:'#ff2f2f'}]}>
+        {passwordValid == null ? '' : passwordValid ? 'OK' : '비밀번호는 8자리 이상이여야 합니다.'}
+      </Text>
+
+      <TextInput
+        placeholder="비밀번호"
+        secureTextEntry
+        onChangeText={userPassword => {
+          passwordCheck(userPassword);
+        }}
+        style={[styles.Input, {top: 329}]}
+      />
+      
+  
+      <Text style={[styles.lefttext, {top:389}]} >
+        비밀번호 확인
+      </Text>  
+      <Text style={[styles.PretendardRegular, {position:'absolute',top:389, right:"3%", color:'#ff2f2f'}]}>
+        {doubleCheck == null ? '' : doubleCheck ? 'OK' : 'X'}
+      </Text>
+      <TextInput
+        placeholder="비밀번호 확인"
+        secureTextEntry
+        onChangeText={checkPassword => {
+          passwordDoubleCheck(checkPassword);
+        }}
+        style={[styles.Input, {top: 412}]}
+      />
+      
+      <TouchableOpacity
+        onPress={registerSubmit}
+        style={[styles.touchbox, {top: 495}]}>
+        <Text style={styles.buttonText}>회원가입</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
