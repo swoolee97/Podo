@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Touchable,
 } from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../Styles/Styles.js';

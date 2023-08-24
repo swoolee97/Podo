@@ -80,41 +80,62 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.postDonation}>
                 POST DONATION
             </Text>
-            <Text style={[styles.emailtext, {top:223}]} >
+            <Text style={[styles.PretendardRegular, 
+                {position: 'absolute', 
+                top:223, 
+                left: '3.33%', 
+                fontsize: 14,
+                color: '#000000'}]} >
                 이메일
             </Text>
             <TextInput style={[styles.Input, {top: 246}]}
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
             />
-            <Text style={[styles.emailtext, {top:306}]}>비밀번호</Text>
+            <Text style={[styles.PretendardRegular, {
+                position: 'absolute', 
+                top:306, 
+                left: '3.33%', 
+                fontsize: 14,
+                color: '#000000'}]}>비밀번호</Text>
 
             <TextInput style={[styles.Input, {top: 329}]}
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     secureTextEntry
             />
             
-            <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.loginbox, {top:412}]}>
-                <Text style={styles.loginText}>로그인</Text>
+            <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.touchbox, {top:412}]}>
+                <Text style={[styles.PretendardBold, 
+                    {fontSize: 16,
+                    color: '#ffffff'}]}>로그인
+                </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} style={styles.registerText} >
-                <Text>회원가입</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} 
+                style={styles.registerText}>
+                <Text style={[styles.PretendardRegular,
+                    {fontSize: 16, 
+                    color: '#000000'}]}>회원가입
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')} 
+                style={styles.passwordText}>
+                <Text style={[styles.PretendardRegular, 
+                    {fontSize: 16, 
+                    color: '#000000'}]}>비밀번호 찾기
+                </Text>
             </TouchableOpacity>
            
 
             <TouchableOpacity style={styles.kakaoButton} onPress={() => loginWithKakao()}>
                 <View style={styles.innerContainer}>
                     <Image source={require('../../images/KakaoTalk_logo.png')} style={styles.kakaoIcon} />
-                    <Text style={styles.kakaoText}>카카오 로그인</Text>
+                    <Text style={[styles.PretendardBold, 
+                        {fontSize: 16, 
+                        color: '#000000',}]}>카카오 로그인
+                    </Text>
                 </View>
             </TouchableOpacity>
 
-            
-            
-                <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')} style={styles.passwordText}>
-                    <Text>비밀번호 찾기</Text>
-                </TouchableOpacity>
-            
         </SafeAreaView>
       );
     };

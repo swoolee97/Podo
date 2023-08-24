@@ -101,12 +101,12 @@ const ForgotPasswordScreen = ({navigation}) => {
           onChangeText={code => setVerificationCode(code)}
          />
          
-        <TouchableOpacity onPress={emailAuthentication} style={[styles.loginbox, {top: 130}]}>
-          <Text style={styles.loginText}>인증번호 전송</Text>
+        <TouchableOpacity onPress={emailAuthentication} style={[styles.touchbox, {top: 130}]}>
+          <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize:16}]}>인증번호 전송</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={checkRandomCode}style={[styles.loginbox, {top: 280}]}>
-          <Text style={styles.loginText}>인증번호 확인</Text>
+        <TouchableOpacity onPress={checkRandomCode}style={[styles.touchbox, {top: 280}]}>
+          <Text style={styles.PretendardBold}>인증번호 확인</Text>
         </TouchableOpacity>
         
     </SafeAreaView>
