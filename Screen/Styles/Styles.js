@@ -153,21 +153,20 @@ const styles = StyleSheet.create({
   kakaoButton: {
     position: 'absolute',
     width: 370,
+    left: '2.56%',
     height: 45,
+    borderRadius: 8,
+    backgroundColor: '#FEE500',
     top: 532,
+    
   },
   kakaoButton2: {
     height: 45,
-    left: '2.56%',
-    right: '2.56%',
-    backgroundColor: '#FEE500',
-    borderRadius: 8,
-    alignItems: 'center', // 센터 정렬
-    justifyContent: 'center', // 센터 정렬
+    
+
   },
   kakaoText: {
-    top: -1.5,
-    fontFamily: 'Pretendard',
+    fontFamily: 'Pretendard-Medium',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 14,

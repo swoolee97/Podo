@@ -114,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
             <View style ={styles.kakaoButton}>
                 <TouchableOpacity style={styles.kakaoButton2} onPress={() => loginWithKakao()}>
                 <Image source={require('../../images/KakaoTalk_logo.png')} style={styles.kakaoIcon} />
-                <Text style={styles.kakaoText}>      카카오 로그인</Text>
+                <Text style={styles.kakaoText}>카카오 로그인</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.passwordText}>
