@@ -1,6 +1,6 @@
 import { SafeAreaView, Text,Image, View, TextInput, StyleSheet } from "react-native"
 import { Alert } from "react-native"
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
+import { ScrollView, TouchableOpacity } from "react-native"
 import { useState, useContext } from "react"
 import { preURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
@@ -74,59 +74,50 @@ const LoginScreen = ({ navigation }) => {
     }
     
     return (
-        <SafeAreaView style={styles.container}>            
+        <SafeAreaView style={styles.container}> 
+                    
             <Text style={styles.podo}>
                 PODO
             </Text>
             <Text style={styles.postDonation}>
                 POST DONATION
             </Text>
-            <Text style={styles.emailtext} >
+            <Text style={[styles.emailtext, {top:223}]} >
                 이메일
             </Text>
-                <TextInput style={styles.emailInput}
+            <TextInput style={[styles.Input, {top: 246}]}
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
-                />
-            
-            <Text style={styles.passwordtext} >
-                비밀번호
-            </Text>
-                <TextInput style={styles.passwordInput}
+            />
+            <Text style={[styles.emailtext, {top:306}]}>비밀번호</Text>
+
+            <TextInput style={[styles.Input, {top: 329}]}
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     secureTextEntry
-                />
-
-            <View style={styles.loginbox} >
-                <TouchableOpacity 
-                    style={styles.loginButton}
-                    onPress={() => { loginSubmit(); }}
-                >
-                    <Text style={styles.loginText}>로그인</Text>
-                </TouchableOpacity>
-            </View>
-                
+            />
             
-            <View style={styles.registerText}>
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate('RegisterScreen')}                    
-                >
-                    <Text>회원가입</Text>
+            <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.loginbox, {top:412}]}>
+                <Text style={styles.loginText}>로그인</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')} style={styles.registerText} >
+                <Text>회원가입</Text>
+            </TouchableOpacity>
+           
+
+            <TouchableOpacity style={styles.kakaoButton} onPress={() => loginWithKakao()}>
+                <View style={styles.innerContainer}>
+                    <Image source={require('../../images/KakaoTalk_logo.png')} style={styles.kakaoIcon} />
+                    <Text style={styles.kakaoText}>카카오 로그인</Text>
+                </View>
+            </TouchableOpacity>
+
+            
+            
+                <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')} style={styles.passwordText}>
+                    <Text>비밀번호 찾기</Text>
                 </TouchableOpacity>
-            </View>
-            <View style ={styles.kakaoButton}>
-                <TouchableOpacity style={styles.kakaoButton2} onPress={() => loginWithKakao()}>
-                <Image source={require('../../images/KakaoTalk_logo.png')} style={styles.kakaoIcon} />
-                <Text style={styles.kakaoText}>      카카오 로그인</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.passwordText}>
-                <TouchableOpacity
-                onPress={() => navigation.navigate('ForgotPasswordScreen')}
-                >
-                <Text>비밀번호 찾기</Text>
-                </TouchableOpacity>
-            </View>
+            
         </SafeAreaView>
-    )
-}
-export default LoginScreen
+      );
+    };
+export default LoginScreen;
