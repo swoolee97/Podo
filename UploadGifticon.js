@@ -6,43 +6,45 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PreURL from './PreURL/PreURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {checkLoginStatus} from './CommonMethods/CheckLoginStatus';
+import { checkLoginStatus } from './CommonMethods/CheckLoginStatus';
+import ImagePicker from 'react-native-image-crop-picker';
+
+
 const UploadGifticon = ({ }) => {
-    const [imageUri, setImageUri] = useState(null);
+    // const [imageUri, setImageUri] = useState(null);
+    const [imageUris, setImageUris] = useState([]);
+    const [formData, setFormData] = useState(null);
     // 로그인 안 돼있으면 빠꾸
     const navigation = useNavigation(navigation)
     useEffect(() => {
         checkLoginStatus(navigation);
     }, []);
-    
-    const showPicker = () => {
-        //launchImageLibrary : 사용자 앨범 접근 메서드
-        launchImageLibrary({}, (res) => {
-            if (res && res.assets && res.assets.length > 0) {
-                const formdata = new FormData();
-                formdata.append('file', res.assets[0].uri);
-                setImageUri(res.assets[0].uri);
-            }
-        })
-    }
 
-    const sendImage = async () => {
-        let formdata = new FormData();
-        formdata.append('files', {
-            uri: imageUri,
-            type: 'image/jpeg',
-            name: 'image.jpg',
+    const showPicker = () => {
+        ImagePicker.openPicker({
+            multiple: true
+        }).then(images => {
+            let newFormData = new FormData();
+            images.forEach((image, index) => {
+                newFormData.append('files', {
+                    uri: image.path,
+                    type: image.mime,
+                    name: `image${index}.jpg`,
+                });
+            });
+            setFormData(newFormData);
+            setImageUris(images.map(image => image.path));
         });
+    }
+    const sendImage = async () => {
         const user_email = await AsyncStorage.getItem('user_email')
         const accessToken = await AsyncStorage.getItem('accessToken')
-        
-        formdata.append('user_email', user_email)
-        formdata.append('accessToken', accessToken)
+        console.log(formData)
         try {
             const preURL = PreURL.preURL
             const response = await fetch(preURL + '/api/gifticon/upload', {
                 method: 'POST',
-                body: formdata,
+                body: formData,
                 headers: {
                     'authorization': 'Bearer ' + accessToken,
                     'user_email': user_email,
@@ -63,7 +65,7 @@ const UploadGifticon = ({ }) => {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            user_email : user_email
+                            user_email: user_email
                         }),
                     });
                     const logoutData = await res.json();
@@ -81,6 +83,8 @@ const UploadGifticon = ({ }) => {
             else if (response.status == 500) {
                 Alert.alert(`${data.message}`)
                 throw new Error(`HTTP error! status: ${response.status}`);
+            }else{
+                Alert.alert(`${data.message}`)
             }
 
         } catch (error) {
@@ -90,13 +94,13 @@ const UploadGifticon = ({ }) => {
 
     return (
         <View>
-            <TouchableOpacity onPress={() => showPicker(setImageUri)}>
+            <TouchableOpacity onPress={() => showPicker(setImageUris)}>
                 <Text>기프티콘 찾기</Text>
             </TouchableOpacity>
-            {imageUri && <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />}
+            {imageUris && <Image source={{ uri: imageUris[0] }} style={{ width: 200, height: 200 }} />}
 
             <TouchableOpacity onPress={() => sendImage()}
-                disabled={!imageUri}>
+                disabled={!imageUris}>
                 <Text>기부하기</Text>
             </TouchableOpacity>
         </View>
