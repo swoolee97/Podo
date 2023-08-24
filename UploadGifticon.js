@@ -28,7 +28,7 @@ const UploadGifticon = ({ }) => {
 
     const sendImage = async () => {
         let formdata = new FormData();
-        formdata.append('file', {
+        formdata.append('files', {
             uri: imageUri,
             type: 'image/jpeg',
             name: 'image.jpg',
@@ -84,7 +84,6 @@ const UploadGifticon = ({ }) => {
             }
 
         } catch (error) {
-            console.log(response.message)
             console.error(error)
         }
     }
