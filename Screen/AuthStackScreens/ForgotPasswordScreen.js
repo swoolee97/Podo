@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -12,7 +12,7 @@ import {
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 
-const ForgotPasswordScreen = ({navigation}) => {
+const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
@@ -41,7 +41,7 @@ const ForgotPasswordScreen = ({navigation}) => {
       Alert.alert('성공', '인증번호가 확인되었습니다.', [
         {
           text: '확인',
-          onPress: () => navigation.navigate('PasswordResetScreen'),
+          onPress: () => navigation.navigate('PasswordResetScreen',email),
         },
       ]);
     } else {
@@ -56,7 +56,7 @@ const ForgotPasswordScreen = ({navigation}) => {
     }
     const code = createRandomCode();
     setGeneratedCode(code);
-    let dataToSend = {user_email: email, randomCode: code};
+    let dataToSend = { user_email: email, randomCode: code };
     let formBody = [];
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key);
@@ -64,24 +64,20 @@ const ForgotPasswordScreen = ({navigation}) => {
       formBody.push(encodedKey + '=' + encodedValue);
     }
     formBody = formBody.join('&');
-    fetch(PreURL.preURL + '/api/emailAuth', {
+    const response = await fetch(PreURL.preURL + '/api/emailAuth', {
       method: 'POST',
       body: formBody,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
     })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success) {
-          Alert.alert('성공', '인증 메일이 전송되었습니다.');
-        } else {
-          Alert.alert('오류', responseJson.message || '메일 전송 실패');
-        }
-      })
-      .catch(error => console.error(error));
+    const data = await response.json()
+    if(data.success){
+      Alert.alert('성공', '인증 메일이 전송되었습니다.');
+    }else{
+      Alert.alert('오류', data.message || '메일 전송 실패');
+    }
   };
-
   return (
     <SafeAreaView style={[styles.container]}>
       <ScrollView>

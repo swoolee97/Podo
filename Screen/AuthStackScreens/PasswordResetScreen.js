@@ -1,40 +1,57 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
-
-const PasswordResetScreen = ({ navigation }) => {
+// 비밀번호 정규식 검사는 나중에. 로그인하기 편하게 일단 빼둠
+const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/;
+const PasswordResetScreen = ({ route,navigation }) => {
     const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const userEmail = route.params;
 
     const handlePasswordReset = async () => {
-        fetch(PreURL.preURL + '/api/resetPassword', {
+        if (newPassword !== confirmPassword) {
+            return Alert.alert('오류', '비밀번호가 일치하지 않습니다.');
+        }
+        if (String(newPassword).length < 8) {
+            return Alert.alert('비밀번호는 8자 이상으로 생성해주세요.');
+        }
+        const response = await fetch(PreURL.preURL + '/api/auth/resetPassword', {
             method: 'POST',
-            body: JSON.stringify({ password: newPassword }),
+            body: JSON.stringify({
+                user_email : userEmail,
+                newPassword : newPassword
+            }),
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-        .then((response) => response.json())
-        .then((responseJson) => {
-            if (responseJson.success) {
-                Alert.alert('성공', '비밀번호가 성공적으로 변경되었습니다.', [
-                    { text: '확인', onPress: () => navigation.navigate('LoginScreen') }
-                ]);
-            } else {
-                Alert.alert('오류', responseJson.message || '비밀번호 변경 실패');
-            }
-        })
-        .catch(error => console.error(error));
+        const data = await response.json()
+        if(data.success){
+            Alert.alert(`${data.message}`)
+            navigation.replace('Auth')
+        }else{
+            Alert.alert(`${data.message}`)
+        }
     }
 
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>비밀번호 재설정</Text>
+            
             <TextInput
                 placeholder="새로운 비밀번호"
                 secureTextEntry
                 style={styles.input}
                 onChangeText={setNewPassword}
             />
+
+            <TextInput
+                placeholder="비밀번호 확인"
+                secureTextEntry
+                style={styles.input}
+                onChangeText={setConfirmPassword}
+            />
+            
             <TouchableOpacity onPress={handlePasswordReset} style={styles.button}>
                 <Text style={styles.buttonText}>비밀번호 재설정</Text>
             </TouchableOpacity>

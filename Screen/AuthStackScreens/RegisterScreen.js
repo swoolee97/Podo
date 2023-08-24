@@ -109,11 +109,12 @@ const RegisterScreen = ({navigation}) => {
       formBody.push(encodedKey + '=' + encodedValue);
     }
     const checkRandomCode = () => {
-      if (randomCode == emailAuthCode) {
-        setCheckCode(true);
-        console.log('인증 성공');
-      } else console.log('인증 실패');
-    };
+        if (randomCode == emailAuthCode) {
+            setCheckCode(true)
+            console.log('인증 성공')
+        } else
+            console.log('인증 실패')
+    }
 
     const emailAuthentication = () => {
       if (!emailValid) {
