@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#ffffff',
   },
 
   title: {
@@ -12,10 +13,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  inputContainer: {
-    flexDirection: 'row',
+  lefttext: {
+    fontFamily:'Pretendard-Regular',
+    position: 'absolute',
+    left: '4%', 
+    fontSize: 14,
+    color: '#000000',
   },
-
+  smallInput: {
+    position: 'absolute',
+    height: 45,
+    left: '2.56%', 
+    right: '34.62%',
+    backgroundColor: '#F4F4F4',
+    borderColor: '#D9D9D9',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
   Input: {
     position: 'absolute',
     height: 45,
@@ -26,21 +40,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
   },
-
-  button: {
-    height: 50,
-    left: '0%',
-    backgroundColor: '#3BCDA1',
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginBottom: 5,
-  },
-
-
   buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 18,
+    fontFamily: 'Pretendard-Bold',
+    color: '#ffffff',
+    fontSize: 16,
   },
   podo: {
     position: 'absolute',
@@ -62,25 +65,25 @@ const styles = StyleSheet.create({
     letterSpacing: 0.59,
     color: '#3BCDA1',
   },
-  emailtext: {
+  PretendardRegular: {
     fontFamily:'Pretendard-Regular',
-    position: 'absolute',
-    left: '3.33%',
-    fontSize: 14,
-    color: '#000000',
   },
+  PretendardBold: {
+    fontFamily:'Pretendard-Bold',
+  },
+  smalltouchbox: {
+    position: 'absolute',
+    left: '67.94%',
+    right: '2.56%',
+    height: 45,
+    backgroundColor: '#3BCDA1',
+    borderRadius: 8,
+    justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
+    alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
+    
 
-  passwordtext: {
-    position: 'absolute',
-    left: '3.33%',
-    top: 306,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    color: '#000000',
-  },
-  
-  loginbox: {
+  },  
+  touchbox: {
     position: 'absolute',
     left: '2.56%',
     right: '2.56%',
@@ -91,18 +94,10 @@ const styles = StyleSheet.create({
     alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
     
   },
-
-  loginText: {
-    fontWeight: '700',
-    fontSize: 14,
-    color: '#FFFFFF',
-    textAlign: 'center',
-  },
   registerText: {
     position: 'absolute',
     left: '3.33%',
     top: 477,
-
   },
   kakaoButton: {
     position: 'absolute',
@@ -114,7 +109,6 @@ const styles = StyleSheet.create({
     top: 532,
     justifyContent: 'center'
   },
- 
   innerContainer: {
     flexDirection: 'row',  // 가로로 배열
     justifyContent: 'center', // 가운데 정렬
@@ -124,24 +118,12 @@ const styles = StyleSheet.create({
     top: 0,
     width: 16,
     height: 15,
-    marginRight: 5, // 로고와 텍스트 사이의 간격
-  },
-  kakaoText: {
-    top:-1,
-    fontFamily: 'Pretendard-Medium',
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 14,
-    color: '#000000',
+    marginRight: 4, // 로고와 텍스트 사이의 간격
   },
   passwordText: {
     position: 'absolute',
     right: '3.33%',
     top: 477,
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 14,
-    color: '#000000',
   },
 
   Setpassword: {
