@@ -84,37 +84,31 @@ const ForgotPasswordScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={[styles.container]}>
-      <ScrollView>
-        <Text style={styles.title}>회원가입한 이메일을 입력해주세요.</Text>
+        <Text style={[styles.title, {top:20}]}>회원가입한 이메일을 입력해주세요.</Text>
+        <TextInput
+          placeholder="이메일 주소"
+          value={email}
+          editable={!checkCode}
+          style={[styles.Input, {top:70}]}
+          onChangeText={email => {
+          emailCheck(email);
+          }}
+        />        
+        <TextInput
+          placeholder="인증번호"
+          editable={!checkCode}
+          style={[styles.Input, {top:220}]}
+          onChangeText={code => setVerificationCode(code)}
+         />
+         
+        <TouchableOpacity onPress={emailAuthentication} style={[styles.touchbox, {top: 130}]}>
+          <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize:16}]}>인증번호 전송</Text>
+        </TouchableOpacity>
 
-        <View>
-          <TextInput
-            placeholder="이메일 주소"
-            value={email}
-            editable={!checkCode}
-            style={styles.input}
-            onChangeText={email => {
-              emailCheck(email);
-            }}
-          />
-        </View>
-
-        <View>
-          <TextInput
-            placeholder="인증번호"
-            editable={!checkCode}
-            style={styles.input}
-            onChangeText={code => setVerificationCode(code)}
-          />
-          <TouchableOpacity onPress={emailAuthentication} style={styles.button}>
-            <Text style={styles.buttonText}>인증번호 전송</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={checkRandomCode} style={styles.button}>
-            <Text style={styles.buttonText}>인증번호 확인</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+        <TouchableOpacity onPress={checkRandomCode}style={[styles.touchbox, {top: 280}]}>
+          <Text style={styles.PretendardBold}>인증번호 확인</Text>
+        </TouchableOpacity>
+        
     </SafeAreaView>
   );
 };

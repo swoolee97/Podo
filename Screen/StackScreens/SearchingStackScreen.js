@@ -1,14 +1,13 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {Button, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import GifticonListScreen from '../GifticonListScreens/GifticonListScreen';
 import SearchingResultScreen from '../GifticonListScreens/SearchingResultScreen';
 import SearchingScreen from '../GifticonListScreens/SearchingScreen';
-
 import GifticonDetailScreen from '../GifticonListScreens/GifticonDetailScreen';
 import PurchaseScreen from '../GifticonListScreens/PurchaseScreen';
-
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+
 
 const Stack = createStackNavigator();
 const SearchingStackScreen = ({navigation, route}) => {
@@ -22,20 +21,12 @@ const SearchingStackScreen = ({navigation, route}) => {
     }
   }, [navigation, route]);
   return (
-    <Stack.Navigator initialRouteName="GifticonListScreen">
-      <Stack.Screen
+    <Stack.Navigator
+      initialRouteName="GifticonListScreen">
+      <Stack.Screen 
         component={GifticonListScreen}
         name="GifticonListScreen"
-        options={{
-          headerRight: () => (
-            <Button
-              title="검색"
-              onPress={() => {
-                navigation.navigate('SearchingScreen');
-              }}
-            />
-          ),
-        }}
+        options={{headerShown:false}}
       />
       <Stack.Screen component={SearchingScreen} name="SearchingScreen" />
       <Stack.Screen

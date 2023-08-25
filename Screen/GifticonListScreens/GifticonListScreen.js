@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
+import styles from '../Styles/Styles.js';
+
 const GiftIconList = ({navigation}) => {
     const [gifts, setGifts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -47,53 +49,42 @@ const GiftIconList = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <FlatList
-                data={gifts}
-                numColumns={2}
-                keyExtractor={(item) => item._id}
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress = {() => handleItemPress(item)}>
-                        <View style={styles.listItem}>
-                            <Image source={{ uri: item.url }} style={styles.image} />
-                            <Text style={styles.itemName}>{item.gifticon_name}</Text>
-                            <Text>{item.price}원</Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-                onEndReached={() => fetchGifts()}
-                onEndReachedThreshold={0.8} // 리스트의 80% 스크롤하면 추가 데이터 로드
-                ListFooterComponent={() => isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }
-            />
+            <TouchableOpacity
+                style={[styles.Input, {top:10, justifyContent: 'center'}]}
+                onPress={() => {navigation.navigate('SearchingScreen');}}
+            >
+                <Text>
+                    정렬잘되나?
+                </Text>
+            </TouchableOpacity>
+            <View style={{top:60, padding:10}}>
+                <FlatList
+                    data={gifts}
+                    numColumns={2}
+                    keyExtractor={(item) => item._id}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress = {() => handleItemPress(item)}>
+                            <View style={styles.listItem}>
+                                <Image source={{ uri: item.url }} style={styles.image} />
+                                <Text style={styles.itemName}>{item.gifticon_name}</Text>
+                                <Text>{item.price}원</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                    onEndReached={() => fetchGifts()}
+                    onEndReachedThreshold={0.8} // 리스트의 80% 스크롤하면 추가 데이터 로드
+                    ListFooterComponent={() => isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                />
+            </View>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-    },
-    listItem: {
-        flex: 1,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 150,
-        height: 150,
-        borderRadius: 15,
-    },
-    itemName: {
-        marginTop: 10,
-    },
-});
 
 export default GiftIconList;
