@@ -45,9 +45,7 @@ const LoginScreen = ({ navigation }) => {
 
     }
     const loginWithKakao = async () => {
-        console.log(login)
         let result =  await login();
-        console.log('result:' ,  result)
         if (result) {
             let profile = await getProfile();
             fetch(preURL + '/api/auth/kakao', {
@@ -63,7 +61,6 @@ const LoginScreen = ({ navigation }) => {
                     if (responseJson.login) {
                         await AsyncStorage.setItem('user_email', responseJson.user_email)
                         await AsyncStorage.setItem('accessToken', responseJson.accessToken)
-                        const email = await AsyncStorage.getItem('user_email');
                         Alert.alert('로그인 성공')
                         navigation.replace('Main')
                     } else {
