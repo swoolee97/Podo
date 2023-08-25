@@ -73,13 +73,14 @@ const LoginScreen = ({ navigation }) => {
     
     return (
         <SafeAreaView style={styles.container}> 
-                    
-            <Text style={styles.podo}>
-                PODO
-            </Text>
-            <Text style={styles.postDonation}>
-                POST DONATION
-            </Text>
+            <View style={{alignItems: "center", alignContent: 'center'}}>       
+                <Text style={styles.podo}>
+                    PODO
+                </Text>
+                <Text style={styles.postDonation}>
+                    POST DONATION
+                </Text>
+            </View> 
             <Text style={[styles.lefttext, {top: 223}]}>
                 이메일
             </Text>

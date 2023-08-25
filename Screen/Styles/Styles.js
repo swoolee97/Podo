@@ -3,8 +3,6 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#ffffff',
   },
 
@@ -131,6 +129,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#3BCDA1',
+  },
+  listItem: {
+    flex: 1,
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: { //다 퍼센테이지로 바꿔서 반응형으로 만들것
+      width: 150,
+      height: 150,
+      borderRadius: 15,
+  },
+  itemName: {
+      marginTop: 10,
   },
 
   // 나머지 스타일들도 동일한 패턴으로 추가
