@@ -36,10 +36,10 @@ const HomeScreenStack = ({ navigation, route }) => {
             <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
             <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
             <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
+            <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"></Stack.Screen>
             <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
             <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
             <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
-
         </Stack.Navigator>
     )
 }
