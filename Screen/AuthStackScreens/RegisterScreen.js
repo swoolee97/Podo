@@ -12,7 +12,7 @@ import styles from '../Styles/Styles.js';
 
 const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-const passwordRegEx = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,20}$/;
+  const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,20}$/;
 
 const RegisterScreen = ({navigation}) => {
   const PreURL = require('../../PreURL/PreURL');
@@ -22,9 +22,10 @@ const RegisterScreen = ({navigation}) => {
   const [passwordValid, setPasswordValid] = useState(null);
   const [checkPassword, setCheckPassword] = useState(null);
   const [doubleCheck, setDoubleCheck] = useState(null); // 비밀번호와 비밀번호 확인이 일치하는지
-  const [randomCode, setRandomCode] = useState(null); 
-  const [emailAuthCode, setEmailAuthCode] = useState(null); 
+  const [randomCode, setRandomCode] = useState(null);
+  const [emailAuthCode, setEmailAuthCode] = useState(null);
   const [checkCode, setCheckCode] = useState(false);
+  const [codeSent, setCodeSent] = useState(false);
 
   const emailCheck = email => {
     setUserEmail(email);
@@ -32,7 +33,6 @@ const RegisterScreen = ({navigation}) => {
   };
 
   const passwordCheck = password => {
-    setUserPassword(password);
     setPasswordValid(passwordRegEx.test(password));
   };
   const passwordDoubleCheck = checkPassword => {
@@ -46,18 +46,19 @@ const RegisterScreen = ({navigation}) => {
     if (randomCode == emailAuthCode) {
       setCheckCode(true);
       Alert.alert('성공','인증되었습니다')
-    } else console.log('실패','인증번호를 확인해주세요');
+    } else Alert.alert('오류','인증번호를 확인해주세요');
   };
 
   const emailAuthentication = async () => {
+    setCodeSent(true)
     if (!emailValid) {
-      console.log('유효한 이메일 주소를 적어주세요');
-      return;
+      setCodeSent(false)
+      return Alert.alert('오류','유효한 이메일주소를 입력해주세요')
     } else {
       // 6자리 인증번호 생성
       const code = createRandomCode();
       setRandomCode(code);
-      let dataToSend = {user_email: userEmail, randomCode: code};
+      let dataToSend = {user_email: userEmail, randomCode: code, purpose : 'register'};
       let formBody = [];
       for (let key in dataToSend) {
         let encodedKey = encodeURIComponent(key);
@@ -74,9 +75,10 @@ const RegisterScreen = ({navigation}) => {
       })
       const data = await response.json();
       if(data.success){
-        Alert.alert('인증번호가 전송되었습니다')
+        Alert.alert('성공','인증번호가 전송되었습니다')
       }else{
-        Alert.alert('인증번호 발송 실패')
+        setCodeSent(false)
+        Alert.alert('오류', `${data.message}`)
       }
     }
   };
@@ -87,7 +89,7 @@ const RegisterScreen = ({navigation}) => {
       }else if (!checkCode) {
         return Alert.alert('오류','이메일 인증을 해주세요')
       }else if (!passwordValid) {
-        return Alert.alert('오류','비밀번호는 8자리 이상이어야 합니다');
+        return Alert.alert('오류','비밀번호 형식을 확인해주세요');
       } else if (!doubleCheck) {
         return Alert.alert('오류','비밀번호를 확인해주세요')
       }
@@ -131,7 +133,7 @@ const RegisterScreen = ({navigation}) => {
           이메일
         </Text>
         <TextInput 
-          editable={!checkCode}
+          editable={!codeSent}
           onChangeText={userEmail => {emailCheck(userEmail)}}
           style={[styles.smallInput, {top: 163}]}
         />
@@ -141,7 +143,7 @@ const RegisterScreen = ({navigation}) => {
           </Text>
   
         <TouchableOpacity 
-          disabled={checkCode} 
+          disabled={codeSent} 
           onPress={() => {emailAuthentication();}}
           style={[styles.smalltouchbox, {top:163}]}>
           <Text style={styles.buttonText}>
@@ -172,12 +174,13 @@ const RegisterScreen = ({navigation}) => {
         </Text>  
   
         <Text style={[styles.PretendardRegular, {position:'absolute',top:306, right:"3%", color:'#ff2f2f'}]}>
-          {passwordValid == null ? '' : passwordValid ? 'OK' : '비밀번호는 8자리 이상이여야 합니다.'}
+          {passwordValid == null ? '' : passwordValid ? 'OK' : '특수문자,영문,숫자를 포함해야 합니다'}
         </Text>
   
         <TextInput
           secureTextEntry
           onChangeText={userPassword => {
+            setUserPassword(userPassword)
             passwordCheck(userPassword);
             if(userPassword === checkPassword){
               setDoubleCheck(true)
@@ -193,7 +196,7 @@ const RegisterScreen = ({navigation}) => {
           비밀번호 확인
         </Text>  
         <Text style={[styles.PretendardRegular, {position:'absolute',top:389, right:"3%", color:'#ff2f2f'}]}>
-          {doubleCheck == null ? '' : doubleCheck ? 'OK' : 'X'}
+          {doubleCheck == null ? '' : doubleCheck ? 'OK' : '비밀번호가 일치하지 않습니다'}
         </Text>
         <TextInput
           secureTextEntry

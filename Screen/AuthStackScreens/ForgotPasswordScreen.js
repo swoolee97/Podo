@@ -32,12 +32,14 @@ const ForgotPasswordScreen = ({ navigation }) => {
   };
 
   const checkRandomCode = () => {
+    if(!codeSent){
+      return Alert.alert('오류','인증번호 전송 후 시도해주세요')
+    }
     if (!verificationCode) {
-      Alert.alert('오류', '인증번호를 입력해주세요.');
-      return;
+      return Alert.alert('오류', '인증번호를 입력해주세요.');
     }
     if (verificationCode === generatedCode) {
-      setCodeSent(true);
+      // setCodeSent(true);
       Alert.alert('성공', '인증번호가 확인되었습니다.', [
         {
           text: '확인',
@@ -50,13 +52,14 @@ const ForgotPasswordScreen = ({ navigation }) => {
   };
 
   const emailAuthentication = async () => {
+    setCodeSent(true)
     if (!emailValid) {
       Alert.alert('오류', '유효한 이메일 주소를 적어주세요.');
       return;
     }
     const code = createRandomCode();
     setGeneratedCode(code);
-    let dataToSend = { user_email: email, randomCode: code };
+    let dataToSend = { user_email: email, randomCode: code, purpose : 'password' };
     let formBody = [];
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key);
@@ -76,6 +79,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
       Alert.alert('성공', '인증 메일이 전송되었습니다.');
     }else{
       Alert.alert('오류', data.message || '메일 전송 실패');
+      setCodeSent(false)
     }
   };
   return (
@@ -84,7 +88,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
         <TextInput
           placeholder="이메일 주소"
           value={email}
-          editable={!checkCode}
+          editable={!codeSent}
           style={[styles.Input, {top:70}]}
           onChangeText={email => {
           emailCheck(email);

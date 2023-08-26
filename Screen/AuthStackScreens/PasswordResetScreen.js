@@ -13,7 +13,7 @@ const PasswordResetScreen = ({ route,navigation }) => {
             return Alert.alert('오류', '비밀번호가 일치하지 않습니다.');
         }
         if (String(newPassword).length < 8) {
-            return Alert.alert('비밀번호는 8자 이상으로 생성해주세요.');
+            return Alert.alert('오류','비밀번호는 8자 이상으로 설정해주세요.');
         }
         const response = await fetch(PreURL.preURL + '/api/auth/resetPassword', {
             method: 'POST',
@@ -27,10 +27,10 @@ const PasswordResetScreen = ({ route,navigation }) => {
         })
         const data = await response.json()
         if(data.success){
-            Alert.alert(`${data.message}`)
+            Alert.alert('성공',`${data.message}`)
             navigation.replace('Auth')
         }else{
-            Alert.alert(`${data.message}`)
+            Alert.alert('오류',`${data.message}`)
         }
     }
 
