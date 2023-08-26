@@ -9,7 +9,7 @@ import {TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../Styles/Styles.js';
-
+import timer from '../../CommonMethods/timer.js';
 const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
   const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,20}$/;
@@ -26,6 +26,13 @@ const RegisterScreen = ({navigation}) => {
   const [emailAuthCode, setEmailAuthCode] = useState(null);
   const [checkCode, setCheckCode] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
+  const { timeRemaining, isExpired, startTimer } = timer(300);
+
+  const formatTime = (seconds) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+  };
 
   const emailCheck = email => {
     setUserEmail(email);
@@ -43,6 +50,7 @@ const RegisterScreen = ({navigation}) => {
     return String(Math.floor(Math.random() * 1000000)).padStart(6, '0');
   };
   const checkRandomCode = () => {
+    if(isExpired) return Alert.alert('오류','인증번호 유효기간 만료')
     if (randomCode == emailAuthCode) {
       setCheckCode(true);
       Alert.alert('성공','인증되었습니다')
@@ -75,6 +83,7 @@ const RegisterScreen = ({navigation}) => {
       })
       const data = await response.json();
       if(data.success){
+        startTimer();
         Alert.alert('성공','인증번호가 전송되었습니다')
       }else{
         setCodeSent(false)
@@ -132,6 +141,9 @@ const RegisterScreen = ({navigation}) => {
         <Text style={[styles.lefttext, {top:140}]} >
           이메일
         </Text>
+        <Text style={[styles.lefttext, {top:120}]} >
+          {formatTime(timeRemaining)}
+        </Text>
         <TextInput 
           editable={!codeSent}
           onChangeText={userEmail => {emailCheck(userEmail)}}
@@ -143,7 +155,7 @@ const RegisterScreen = ({navigation}) => {
           </Text>
   
         <TouchableOpacity 
-          disabled={codeSent} 
+          disabled={checkCode} 
           onPress={() => {emailAuthentication();}}
           style={[styles.smalltouchbox, {top:163}]}>
           <Text style={styles.buttonText}>
