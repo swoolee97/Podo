@@ -23,9 +23,11 @@ export const MissionProvider = ({ children }) => {
       details: '자신만의 장점을 정리해보세요',
     },
   ]);
+  
+  const [completedMissions, setCompletedMissions] = useState([]);
 
   return (
-    <MissionContext.Provider value={{ missions, setMissions }}>
+    <MissionContext.Provider value={{ missions, setMissions, completedMissions, setCompletedMissions }}>
       {children}
     </MissionContext.Provider>
   );
