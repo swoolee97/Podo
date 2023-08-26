@@ -43,13 +43,30 @@ const MyPageScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
-                <Text>{userEmail}님 안녕하세요!</Text>
-                <Text>이메일 : {userEmail}</Text>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('MissionComplete')
+                }}>
+                    <Text>미션 완료 리스트</Text>
+                </TouchableOpacity>
             </View>
-            <View>
-            </View>
-        </View>
 
+            <View style={styles.section}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('PurchaseHistory')
+                }}>
+                    <Text>상품 구매 내역</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.section}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('CustomerService')
+                }}>
+                    <Text>고객 센터</Text>
+                </TouchableOpacity>
+            </View>
+
+        </View>
     )
 }
 const styles = StyleSheet.create({

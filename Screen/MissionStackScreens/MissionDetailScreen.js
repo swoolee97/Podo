@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, Button, Alert} from 'react-native';
+import { SafeAreaView, View, Text, TextInput, Button, Alert, FlatList } from 'react-native';
 
 const MissionDetailScreen = ({ route, navigation }) => {
   const { mission } = route.params;
   const [inputText, setInputText] = useState('');
   const [answers, setAnswers] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = () => {
     if (!inputText) {
@@ -12,16 +14,31 @@ const MissionDetailScreen = ({ route, navigation }) => {
       return;
     }
 
-    const newAnswers = [...answers, inputText];
+    let newAnswers = [...answers];
+
+    // 수정 모드인 경우
+    if (editIndex !== null) {
+      newAnswers[editIndex] = inputText;
+    } else {
+      newAnswers = [...answers, inputText];
+    }
+
     setAnswers(newAnswers);
     setInputText('');
+    setEditIndex(null);
+    setIsSubmitted(true);
 
     Alert.alert('성공', '제출이 완료되었습니다.', [
       {
-        text: '확인',
-        onPress: () => navigation.navigate('AnswerListScreen', { answers: newAnswers })
+        text: '확인'
       }
     ]);
+  };
+
+  const handleEdit = (index) => {
+    setInputText(answers[index]);
+    setEditIndex(index);
+    setIsSubmitted(false);
   };
 
   return (
@@ -31,15 +48,27 @@ const MissionDetailScreen = ({ route, navigation }) => {
         <Text>{mission.details}</Text>
       </View>
       <View>
-        <TextInput
-          value={inputText}
-          onChangeText={text => setInputText(text)}
-          placeholder="여기에 텍스트를 입력하세요"
-        />
-        <Button
-          title="제출"
-          onPress={handleSubmit}
-        />
+        {isSubmitted ? (
+          <FlatList
+            data={answers}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item, index }) => (
+              <View>
+                <Text>{item}</Text>
+                <Button title="수정" onPress={() => handleEdit(index)} />
+              </View>
+            )}
+          />
+        ) : (
+          <>
+            <TextInput
+              value={inputText}
+              onChangeText={text => setInputText(text)}
+              placeholder="여기에 텍스트를 입력하세요"
+            />
+            <Button title="제출" onPress={handleSubmit} />
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
