@@ -13,17 +13,11 @@ const Profile = ({ navigation }) => {
         <View>
             <Stack.Navigator>
                 <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: false }} />
-                <Stack.Screen name="MyPage2" component={MyPage2} options={{ headerShown: false }} />
             </Stack.Navigator>
             <TouchableOpacity onPress={() => {
                 navigation.navigate('MyPage1')
             }}>
                 <Text>마이페이지1</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                navigation.navigate('MyPage2')
-            }}>
-                <Text>마이페이지2</Text>
             </TouchableOpacity>
         </View>
     )

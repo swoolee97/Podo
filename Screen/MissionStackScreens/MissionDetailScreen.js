@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TextInput, Button, Alert, FlatList } from 'react-native';
 import { useMissions } from './MissionContents';
 
@@ -10,6 +10,15 @@ const MissionDetailScreen = ({ route, navigation }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { completedMissions, setCompletedMissions } = useMissions();
 
+  useEffect(() => {
+    // 초기 로드시 해당 미션에 대한 완료된 답변이 있는지 확인하고, 있다면 상태를 설정
+    const completedMission = completedMissions.find(cm => cm.missionId === mission.id);
+    if (completedMission) {
+      setAnswers(completedMission.answer);
+      setIsSubmitted(true);
+    }
+  }, [mission.id, completedMissions]);
+  
   const handleSubmit = () => {
     if (!inputText) {
       Alert.alert('오류', '텍스트를 입력해주세요.');
@@ -30,7 +39,11 @@ const MissionDetailScreen = ({ route, navigation }) => {
     setEditIndex(null);
     setIsSubmitted(true);
 
-    setCompletedMissions([...completedMissions, { missionId: mission.id, answer: newAnswers }]);
+    const updatedMissions = completedMissions.filter(item => item.missionId !== mission.id);
+    updatedMissions.push({ missionId: mission.id, answer: newAnswers });
+    
+    setCompletedMissions(updatedMissions);
+
     Alert.alert('성공', '제출이 완료되었습니다.', [
       {
         text: '확인'
