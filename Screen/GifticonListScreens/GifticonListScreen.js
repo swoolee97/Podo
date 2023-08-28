@@ -54,7 +54,7 @@ const GiftIconList = ({navigation}) => {
                 onPress={() => {navigation.navigate('SearchingScreen');}}
             >
                 <Text>
-                    정렬잘되나?
+                    상품명, 브랜드
                 </Text>
             </TouchableOpacity>
             <View style={{top:60, padding:10}}>
@@ -65,7 +65,9 @@ const GiftIconList = ({navigation}) => {
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress = {() => handleItemPress(item)}>
                             <View style={styles.listItem}>
+                                
                                 <Image source={{ uri: item.url }} style={styles.image} />
+                                
                                 <Text style={styles.itemName}>{item.gifticon_name}</Text>
                                 <Text>{item.price}원</Text>
                             </View>
