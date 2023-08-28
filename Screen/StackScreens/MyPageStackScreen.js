@@ -11,7 +11,6 @@ import MyPage1 from "../MyPageStackScreens/MyPage1";
 import MyPage2 from "../MyPageStackScreens/MyPage2";
 import Certification from "../MyPageStackScreens/Certification";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import MissionComplete from "../MyPageStackScreens/MissionComplete";
 import PurchaseHistory from "../MyPageStackScreens/PurchaseHistory";
 import CustomerService from "../MyPageStackScreens/CustomerService";
 
@@ -36,7 +35,6 @@ const MyPageStackScreen = ({ navigation, route }) => {
             <Stack.Screen name="MyPage2" component={MyPage2} options={{ headerShown: true }} />
             <Stack.Screen name="Certification" component={Certification} options={{ headerShown: true }} />
             <Stack.Screen name="AuthStackScreen" component={AuthStackScreen} options={{headerShown:false}}/>
-            <Stack.Screen name="MissionComplete" component={MissionComplete} options={{ headerShown: true }} />
             <Stack.Screen name="PurchaseHistory" component={PurchaseHistory} options={{ headerShown: true }} />
             <Stack.Screen name="CustomerService" component={CustomerService} options={{ headerShown: true }} />
         </Stack.Navigator>

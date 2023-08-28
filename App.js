@@ -4,15 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './Screen/SplashScreen';
 import Main from './Main';
 const Stack = createStackNavigator()
-import { enableScreens } from 'react-native-screens';
 import AuthStackScreen from './Screen/StackScreens/AuthStackScreen';
-import { MissionProvider } from './Screen/MissionStackScreens/MissionContents';
 import MissionStackScreen from './Screen/StackScreens/MissionStackScreen';
+import Toast from 'react-native-toast-message'
 
-enableScreens();
 const App = () => {
   return (
-    <MissionProvider>
+    <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='SplashScreen'>
           <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
@@ -21,7 +19,8 @@ const App = () => {
           <Stack.Screen name="Mission" component={MissionStackScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
-    </MissionProvider>  
+      <Toast/>
+    </>
   );
 };
 

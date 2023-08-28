@@ -6419,6 +6419,11 @@ react-native-storage@^0.2.4:
   resolved "https://registry.npmjs.org/react-native-storage/-/react-native-storage-0.2.4.tgz"
   integrity sha512-A+szWzEjZx05gSieuV20aR/v0iCuQpsFBzABLhJMtVFecUMzGVbuRMBX2PngSXT+94X/7PRi80BSnoLBgNYZtw==
 
+react-native-toast-message@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.npmjs.org/react-native-toast-message/-/react-native-toast-message-2.1.6.tgz"
+  integrity sha512-VctXuq20vmRa9AE13acaNZhrLcS3FaBS2zEevS3+vhBsnVZYG0FIlWIis9tVnpnNxUb3ART+BWtwQjzSttXTng==
+
 react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", react-native@>=0.35, react-native@>=0.40.0, react-native@>=0.57, react-native@>=0.59, react-native@>=0.60.0, react-native@>=0.65.0, react-native@0.71.8:
   version "0.71.8"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.8.tgz"

@@ -7,7 +7,7 @@ const MissionStack = createStackNavigator();
 const MissionStackScreen = () => {
   return (
     <MissionStack.Navigator initialRouteName="MissionDetailScreen">
-      <MissionStack.Screen name="MissionScreen" component={MissionDetailScreen} />
+      <MissionStack.Screen name="MissionDetailScreen" component={MissionDetailScreen} />
     </MissionStack.Navigator>
   );
 };

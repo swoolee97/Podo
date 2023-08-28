@@ -1,93 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, Button, Alert, FlatList } from 'react-native';
-import { useMissions } from './MissionContents';
+import { Alert, SafeAreaView, Text, TouchableOpacity, View } from "react-native"
+import { TextInput } from "react-native-gesture-handler"
+import { useState } from "react"
+import PreURL from "../../PreURL/PreURL"
 
-const MissionDetailScreen = ({ route, navigation }) => {
-  const { mission } = route.params;
-  const [inputText, setInputText] = useState('');
-  const [answers, setAnswers] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const { completedMissions, setCompletedMissions } = useMissions();
-
-  useEffect(() => {
-    // 초기 로드시 해당 미션에 대한 완료된 답변이 있는지 확인하고, 있다면 상태를 설정
-    const completedMission = completedMissions.find(cm => cm.missionId === mission.id);
-    if (completedMission) {
-      setAnswers(completedMission.answer);
-      setIsSubmitted(true);
+const MissionDetailScreen = ({navigation,route}) => {
+    const [text,setText] = useState('')
+    const handleSubmitPress = async () => {
+        const response = await fetch(PreURL.preURL+'/api/mission/save',{
+            method : 'POST',
+            headers : {'Content-Type': 'application/json'},
+            body : JSON.stringify({
+                text : text,
+                email : route.params.email,
+            })
+        })
+        const data = await response.json();
+        if(data.success){
+            Alert.alert('성공',`${data.message}`)
+            navigation.goBack();
+        }
     }
-  }, [mission.id, completedMissions]);
-  
-  const handleSubmit = () => {
-    if (!inputText) {
-      Alert.alert('오류', '텍스트를 입력해주세요.');
-      return;
-    }
+    return (
+        <SafeAreaView>
+            <View>
+                <Text>미션디테일 스크린</Text>
+            </View>
+                <Text>{route.params.data.mission.title}</Text>
+                <Text>{route.params.data.mission.details}</Text>
+            <TextInput onChangeText={setText} placeholder='본문'></TextInput>
+            <TouchableOpacity onPress={() =>{
+                handleSubmitPress();
+            }}>
+                <Text>전송</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
+    )
+}
 
-    let newAnswers = [...answers];
-
-    // 수정 모드인 경우
-    if (editIndex !== null) {
-      newAnswers[editIndex] = inputText;
-    } else {
-      newAnswers = [...answers, inputText];
-    }
-
-    setAnswers(newAnswers);
-    setInputText('');
-    setEditIndex(null);
-    setIsSubmitted(true);
-
-    const updatedMissions = completedMissions.filter(item => item.missionId !== mission.id);
-    updatedMissions.push({ missionId: mission.id, answer: newAnswers });
-    
-    setCompletedMissions(updatedMissions);
-
-    Alert.alert('성공', '제출이 완료되었습니다.', [
-      {
-        text: '확인'
-      }
-    ]);
-  };
-
-  const handleEdit = (index) => {
-    setInputText(answers[index]);
-    setEditIndex(index);
-    setIsSubmitted(false);
-  };
-
-  return (
-    <SafeAreaView>
-      <View>
-        <Text>{mission.title}</Text>
-        <Text>{mission.details}</Text>
-      </View>
-      <View>
-        {isSubmitted ? (
-          <FlatList
-            data={answers}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => (
-              <View>
-                <Text>{item}</Text>
-                <Button title="수정" onPress={() => handleEdit(index)} />
-              </View>
-            )}
-          />
-        ) : (
-          <>
-            <TextInput
-              value={inputText}
-              onChangeText={text => setInputText(text)}
-              placeholder="여기에 텍스트를 입력하세요"
-            />
-            <Button title="제출" onPress={handleSubmit} />
-          </>
-        )}
-      </View>
-    </SafeAreaView>
-  );
-};
-
-export default MissionDetailScreen;
+export default MissionDetailScreen
