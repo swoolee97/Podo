@@ -55,6 +55,7 @@ const GiftIconList = ({navigation}) => {
                     <TouchableOpacity onPress = {() => handleItemPress(item)}>
                         <View style={styles.listItem}>
                             <Image source={{ uri: item.url }} style={styles.image} />
+                            <Text style={styles.itemName}>{item.company}</Text>
                             <Text style={styles.itemName}>{item.gifticon_name}</Text>
                             <Text>{item.price}원</Text>
                         </View>
