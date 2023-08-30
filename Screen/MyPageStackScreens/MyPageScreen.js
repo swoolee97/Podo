@@ -4,7 +4,8 @@ import { StyleSheet, Alert } from "react-native";
 import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
-
+import PreURL from '../../PreURL/PreURL';
+import { checkLoginStatus } from '../../CommonMethods/CheckLoginStatus';
 const MyPageScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
     const [modalVisible, setModalVisible] = useState(false)
@@ -44,7 +45,7 @@ const MyPageScreen = ({ navigation }) => {
             </View>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate('MissionComplete')
+                    navigation.navigate('MissionCompletedList')
                 }}>
                     <Text>미션 완료 리스트</Text>
                 </TouchableOpacity>
