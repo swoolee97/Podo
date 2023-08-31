@@ -18,6 +18,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000000',
   },
+  timeout: {
+    fontFamily:'Pretendard-Regular',
+    position: 'absolute',
+    right: '35%', 
+    fontSize: 14,
+    color: '#ff2f2f',
+
+  },
   smallInput: {
     position: 'absolute',
     height: 45,
@@ -130,22 +138,41 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#3BCDA1',
   },
+
+
   listItem: {
-    flex: 1,
-    margin: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '45%',
+    marginTop: '2%'
   },
-  image: { //다 퍼센테이지로 바꿔서 반응형으로 만들것
-      width: 150,
-      height: 150,
-      borderRadius: 15,
+  image: {
+    aspectRatio: 1,
+    borderRadius: 15,
+  },
+  brandtext: {
+    fontFamily:'Pretendard-Regular',
+     
+    fontSize: 12,
+    color: '#8C8989', 
+
   },
   itemName: {
-      marginTop: 10,
+    fontFamily:'Pretendard-Regular',
+     
+    fontSize: 14,
+    color: '#000000', 
   },
+  price: {
+    fontFamily:'Pretendard-Medium',
+     
+    fontSize: 16,
+    color: '#000000',
 
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+  }
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
 
 export default styles;
+
