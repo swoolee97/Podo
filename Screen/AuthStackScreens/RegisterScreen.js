@@ -141,16 +141,14 @@ const RegisterScreen = ({navigation}) => {
         <Text style={[styles.lefttext, {top:140}]} >
           이메일
         </Text>
-        <Text style={[styles.lefttext, {top:120}]} >
-          {formatTime(timeRemaining)}
-        </Text>
+        
         <TextInput 
           editable={!codeSent}
           onChangeText={userEmail => {emailCheck(userEmail)}}
           style={[styles.smallInput, {top: 163}]}
         />
   
-        <Text style={[styles.PretendardRegular, {position:'absolute',top:140, right:"36%", color:'#ff2f2f'}]}>
+        <Text style={[styles.PretendardRegular, {position:'absolute',top:140, right:"35%", color:'#ff2f2f'}]}>
           {emailValid == null ? '' : emailValid ? 'OK' : '올바른 이메일 형식이 아닙니다.'}
           </Text>
   
@@ -165,13 +163,17 @@ const RegisterScreen = ({navigation}) => {
   
         <Text style={[styles.lefttext, {top:223}]} >
           인증번호
-        </Text>   
-  
+        </Text>
+        {codeSent && (   
+          <Text style={[styles.timeout, {top:223}]} >
+            {formatTime(timeRemaining)}
+          </Text>
+        )}
         <TextInput
           editable={!checkCode}
           onChangeText={emailAuthCode => setEmailAuthCode(emailAuthCode)}
-          style={[styles.smallInput, {top:246}]}
-        />
+          style={[styles.smallInput, {top:246}]}>
+        </TextInput>
         <TouchableOpacity
           disabled={checkCode}
           onPress={() => {checkRandomCode();}}
@@ -186,7 +188,7 @@ const RegisterScreen = ({navigation}) => {
         </Text>  
   
         <Text style={[styles.PretendardRegular, {position:'absolute',top:306, right:"3%", color:'#ff2f2f'}]}>
-          {passwordValid == null ? '' : passwordValid ? 'OK' : '특수문자,영문,숫자를 포함해야 합니다'}
+          {passwordValid == null ? '' : passwordValid ? 'OK' :'숫자, 영문, 특수문자(@$#!%*?&)를 포함해야 합니다.'}
         </Text>
   
         <TextInput
@@ -208,7 +210,7 @@ const RegisterScreen = ({navigation}) => {
           비밀번호 확인
         </Text>  
         <Text style={[styles.PretendardRegular, {position:'absolute',top:389, right:"3%", color:'#ff2f2f'}]}>
-          {doubleCheck == null ? '' : doubleCheck ? 'OK' : '비밀번호가 일치하지 않습니다'}
+          {doubleCheck == null ? '' : doubleCheck ? 'OK' : '비밀번호가 일치하지 않습니다.'}
         </Text>
         <TextInput
           secureTextEntry

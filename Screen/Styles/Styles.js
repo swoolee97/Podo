@@ -3,8 +3,6 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#ffffff',
   },
 
@@ -19,6 +17,14 @@ const styles = StyleSheet.create({
     left: '4%', 
     fontSize: 14,
     color: '#000000',
+  },
+  timeout: {
+    fontFamily:'Pretendard-Regular',
+    position: 'absolute',
+    right: '35%', 
+    fontSize: 14,
+    color: '#ff2f2f',
+
   },
   smallInput: {
     position: 'absolute',
@@ -133,7 +139,24 @@ const styles = StyleSheet.create({
     color: '#3BCDA1',
   },
 
+
+  listItem: {
+    width: '45%',
+    margin: 10,
+  },
+  image: { //다 퍼센테이지로 바꿔서 반응형으로 만들것
+    
+    width: 160,
+    height: 160,
+    borderRadius: 15,
+  },
+  itemName: {
+    
+    marginTop: 10,
+  },
+  
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
 
 export default styles;
+

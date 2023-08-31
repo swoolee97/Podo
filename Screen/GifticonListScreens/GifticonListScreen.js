@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
+import styles from '../Styles/Styles.js';
+
 const GiftIconList = ({navigation}) => {
     const [gifts, setGifts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -47,7 +49,16 @@ const GiftIconList = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <FlatList
+            <TouchableOpacity
+                style={[styles.Input, {top:10, justifyContent: 'center'}]}
+                onPress={() => {navigation.navigate('SearchingScreen');}}
+            >
+                <Text>
+                    상품명, 브랜드
+                </Text>
+            </TouchableOpacity>
+
+            <FlatList style={{top:60, padding:10}}
                 data={gifts}
                 numColumns={2}
                 keyExtractor={(item) => item._id}
@@ -75,26 +86,5 @@ const GiftIconList = ({navigation}) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-    },
-    listItem: {
-        flex: 1,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 150,
-        height: 150,
-        borderRadius: 15,
-    },
-    itemName: {
-        marginTop: 10,
-    },
-});
 
 export default GiftIconList;
