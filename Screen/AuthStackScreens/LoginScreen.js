@@ -1,76 +1,84 @@
-import { SafeAreaView, Text,Image, View, TextInput, StyleSheet } from "react-native"
+import { SafeAreaView, Text, Image, View, TextInput, StyleSheet } from "react-native"
 import { Alert } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native"
 import { useState, useContext } from "react"
 import { preURL } from "../../PreURL/PreURL"
 import { createStackNavigator } from "@react-navigation/stack"
-import RegisterScreen from "./RegisterScreen"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getProfile, login } from '@react-native-seoul/kakao-login'
 import styles from '../Styles/Styles.js';
 const Stack = createStackNavigator()
-
+const emailRegEx =
+  /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState(null)
 
     const loginSubmit = async () => {
-        data = {
-            'user_email' : userEmail,
-            'user_pw' : userPassword
+        if(!userEmail){
+            return Alert.alert('오류','이메일을 입력해주세요')
         }
-        
-        fetch(PreURL.preURL + '/api/auth/login', {
+        const emailTest = emailRegEx.test(userEmail);
+        if(!emailTest){
+            return Alert.alert('오류','올바른 이메일 형식이 아닙니다');
+        }
+        if(!userPassword){
+            return Alert.alert('오류','비밀번호를 입력해주세요')
+        }
+        data = {
+            'user_email': userEmail,
+            'user_pw': userPassword
+        }
+
+        const response = await fetch(PreURL.preURL + '/api/auth/login', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then(response => response.json())
-            .then(async (responseJson) => {
-                if (responseJson.login) {
-                    await AsyncStorage.setItem('user_email', responseJson.user_email)
-                    await AsyncStorage.setItem('accessToken', responseJson.accessToken)
-                    const email = await AsyncStorage.getItem('user_email');
-                    Alert.alert('로그인 성공')
-                    navigation.replace('Main')
-                    
-                } else {
-                    Alert.alert('로그인 실패 : ',responseJson.message)
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
+        })
+        const responseJson = await response.json();
+        if (responseJson.login) {
+            await AsyncStorage.setItem('user_email', responseJson.user_email)
+            await AsyncStorage.setItem('accessToken', responseJson.accessToken)
+            navigation.replace('Main')
+        }else if(response.status == 501){
+            Alert.alert('오류',responseJson.message)
+        } 
+        else {
+            Alert.alert('로그인 실패', responseJson.message)
+        }
 
     }
     const loginWithKakao = async () => {
-        let result = await login();
+        let result;
+        try {
+            result = await login();
+        } catch (error) {
+            return;
+        }
         if (result) {
             let profile = await getProfile();
-            fetch(preURL + '/api/auth/kakao', {
+            const response = await fetch(preURL + '/api/auth/kakao', {
                 method: 'POST',
                 body: JSON.stringify(profile),
                 headers: {
                     'Content-Type': 'application/json'
                 },
-            }).then(response => {
-                return response.json()
             })
-                .then(async responseJson => {
-                    if (responseJson.login) {
-                        await AsyncStorage.setItem('user_email', responseJson.user_email)
-                        await AsyncStorage.setItem('accessToken', responseJson.accessToken)
-                        const email = await AsyncStorage.getItem('user_email');
-                        Alert.alert('로그인 성공')
-                        navigation.replace('Main')
-                    } else {
-                        Alert.alert('로그인 실패')
-                    }
-                })
+            const data = await response.json();
+            if (data.login) {
+                await AsyncStorage.setItem('user_email', data.user_email)
+                await AsyncStorage.setItem('accessToken', data.accessToken)
+                Alert.alert('로그인 성공')
+                navigation.replace('Main')
+            } else {
+                Alert.alert('로그인 실패')
+            }
         }
     }
-    
+
     return (
         <SafeAreaView style={styles.container}> 
             <View style={{alignItems: "center", alignContent: 'center'}}>       

@@ -16,6 +16,10 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Allow access to your photo gallery</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Allow access to your camera</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>

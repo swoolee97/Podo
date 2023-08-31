@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 
@@ -50,41 +50,43 @@ const GiftIconList = ({navigation}) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                style={[styles.Input, {top:10, justifyContent: 'center'}]}
+                style={[styles.Input, {top:20, justifyContent: 'center'}]}
                 onPress={() => {navigation.navigate('SearchingScreen');}}
             >
                 <Text>
-                    상품명, 브랜드
+                    원하는 상품이 있으신가요?
                 </Text>
             </TouchableOpacity>
-            <View style={{top:60, padding:10}}>
-                <FlatList
-                    data={gifts}
-                    numColumns={2}
-                    keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => (
+
+            
+            <FlatList 
+                style={{top:80, marginHorizontal: '5%'}}
+                columnWrapperStyle={styles.columnWrapper}
+                data={gifts}
+                numColumns={2}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                    <View style={styles.listItem}>
                         <TouchableOpacity onPress = {() => handleItemPress(item)}>
-                            <View style={styles.listItem}>
-                                
-                                <Image source={{ uri: item.url }} style={styles.image} />
-                                
+                                <Image source={{ uri: item.url }} style={styles.image}/>
+                                <Text style={styles.brandtext}>{item.company}</Text>
                                 <Text style={styles.itemName}>{item.gifticon_name}</Text>
-                                <Text>{item.price}원</Text>
-                            </View>
+                                <Text style={styles.price}>{item.price}포인트</Text>
                         </TouchableOpacity>
-                    )}
-                    onEndReached={() => fetchGifts()}
-                    onEndReachedThreshold={0.8} // 리스트의 80% 스크롤하면 추가 데이터 로드
-                    ListFooterComponent={() => isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                />
-            </View>
+                    </View>
+                )}
+                onEndReached={() => fetchGifts()}
+                onEndReachedThreshold={0.8} // 리스트의 80% 스크롤하면 추가 데이터 로드
+                ListFooterComponent={() => isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            />
+            
         </View>
     );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import GifticonListScreen from '../GifticonListScreens/GifticonListScreen';
 import SearchingResultScreen from '../GifticonListScreens/SearchingResultScreen';
