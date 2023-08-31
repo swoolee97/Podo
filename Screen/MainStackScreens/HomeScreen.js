@@ -5,43 +5,47 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused } from "@react-navigation/native";
-import { useMissions } from '../MissionStackScreens/MissionContents';
-
+import Toast from 'react-native-toast-message'
 const HomeScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
-    const [dailyMission, setDailyMission] = useState(null);
-    const [missionViewed, setMissionViewed] = useState(false);
-    const { missions } = useMissions(); 
     const isFocused = useIsFocused();
-
+    const showMissionIncompleteToast = () => {
+        Toast.show({
+            type: 'error',
+            position: 'bottom',
+            text1: '오늘 할 수 있는 미션이 있어요',
+            text2: '미션하러 가기',
+            visibilityTime: 4000,
+            autoHide: false,
+            bottomOffset: 30,
+            onPress: () => {
+                conductMission();
+                Toast.hide()
+            }
+        });
+    };
     useEffect(() => {
         if (isFocused) {
             const fetchEmailAndMission = async () => {
                 const email = await AsyncStorage.getItem('user_email');
                 setUserEmail(email);
-                
-                const lastMissionUpdate = await AsyncStorage.getItem('last_mission_update');
-                const today = new Date().toDateString();
-                
-                if (lastMissionUpdate !== today) {
-                    const randomMission = missions[Math.floor(Math.random() * missions.length)];
-                    setDailyMission(randomMission);
-                    await AsyncStorage.setItem('last_mission_update', today);
-                    await AsyncStorage.setItem('daily_mission', JSON.stringify(randomMission));
-                  } else {
-                    const savedMission = await AsyncStorage.getItem('daily_mission');
-                    setDailyMission(JSON.parse(savedMission));
+                if (email) {
+                    const response = await fetch(PreURL.preURL + `/api/mission/isMissionCompleted?email=${email}`)
+                    const data = await response.json();
+                    if (!data.completed) {
+                        showMissionIncompleteToast();
+                    }
                 }
             };
             fetchEmailAndMission()
         }
     }, [isFocused]);
-
-    const showMission = () => {
-        setMissionViewed(true);
-    };
-
-
+    const conductMission = async () => {
+        const email = await AsyncStorage.getItem('user_email');
+        const response = await fetch(PreURL.preURL + `/api/mission/createMission?email=${email}`)
+        const data = await response.json()
+        navigation.navigate('MissionDetailScreen', {data,email})
+    }
     const logout = async () => {
         const preURL = PreURL.preURL
         const response = await fetch(preURL + '/api/auth/logout', {
@@ -101,24 +105,6 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity onPress={() => {
-                if (missionViewed) {
-                        if (dailyMission) {
-                            navigation.navigate('MissionScreen', { mission: dailyMission });
-                        } else {
-                            Alert.alert("오늘의 미션이 아직 업데이트되지 않았습니다.");
-                        }
-                    } else {
-                        showMission();  // 미션을 확인 업데이트
-                    }
-                }}>
-                    <Text>
-                        {missionViewed ?
-                            (dailyMission ? "오늘의 미션: " + dailyMission.title : "오늘의 미션을 불러오는 중...")
-                            :
-                            "오늘의 미션이 도착했어요!"
-                        }</Text>
-                </TouchableOpacity>
             </View>
             <>{userEmail &&
                 <View style={{}}>
