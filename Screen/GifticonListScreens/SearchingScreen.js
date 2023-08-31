@@ -1,7 +1,7 @@
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, StyleSheet, Image } from "react-native"
-import { useState, useEffect } from "react"
-import { FlatList } from "react-native"
-import PreURL from "../../PreURL/PreURL"
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, Image, FlatList } from "react-native";
+import { useState, useEffect } from "react";
+import PreURL from "../../PreURL/PreURL";
+import styles from '../Styles/Styles.js';
 
 const SearchingScreen = ({ navigation }) => {
     const [gifts, setGifts] = useState([]);
@@ -44,25 +44,30 @@ const SearchingScreen = ({ navigation }) => {
         } catch (error) {
             console.error(error)
         }
-    }
+    };
+    const handleOnSubmitEditing = () => {
+        handleSearchPress(true);
+      };
+
     return (
         <SafeAreaView>
-            <View style={{ flexDirection: 'row' }}>
-                <TextInput onChangeText={setKeyword} placeholder='검색어'></TextInput>
-                <TouchableOpacity onPress={() => {
-                    handleSearchPress(true);
-                }}>
-                    <Text>찾기</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
+            
+            <TextInput 
+                style={[styles.Input, {top:10}]}
+                onChangeText={setKeyword} 
+                placeholder='검색어'
+                onSubmitEditing={handleOnSubmitEditing} 
+                returnKeyType="search" 
+            />
+            
+            <View style={{top:60}}>
 
                 <FlatList
                     data={gifts}
                     numColumns={2}
                     keyExtractor={(item) => item._id}
                     renderItem={({ item }) => (
-                        <TouchableOpacity >
+                        <TouchableOpacity>
                             <View style={styles.listItem}>
                                 <Image source={{ uri: item.url }} style={styles.image} />
                                 <Text style={styles.itemName}>{item.gifticon_name}</Text>
@@ -92,24 +97,4 @@ const SearchingScreen = ({ navigation }) => {
         </SafeAreaView>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-    },
-    listItem: {
-        flex: 1,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 150,
-        height: 150,
-        borderRadius: 15,
-    },
-    itemName: {
-        marginTop: 10,
-    },
-});
 export default SearchingScreen
