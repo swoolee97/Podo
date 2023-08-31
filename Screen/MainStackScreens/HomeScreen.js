@@ -114,6 +114,13 @@ const HomeScreen = ({ navigation }) => {
                 </View>
             }</>
             <View>
+                <TouchableOpacity onPress={async ()=>{
+                    const response = await fetch(PreURL.preURL+'/api/auth/fake');
+                    const data = await response.json();
+                    console.log(data)
+                }}>
+                    <Text>asdfasf</Text>
+                </TouchableOpacity>
             </View>
         </View >
     )
