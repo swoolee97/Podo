@@ -45,7 +45,7 @@ const Certification = ({ route, navigation }) => {
     if(password.length != 4)
       return Alert.alert('비밀번호는 네자리 입니다.')
     const email = await AsyncStorage.getItem('user_email')
-    const response = await fetch(PreURL.preURL + '/api/auth/certification', {
+    const response = await fetch(PreURL.preURL + '/api/card/certification', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

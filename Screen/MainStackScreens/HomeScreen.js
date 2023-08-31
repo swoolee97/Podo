@@ -115,11 +115,11 @@ const HomeScreen = ({ navigation }) => {
             }</>
             <View>
                 <TouchableOpacity onPress={async ()=>{
-                    const response = await fetch(PreURL.preURL+'/api/auth/fake');
+                    const response = await fetch(PreURL.preURL+'/api/card/fake');
                     const data = await response.json();
                     console.log(data)
                 }}>
-                    <Text>asdfasf</Text>
+                    <Text>카드생성버튼(임시용)</Text>
                 </TouchableOpacity>
             </View>
         </View >
