@@ -20,6 +20,9 @@ const MyPageScreen = ({ navigation }) => {
         }
     }, [isFocused]);
     const handleCertificationScreen = async () =>{
+        if(!userEmail){
+            return Alert.alert('로그인 후 이용해주세요')
+        }
         const response = await fetch(PreURL.preURL+`/api/card?email=${userEmail}`)
         const data = await response.json();
         if(response.status == 500){
