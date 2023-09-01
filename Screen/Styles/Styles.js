@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
 
   listItem: {
     width: '45%',
-    marginTop: '2%'
+    marginTop: '5%'
   },
   image: {
     aspectRatio: 1,
@@ -150,22 +150,22 @@ const styles = StyleSheet.create({
   },
   brandtext: {
     fontFamily:'Pretendard-Regular',
-     
-    fontSize: 12,
-    color: '#8C8989', 
+    fontSize: 10,
+    color: '#8C8989',
+    marginTop: '5%' 
 
   },
   itemName: {
     fontFamily:'Pretendard-Regular',
-     
-    fontSize: 14,
+    fontSize: 12,
     color: '#000000', 
+    marginTop: '3%' 
   },
   price: {
     fontFamily:'Pretendard-Medium',
-     
-    fontSize: 16,
+    fontSize: 14,
     color: '#000000',
+    marginTop: '3%'
 
   },
   columnWrapper: {

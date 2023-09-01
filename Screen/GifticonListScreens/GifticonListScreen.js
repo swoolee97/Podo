@@ -60,7 +60,7 @@ const GiftIconList = ({navigation}) => {
 
             
             <FlatList 
-                style={{top:80, marginHorizontal: '5%'}}
+                style={{top:70, marginHorizontal: '5%'}}
                 columnWrapperStyle={styles.columnWrapper}
                 data={gifts}
                 numColumns={2}
