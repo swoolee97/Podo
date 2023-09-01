@@ -147,6 +147,8 @@ const styles = StyleSheet.create({
   image: {
     aspectRatio: 1,
     borderRadius: 15,
+    borderColor: '#A1A1A1',
+    borderWidth: 1,
   },
   brandtext: {
     fontFamily:'Pretendard-Regular',

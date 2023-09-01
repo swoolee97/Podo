@@ -14,7 +14,15 @@ const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState(null)
+    const [isEmailFocused, setEmailFocused] = useState(false);
+    const [isPasswordFocused, setPasswordFocused] = useState(false);
 
+    const handleEmailFocus = () => setEmailFocused(true);
+    const handleEmailBlur = () => setEmailFocused(false);
+
+    const handlePasswordFocus = () => setPasswordFocused(true);
+    const handlePasswordBlur = () => setPasswordFocused(false);
+    const [isButtonActive, setButtonActive] = useState(false);
     const loginSubmit = async () => {
         if(!userEmail){
             return Alert.alert('오류','이메일을 입력해주세요')
@@ -49,8 +57,15 @@ const LoginScreen = ({ navigation }) => {
         else {
             Alert.alert('로그인 실패', responseJson.message)
         }
-
+        
     }
+    const checkButtonStatus = () => {
+        if (userEmail && userPassword) {
+            setButtonActive(true);
+        } else {
+            setButtonActive(false);
+        }
+    };
     const loginWithKakao = async () => {
         let result;
         try {
@@ -92,19 +107,26 @@ const LoginScreen = ({ navigation }) => {
             <Text style={[styles.lefttext, {top: 223}]}>
                 이메일
             </Text>
-            <TextInput style={[styles.Input, {top: 246}]}
-                    onChangeText={(userEmail) => { setUserEmail(userEmail) }}
+            <TextInput style={[styles.Input, {top: 246, borderColor: isEmailFocused ? '#3BCDA1' : '#D9D9D9'}]}
+                    onFocus={handleEmailFocus}
+                    onBlur={handleEmailBlur}
+                    onChangeText={(userEmail) => { setUserEmail(userEmail); checkButtonStatus(); }}
             />
             <Text style={[styles.lefttext, {top: 306}]}>
                 비밀번호
             </Text>
 
-            <TextInput style={[styles.Input, {top: 329}]}
-                    onChangeText={(userPassword) => { setUserPassword(userPassword) }}
+            <TextInput style={[styles.Input, {top: 329, borderColor: isPasswordFocused ? '#3BCDA1' : '#D9D9D9'}]}
+                    onFocus={handlePasswordFocus}
+                    onBlur={handlePasswordBlur}
+                    onChangeText={(userPassword) => { setUserPassword(userPassword); checkButtonStatus(); }}
                     secureTextEntry
             />
             
-            <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.touchbox, {top:412}]}>
+            <TouchableOpacity 
+                onPress={() => { loginSubmit(); }} 
+                style={[styles.touchbox, {top:412, backgroundColor: isButtonActive ? '#3BCDA1' : '#CECECE'}]}
+                disabled={!isButtonActive}>
                 <Text style={styles.buttonText}>
                     로그인
                 </Text>
