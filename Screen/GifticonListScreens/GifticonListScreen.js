@@ -50,10 +50,15 @@ const GiftIconList = ({navigation}) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                style={[styles.Input, {top:20, justifyContent: 'center'}]}
+                style={[styles.Input, {top:20, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}]}
                 onPress={() => {navigation.navigate('SearchingScreen');}}
             >
-                <Text>
+                <Image 
+                    source={require('../../images/Searchicon.png')}
+                    style={{width:20, height:20,  marginLeft: 10, tintColor: '#A9A9A9'}} 
+                    resizeMode="contain"/>
+                <Text 
+                 style={ {fontFamily: 'Pretendard-Regular', fontSize:14 ,marginLeft: 8, color: '#666666'}}>
                     원하는 상품이 있으신가요?
                 </Text>
             </TouchableOpacity>

@@ -53,7 +53,7 @@ const SearchingScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             
             <TextInput 
-                style={[styles.Input, {top:10}]}
+                style={[styles.Input, {top:10, fontFamily: 'Pretendard-Regular', fontSize: 14}]}
                 onChangeText={setKeyword} 
                 placeholder='브랜드, 상품명'
                 onSubmitEditing={handleOnSubmitEditing} 

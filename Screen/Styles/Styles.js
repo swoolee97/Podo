@@ -170,6 +170,10 @@ const styles = StyleSheet.create({
   },
   columnWrapper: {
     justifyContent: 'space-between',
+  },
+  navtext: {
+    fontFamily:'Pretendard-Regular',
+    fontSize: 14,
   }
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
