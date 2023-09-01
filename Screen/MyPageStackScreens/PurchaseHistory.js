@@ -4,11 +4,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator()
 
-const MyPage2 = () =>{
+const PurchaseHistory = () =>{
     return (
         <View>
-            <Text>마이페이지 2</Text>
+            <Text>구매 내역</Text>
         </View>
     )
 }
-export default MyPage2
+export default PurchaseHistory

@@ -78,7 +78,6 @@ const LoginScreen = ({ navigation }) => {
             }
         }
     }
-
     return (
         <SafeAreaView style={styles.container}> 
             <View style={{alignItems: "center", alignContent: 'center'}}>       
@@ -93,6 +92,8 @@ const LoginScreen = ({ navigation }) => {
                 이메일
             </Text>
             <TextInput style={[styles.Input, {top: 246}]}
+                
+                    autoCapitalize="none"
                     onChangeText={(userEmail) => { setUserEmail(userEmail) }}
             />
             <Text style={[styles.lefttext, {top: 306}]}>
@@ -100,6 +101,8 @@ const LoginScreen = ({ navigation }) => {
             </Text>
 
             <TextInput style={[styles.Input, {top: 329}]}
+                
+                    autoCapitalize="none"
                     onChangeText={(userPassword) => { setUserPassword(userPassword) }}
                     secureTextEntry
             />

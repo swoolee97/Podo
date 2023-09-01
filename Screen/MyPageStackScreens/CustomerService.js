@@ -4,11 +4,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator()
 
-const MyPage1 = () =>{
+const CustomerService = () =>{
     return (
         <View>
-            <Text>마이페이지 1</Text>
+            <Text>문의 : postdonation7@gmail.com</Text>
         </View>
     )
 }
-export default MyPage1
+export default CustomerService
