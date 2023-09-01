@@ -2,6 +2,7 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, ActivityI
 import { useState, useEffect } from "react";
 import PreURL from "../../PreURL/PreURL";
 import styles from '../Styles/Styles.js';
+import FocusableInput from '../Styles/FocusableInput.js';
 
 const SearchingScreen = ({ navigation }) => {
     const [gifts, setGifts] = useState([]);
@@ -11,9 +12,7 @@ const SearchingScreen = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [firstKeyword, setFirstKeyword] = useState('');
-    const [isSearchFocused, setSearchFocused] = useState(false);
-    const handleSearchFocus = () => setSearchFocused(true);
-    const handleSearchBlur = () => setSearchFocused(false);
+
 
     // 찾기버튼을 눌렀을 땐 false.   isSearchButton == 찾기 눌렀을 때 true
     const handleSearchPress = async (isSearchButton = true) => {
@@ -55,14 +54,12 @@ const SearchingScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             
-            <TextInput 
-                style={[styles.Input, {top:10, fontFamily: 'Pretendard-Regular', fontSize: 14, borderColor: isSearchFocused ? '#3BCDA1' : '#D9D9D9'}]}
+            <FocusableInput 
+                style={[styles.Input, {top:10, fontFamily: 'Pretendard-Regular', fontSize: 14}]}
                 onChangeText={setKeyword} 
                 placeholder='브랜드, 상품명'
                 onSubmitEditing={handleOnSubmitEditing} 
                 returnKeyType="search" 
-                onFocus={handleSearchFocus}
-                onBlur={handleSearchBlur}
             />
             
             

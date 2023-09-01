@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getProfile, login } from '@react-native-seoul/kakao-login'
 import styles from '../Styles/Styles.js';
+import FocusableInput from "../Styles/FocusableInput"
 const Stack = createStackNavigator()
 const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
@@ -14,14 +15,6 @@ const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState(null)
-    const [isEmailFocused, setEmailFocused] = useState(false);
-    const [isPasswordFocused, setPasswordFocused] = useState(false);
-
-    const handleEmailFocus = () => setEmailFocused(true);
-    const handleEmailBlur = () => setEmailFocused(false);
-
-    const handlePasswordFocus = () => setPasswordFocused(true);
-    const handlePasswordBlur = () => setPasswordFocused(false);
     const [isButtonActive, setButtonActive] = useState(false);
     const loginSubmit = async () => {
         if(!userEmail){
@@ -107,18 +100,14 @@ const LoginScreen = ({ navigation }) => {
             <Text style={[styles.lefttext, {top: 223}]}>
                 이메일
             </Text>
-            <TextInput style={[styles.Input, {top: 246, borderColor: isEmailFocused ? '#3BCDA1' : '#D9D9D9'}]}
-                    onFocus={handleEmailFocus}
-                    onBlur={handleEmailBlur}
+            <FocusableInput style={[styles.Input, {top: 246}]}
                     onChangeText={(userEmail) => { setUserEmail(userEmail); checkButtonStatus(); }}
             />
             <Text style={[styles.lefttext, {top: 306}]}>
                 비밀번호
             </Text>
 
-            <TextInput style={[styles.Input, {top: 329, borderColor: isPasswordFocused ? '#3BCDA1' : '#D9D9D9'}]}
-                    onFocus={handlePasswordFocus}
-                    onBlur={handlePasswordBlur}
+            <FocusableInput style={[styles.Input, {top: 329}]}
                     onChangeText={(userPassword) => { setUserPassword(userPassword); checkButtonStatus(); }}
                     secureTextEntry
             />

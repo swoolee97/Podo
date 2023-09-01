@@ -9,6 +9,7 @@ import {TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../Styles/Styles.js';
+import FocusableInput from '../Styles/FocusableInput.js';
 import timer from '../../CommonMethods/timer.js';
 const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
@@ -27,6 +28,7 @@ const RegisterScreen = ({navigation}) => {
   const [checkCode, setCheckCode] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
   const { timeRemaining, isExpired, startTimer } = timer(300);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const formatTime = (seconds) => {
     const min = Math.floor(seconds / 60);
@@ -53,6 +55,7 @@ const RegisterScreen = ({navigation}) => {
     if(isExpired) return Alert.alert('오류','인증번호 유효기간 만료')
     if (randomCode == emailAuthCode) {
       setCheckCode(true);
+      setIsAuthenticated(true); 
       Alert.alert('성공','인증되었습니다')
     } else Alert.alert('오류','인증번호를 확인해주세요');
   };
@@ -142,20 +145,20 @@ const RegisterScreen = ({navigation}) => {
           이메일
         </Text>
         
-        <TextInput 
+        <FocusableInput 
           editable={!codeSent}
           onChangeText={userEmail => {emailCheck(userEmail)}}
           style={[styles.smallInput, {top: 163}]}
         />
   
-        <Text style={[styles.PretendardRegular, {position:'absolute',top:140, right:"35%", color:'#ff2f2f'}]}>
-          {emailValid == null ? '' : emailValid ? 'OK' : '올바른 이메일 형식이 아닙니다.'}
-          </Text>
+        {userEmail && (<Text style={[styles.PretendardRegular, {position:'absolute',top:140, right:"35%", color: emailValid ? '#3BCDA1' : '#ff2f2f'}]}>
+          {emailValid ? 'OK' : '올바른 이메일 형식이 아닙니다.'}
+        </Text>)}
   
-        <TouchableOpacity 
-          disabled={checkCode} 
+        <TouchableOpacity
+          disabled={!userEmail || checkCode} 
           onPress={() => {emailAuthentication();}}
-          style={[styles.smalltouchbox, {top:163}]}>
+          style={[styles.smalltouchbox, {top:163, backgroundColor: (userEmail && !codeSent) ? '#3BCDA1' : '#CECECE'}]}>
           <Text style={styles.buttonText}>
             인증번호 전송
           </Text>
@@ -164,20 +167,23 @@ const RegisterScreen = ({navigation}) => {
         <Text style={[styles.lefttext, {top:223}]} >
           인증번호
         </Text>
-        {codeSent && (   
+        {codeSent && !isAuthenticated && (   
           <Text style={[styles.timeout, {top:223}]} >
             {formatTime(timeRemaining)}
           </Text>
         )}
-        <TextInput
-          editable={!checkCode}
+        {isAuthenticated && (<Text style={[styles.PretendardRegular, {position:'absolute',top:223, right:"35%", color:'#3BCDA1'}]}>
+          인증완료
+        </Text>)}
+        <FocusableInput
+          editable={codeSent && !checkCode}
           onChangeText={emailAuthCode => setEmailAuthCode(emailAuthCode)}
           style={[styles.smallInput, {top:246}]}>
-        </TextInput>
+        </FocusableInput>
         <TouchableOpacity
-          disabled={checkCode}
+          disabled={!codeSent || !emailAuthCode || checkCode}
           onPress={() => {checkRandomCode();}}
-          style={[styles.smalltouchbox, {top:246}]}>
+          style={[styles.smalltouchbox, {top:246, backgroundColor: (emailAuthCode && codeSent && !checkCode) ? '#3BCDA1' : '#CECECE'}]}>
           <Text style={styles.buttonText}>
             인증번호 확인
           </Text>
@@ -187,11 +193,11 @@ const RegisterScreen = ({navigation}) => {
           비밀번호
         </Text>  
   
-        <Text style={[styles.PretendardRegular, {position:'absolute',top:306, right:"3%", color:'#ff2f2f'}]}>
+        {userPassword &&(<Text style={[styles.PretendardRegular, {position:'absolute',top:306, right:"3%", color:'#ff2f2f'}]}>
           {passwordValid == null ? '' : passwordValid ? 'OK' :'숫자, 영문, 특수문자(@$#!%*?&)를 포함해야 합니다.'}
-        </Text>
+        </Text>)}
   
-        <TextInput
+        <FocusableInput
           secureTextEntry
           onChangeText={userPassword => {
             setUserPassword(userPassword)
@@ -209,10 +215,10 @@ const RegisterScreen = ({navigation}) => {
         <Text style={[styles.lefttext, {top:389}]} >
           비밀번호 확인
         </Text>  
-        <Text style={[styles.PretendardRegular, {position:'absolute',top:389, right:"3%", color:'#ff2f2f'}]}>
+        {checkPassword && (<Text style={[styles.PretendardRegular, {position:'absolute',top:389, right:"3%", color:'#ff2f2f'}]}>
           {doubleCheck == null ? '' : doubleCheck ? 'OK' : '비밀번호가 일치하지 않습니다.'}
-        </Text>
-        <TextInput
+        </Text>)}
+        <FocusableInput
           secureTextEntry
           onChangeText={checkPassword => {
             passwordDoubleCheck(checkPassword);
