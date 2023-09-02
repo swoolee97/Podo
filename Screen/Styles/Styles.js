@@ -142,19 +142,42 @@ const styles = StyleSheet.create({
 
   listItem: {
     width: '45%',
-    margin: 10,
+    marginTop: '5%'
   },
-  image: { //다 퍼센테이지로 바꿔서 반응형으로 만들것
-    
-    width: 160,
-    height: 160,
+  image: {
+    aspectRatio: 1,
     borderRadius: 15,
+    borderColor: '#A1A1A1',
+    borderWidth: 1,
+  },
+  brandtext: {
+    fontFamily:'Pretendard-Regular',
+    fontSize: 10,
+    color: '#8C8989',
+    marginTop: '5%',
+    left: 1
+
   },
   itemName: {
-    
-    marginTop: 10,
+    fontFamily:'Pretendard-Regular',
+    fontSize: 12,
+    color: '#000000', 
+    marginTop: '3%' 
   },
-  
+  price: {
+    fontFamily:'Pretendard-Medium',
+    fontSize: 14,
+    color: '#000000',
+    marginTop: '3%'
+
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+  },
+  navtext: {
+    fontFamily:'Pretendard-Regular',
+    fontSize: 14,
+  }
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
 

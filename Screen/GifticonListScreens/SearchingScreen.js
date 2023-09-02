@@ -2,6 +2,7 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, ActivityI
 import { useState, useEffect } from "react";
 import PreURL from "../../PreURL/PreURL";
 import styles from '../Styles/Styles.js';
+import FocusableInput from '../Styles/FocusableInput.js';
 
 const SearchingScreen = ({ navigation }) => {
     const [gifts, setGifts] = useState([]);
@@ -11,6 +12,7 @@ const SearchingScreen = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [firstKeyword, setFirstKeyword] = useState('');
+
 
     // 찾기버튼을 눌렀을 땐 false.   isSearchButton == 찾기 눌렀을 때 true
     const handleSearchPress = async (isSearchButton = true) => {
@@ -50,50 +52,53 @@ const SearchingScreen = ({ navigation }) => {
       };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             
-            <TextInput 
-                style={[styles.Input, {top:10}]}
+            <FocusableInput 
+                style={[styles.Input, {top:10, fontFamily: 'Pretendard-Regular', fontSize: 14}]}
                 onChangeText={setKeyword} 
-                placeholder='검색어'
+                placeholder='브랜드, 상품명'
                 onSubmitEditing={handleOnSubmitEditing} 
                 returnKeyType="search" 
             />
             
-            <View style={{top:60}}>
+            
 
-                <FlatList
-                    data={gifts}
-                    numColumns={2}
-                    keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity>
-                            <View style={styles.listItem}>
-                                <Image source={{ uri: item.url }} style={styles.image} />
+            <FlatList 
+                style={{top:70, marginHorizontal: '5%'}}
+                columnWrapperStyle={styles.columnWrapper}
+                data={gifts}
+                numColumns={2}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                    <View style={styles.listItem}>
+                        <TouchableOpacity onPress = {() => handleItemPress(item)}>
+                                <Image source={{ uri: item.url }} style={styles.image}/>
+                                <Text style={styles.brandtext}>{item.company}</Text>
                                 <Text style={styles.itemName}>{item.gifticon_name}</Text>
-                                <Text>{item.price}원</Text>
-                            </View>
+                                <Text style={styles.price}>{item.price}포인트</Text>
                         </TouchableOpacity>
-                    )}
-                    onEndReached={() => {
-                        if (hasMore) {
-                            console.log('추가 데이터 불러오기')
-                            handleSearchPress(false);
-                        }
-                    }}
-                    onEndReachedThreshold={1.0} // 리스트의 80% 스크롤하면 추가 데이터 로드
-                    ListFooterComponent={() => isLoading ? <ActivityIndicator size="small" color="#0000ff" /> : null}
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={() => {
-
-                            }}
-                        />
+                    </View>
+                )}
+                onEndReached={() => {
+                    if (hasMore) {
+                        console.log('추가 데이터 불러오기')
+                        handleSearchPress(false);
                     }
-                />
-            </View>
+                }}
+                onEndReachedThreshold={1.0} // 리스트의 80% 스크롤하면 추가 데이터 로드
+                ListFooterComponent={() => isLoading ? <ActivityIndicator size="small" color="#0000ff" /> : null}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={() => {
+
+                        }}
+                    />
+                }
+            />
+            
         </SafeAreaView>
     )
 }

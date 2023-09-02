@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getProfile, login } from '@react-native-seoul/kakao-login'
 import styles from '../Styles/Styles.js';
+import FocusableInput from "../Styles/FocusableInput"
 const Stack = createStackNavigator()
 const emailRegEx =
   /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
@@ -14,7 +15,7 @@ const LoginScreen = ({ navigation }) => {
     const PreURL = require('../../PreURL/PreURL')
     const [userPassword, setUserPassword] = useState('')
     const [userEmail, setUserEmail] = useState(null)
-
+    const [isButtonActive, setButtonActive] = useState(false);
     const loginSubmit = async () => {
         if(!userEmail){
             return Alert.alert('오류','이메일을 입력해주세요')
@@ -49,8 +50,15 @@ const LoginScreen = ({ navigation }) => {
         else {
             Alert.alert('로그인 실패', responseJson.message)
         }
-
+        
     }
+    const checkButtonStatus = () => {
+        if (userEmail && userPassword) {
+            setButtonActive(true);
+        } else {
+            setButtonActive(false);
+        }
+    };
     const loginWithKakao = async () => {
         let result;
         try {
@@ -91,23 +99,22 @@ const LoginScreen = ({ navigation }) => {
             <Text style={[styles.lefttext, {top: 223}]}>
                 이메일
             </Text>
-            <TextInput style={[styles.Input, {top: 246}]}
-                
-                    autoCapitalize="none"
-                    onChangeText={(userEmail) => { setUserEmail(userEmail) }}
+            <FocusableInput style={[styles.Input, {top: 246}]}
+                    onChangeText={(userEmail) => { setUserEmail(userEmail); checkButtonStatus(); }}
             />
             <Text style={[styles.lefttext, {top: 306}]}>
                 비밀번호
             </Text>
 
-            <TextInput style={[styles.Input, {top: 329}]}
-                
-                    autoCapitalize="none"
-                    onChangeText={(userPassword) => { setUserPassword(userPassword) }}
+            <FocusableInput style={[styles.Input, {top: 329}]}
+                    onChangeText={(userPassword) => { setUserPassword(userPassword); checkButtonStatus(); }}
                     secureTextEntry
             />
             
-            <TouchableOpacity onPress={() => { loginSubmit(); }} style={[styles.touchbox, {top:412}]}>
+            <TouchableOpacity 
+                onPress={() => { loginSubmit(); }} 
+                style={[styles.touchbox, {top:412, backgroundColor: isButtonActive ? '#3BCDA1' : '#CECECE'}]}
+                disabled={!isButtonActive}>
                 <Text style={styles.buttonText}>
                     로그인
                 </Text>

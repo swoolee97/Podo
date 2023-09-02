@@ -50,27 +50,35 @@ const GiftIconList = ({navigation}) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity
-                style={[styles.Input, {top:10, justifyContent: 'center'}]}
+                style={[styles.Input, {top:20, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}]}
                 onPress={() => {navigation.navigate('SearchingScreen');}}
             >
-                <Text>
-                    상품명, 브랜드
+                <Image 
+                    source={require('../../images/Searchicon.png')}
+                    style={{width:20, height:20,  marginLeft: 10, tintColor: '#A9A9A9'}} 
+                    resizeMode="contain"/>
+                <Text 
+                 style={ {fontFamily: 'Pretendard-Regular', fontSize:14 ,marginLeft: 8, color: '#666666'}}>
+                    원하는 상품이 있으신가요?
                 </Text>
             </TouchableOpacity>
 
-            <FlatList style={{top:60, padding:10}}
+            
+            <FlatList 
+                style={{top:70, marginHorizontal: '5%'}}
+                columnWrapperStyle={styles.columnWrapper}
                 data={gifts}
                 numColumns={2}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress = {() => handleItemPress(item)}>
-                        <View style={styles.listItem}>
-                            <Image source={{ uri: item.url }} style={styles.image} />
-                            <Text style={styles.itemName}>{item.company}</Text>
-                            <Text style={styles.itemName}>{item.gifticon_name}</Text>
-                            <Text>{item.price}원</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <View style={styles.listItem}>
+                        <TouchableOpacity onPress = {() => handleItemPress(item)}>
+                                <Image source={{ uri: item.url }} style={styles.image}/>
+                                <Text style={styles.brandtext}>{item.company}</Text>
+                                <Text style={styles.itemName}>{item.gifticon_name}</Text>
+                                <Text style={styles.price}>{item.price}포인트</Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
                 onEndReached={() => fetchGifts()}
                 onEndReachedThreshold={0.8} // 리스트의 80% 스크롤하면 추가 데이터 로드
@@ -83,6 +91,7 @@ const GiftIconList = ({navigation}) => {
                     />
                 }
             />
+            
         </View>
     );
 };
