@@ -1,23 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Text, TextInput, Image, Button, Alert } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
+import React, { useState, useEffect} from 'react';
+import { View, FlatList, Text, Image, Button, ScrollView,Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const { width } = Dimensions.get('window');
+const itemWidth = width / 2-10;
+
+const styles = StyleSheet.create({
+  imageContainer: {
+    padding: 5,
+  },
+  postContainer: {
+    marginBottom: 20,
+    width: itemWidth,
+  },
+  imageStyle: {
+    width: itemWidth,
+    height: 150,
+  },
+  columnWrapperStyle: {
+    justifyContent: 'space-between',
+  },
+  listItem: {
+    width: '45%',
+    marginTop: '5%'
+  },
+  image: {
+    aspectRatio: 1,
+    borderRadius: 15,
+    borderColor: '#A1A1A1',
+    borderWidth: 1,
+  },
+});
 
 const CommunityScreen = () => {
   const [posts, setPosts] = useState([]);
-  const [isWriting, setIsWriting] = useState(false);
-  const [newPostText, setNewPostText] = useState('');
-  const [newPostImage, setNewPostImage] = useState(null);
+  const navigation = useNavigation();
+  const [windowDimensions, setWindowDimensions] = useState(Dimensions.get('window'));
+  const updateDimensions = () => {
+    setWindowDimensions(Dimensions.get('window'));
+  };
+  
+  useEffect(() => {
+    fetchData();
+    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   const fetchData = async () => {
     try {
       const response = await fetch(PreURL.preURL + '/api/feed/posts');
-      const clonedResponse = response.clone();
-
-      const responseText = await clonedResponse.text();
-      console.log("Received response: ", responseText);
-
       const data = await response.json();
       setPosts(data);
     } catch (error) {
@@ -25,96 +60,41 @@ const CommunityScreen = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const isLargeScreen = windowDimensions.width >= 500;
 
-
-  const pickImage = () => {
-    ImagePicker.openPicker({
-      multiple: true
-    }).then(images => {
-      const paths = images.map(image => image.path);
-      setNewPostImage(paths);
-    });
-  };
-
-  const handleSubmit = async () => {
-    try {
-        const accessToken = await AsyncStorage.getItem('accessToken');
-        const user_email = await AsyncStorage.getItem('user_email');
-        const formData = new FormData();
-        
-        formData.append('text', newPostText);
-    
-        if (Array.isArray(newPostImage)) {
-          newPostImage.forEach((imageUri, index) => {
-            const fileName = imageUri.split('/').pop();
-            const fileType = fileName.split('.').pop();
-            formData.append('image', {
-              uri: imageUri,
-              type: `image/${fileType}`,
-              name: fileName,
-            });
-          });
-        }
-
-        const response = await fetch(PreURL.preURL + '/api/feed/posts', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'multipart/form-data',
-              'user_email': user_email,
-              'Authorization': 'Bearer ' + accessToken
-            },
-            body: formData
-        });
-        const data = await response.json();
-        if (data.success) {
-          Alert.alert('성공', `${data.message}`);
-          setIsWriting(false);
-          setNewPostText('');
-          setNewPostImage(null);
-          fetchData();
-        }
-    } catch (error) {
-      console.error('There was an error sending data', error);
-    }
+  const goToPostDetail = (post) => {
+    navigation.navigate('CommunityDetail', post);
   };
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={{ flex: 1, padding: isLargeScreen ? 40 : 20 }}>
       <FlatList
         data={posts}
         keyExtractor={(item) => item._id ? item._id.toString() : Math.random().toString()}
         renderItem={({ item }) => (
-          <View style={{ marginBottom: 20 }}>
+          <View style={styles.postContainer}>
             <Text>{item.email}</Text>
-            <Text>{item.text}</Text>
-            <Text>작성 시간: {new Date(item.createdAt).toLocaleString()}</Text>
-            {Array.isArray(item.imageUrl) && item.imageUrl.map((uri, index) => (
-            <Image key={index} source={{ uri }} style={{ width: 100, height: 100 }}/>
-))}
+            <Text style={{ fontSize: 8 }}>작성 시간: {new Date(item.createdAt).toLocaleString()}</Text>
+            {Array.isArray(item.imageUrl) && (
+              <ScrollView 
+                horizontal={true} 
+                pagingEnabled={true} 
+                showsHorizontalScrollIndicator={false}
+              >
+                {item.imageUrl.map((uri, index) => (
+                      <View style={styles.imageContainer} key={index}>
+                        <Image source={{ uri }} style={styles.image}/>
+                      </View>
+                ))}
+              </ScrollView>
+            )}
+            <Text onPress={() => goToPostDetail(item)}>{item.text}</Text>
           </View>
         )}
+        numColumns={isLargeScreen ? 3 : 2}
+        columnWrapperStyle={styles.columnWrapperStyle}
       />
-      <Button title="글쓰기" onPress={() => setIsWriting(!isWriting)} />
-      {isWriting && (
-      <View style={{ marginVertical: 20 }}>
-        <TextInput
-          placeholder="글을 작성해주세요"
-          multiline
-          numberOfLines={4}
-          onChangeText={(text) => setNewPostText(text)}
-          value={newPostText}
-        />
-        {/* 여러 장의 이미지를 렌더링 */}
-        {Array.isArray(newPostImage) && newPostImage.map((uri, index) => (
-          <Image key={index} source={{ uri }} style={{ width: 100, height: 100 }} />
-        ))}
-          <Button title="사진 찾기" onPress={pickImage} />
-          <Button title="제출" onPress={handleSubmit} />
-        </View>
-      )}
+       <Button title="글쓰기" onPress={() => navigation.navigate('WriteCommunity')} />
     </View>
   );
 };
