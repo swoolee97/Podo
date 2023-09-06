@@ -11,35 +11,46 @@ const HomeScreen = ({ navigation }) => {
     const isFocused = useIsFocused();
     const [userPoints, setUserPoints] = useState(0);
 
+    const fetchUserDetails = async (user_email) => {
+        if (user_email) {
+            try {
+                const [pointResponse, missionResponse] = await Promise.all([
+                    fetch(PreURL.preURL + `/api/point/points?user_email=${user_email}`),
+                    fetch(PreURL.preURL + `/api/mission/isMissionCompleted?user_email=${user_email}`)
+                ]);
+
+                if (!pointResponse.ok) {
+                    throw new Error(`HTTP Error in pointResponse: ${pointResponse.status}`);
+                }
+                if (!missionResponse.ok) {
+                    throw new Error(`HTTP Error in missionResponse: ${missionResponse.status}`);
+                }
+                const pointData = await pointResponse.json();
+                const missionData = await missionResponse.json();
+
+                if (pointData && pointData.point !== undefined) {
+                    setUserPoints(pointData.point);
+                }
+
+                if (!missionData.completed) {
+                    showMissionIncompleteToast();
+                }
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        }
+    };
+
     useEffect(() => {
         if (isFocused) {
-            const fetchUserPoints = async () => {
+            const fetchUserEmailAndDetails = async () => {
                 const email = await AsyncStorage.getItem('user_email');
                 setUserEmail(email);
-
-                if (email) {
-                    fetch(`${PreURL.preURL}/api/point?user_email=${encodeURIComponent(email)}`)
-                        .then(res => {
-                            // HTTP 응답 상태 코드가 성공 범위에 있지 않으면 오류를 던집니다.
-                            if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-                            return res.json();
-                        })
-                        .then(data => {
-                            if (data && data.points !== undefined) {
-                                setUserPoints(data.points);
-                            } else {
-                                console.error("Unexpected response structure:", data);
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error fetching user points:", error);
-                        });
-                }
+                fetchUserDetails(email);
             };
-            fetchUserPoints();
+            fetchUserEmailAndDetails();
         }
-    }
-    )
+    }, [isFocused]);
 
     const showMissionIncompleteToast = () => {
         Toast.show({
@@ -56,22 +67,6 @@ const HomeScreen = ({ navigation }) => {
             }
         });
     };
-    useEffect(() => {
-        if (isFocused) {
-            const fetchEmailAndMission = async () => {
-                const email = await AsyncStorage.getItem('user_email');
-                setUserEmail(email);
-                if (email) {
-                    const response = await fetch(PreURL.preURL + `/api/mission/isMissionCompleted?email=${email}`)
-                    const data = await response.json();
-                    if (!data.completed) {
-                        showMissionIncompleteToast();
-                    }
-                }
-            };
-            fetchEmailAndMission()
-        }
-    }, [isFocused]);
     const conductMission = async () => {
         const email = await AsyncStorage.getItem('user_email');
         const response = await fetch(PreURL.preURL + `/api/mission/createMission?email=${email}`)
@@ -109,6 +104,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text>나무 그림</Text>
                 <Text></Text>
             </View>
+            {userEmail && (
             <View>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('PointDetailScreen')
@@ -116,6 +112,7 @@ const HomeScreen = ({ navigation }) => {
                     <Text>포인트 적립내역화면: {userPoints} 포인트</Text>
                 </TouchableOpacity>
             </View>
+        )}
             <View>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('WishListScreen')
