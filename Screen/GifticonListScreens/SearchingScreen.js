@@ -1,7 +1,8 @@
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, StyleSheet, Image } from "react-native"
-import { useState, useEffect } from "react"
-import { FlatList } from "react-native"
-import PreURL from "../../PreURL/PreURL"
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, ActivityIndicator, RefreshControl, Image, FlatList } from "react-native";
+import { useState, useEffect } from "react";
+import PreURL from "../../PreURL/PreURL";
+import styles from '../Styles/Styles.js';
+import FocusableInput from '../Styles/FocusableInput.js';
 
 const SearchingScreen = ({ navigation }) => {
     const [gifts, setGifts] = useState([]);
@@ -11,6 +12,7 @@ const SearchingScreen = ({ navigation }) => {
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [firstKeyword, setFirstKeyword] = useState('');
+
 
     // 찾기버튼을 눌렀을 땐 false.   isSearchButton == 찾기 눌렀을 때 true
     const handleSearchPress = async (isSearchButton = true) => {
@@ -44,72 +46,60 @@ const SearchingScreen = ({ navigation }) => {
         } catch (error) {
             console.error(error)
         }
-    }
+    };
+    const handleOnSubmitEditing = () => {
+        handleSearchPress(true);
+      };
+
     return (
-        <SafeAreaView>
-            <View style={{ flexDirection: 'row' }}>
-                <TextInput onChangeText={setKeyword} placeholder='검색어'></TextInput>
-                <TouchableOpacity onPress={() => {
-                    handleSearchPress(true);
-                }}>
-                    <Text>찾기</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
+        <SafeAreaView style={styles.container}>
+            
+            <FocusableInput 
+                style={[styles.Input, {top:10, fontFamily: 'Pretendard-Regular', fontSize: 14}]}
+                onChangeText={setKeyword} 
+                placeholder='브랜드, 상품명'
+                onSubmitEditing={handleOnSubmitEditing} 
+                returnKeyType="search" 
+            />
+            
+            
 
-                <FlatList
-                    data={gifts}
-                    numColumns={2}
-                    keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity >
-                            <View style={styles.listItem}>
-                                <Image source={{ uri: item.url }} style={styles.image} />
+            <FlatList 
+                style={{top:70, marginHorizontal: '5%'}}
+                columnWrapperStyle={styles.columnWrapper}
+                data={gifts}
+                numColumns={2}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                    <View style={styles.listItem}>
+                        <TouchableOpacity onPress = {() => handleItemPress(item)}>
+                                <Image source={{ uri: item.url }} style={styles.image}/>
+                                <Text style={styles.brandtext}>{item.company}</Text>
                                 <Text style={styles.itemName}>{item.gifticon_name}</Text>
-                                <Text>{item.price}원</Text>
-                            </View>
+                                <Text style={styles.price}>{item.price}포인트</Text>
                         </TouchableOpacity>
-                    )}
-                    onEndReached={() => {
-                        if (hasMore) {
-                            console.log('추가 데이터 불러오기')
-                            handleSearchPress(false);
-                        }
-                    }}
-                    onEndReachedThreshold={1.0} // 리스트의 80% 스크롤하면 추가 데이터 로드
-                    ListFooterComponent={() => isLoading ? <ActivityIndicator size="small" color="#0000ff" /> : null}
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={() => {
-
-                            }}
-                        />
+                    </View>
+                )}
+                onEndReached={() => {
+                    if (hasMore) {
+                        console.log('추가 데이터 불러오기')
+                        handleSearchPress(false);
                     }
-                />
-            </View>
+                }}
+                onEndReachedThreshold={1.0} // 리스트의 80% 스크롤하면 추가 데이터 로드
+                ListFooterComponent={() => isLoading ? <ActivityIndicator size="small" color="#0000ff" /> : null}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={() => {
+
+                        }}
+                    />
+                }
+            />
+            
         </SafeAreaView>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-    },
-    listItem: {
-        flex: 1,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 150,
-        height: 150,
-        borderRadius: 15,
-    },
-    itemName: {
-        marginTop: 10,
-    },
-});
 export default SearchingScreen

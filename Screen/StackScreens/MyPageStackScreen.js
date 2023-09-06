@@ -7,8 +7,6 @@ import {
 } from 'react-native-responsive-screen';
 import MyPageScreen from "../MyPageStackScreens/MyPageScreen";
 import Profile from "../MyPageStackScreens/Profile";
-import MyPage1 from "../MyPageStackScreens/MyPage1";
-import MyPage2 from "../MyPageStackScreens/MyPage2";
 import Certification from "../MyPageStackScreens/Certification";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import PurchaseHistory from "../MyPageStackScreens/PurchaseHistory";
@@ -16,6 +14,7 @@ import CustomerService from "../MyPageStackScreens/CustomerService";
 
 import { useEffect, useState } from "react";
 import AuthStackScreen from "./AuthStackScreen";
+import MissionCompletedList from "../MissionStackScreens/MissionCompletedList";
 const Stack = createStackNavigator()
 const MyPageStackScreen = ({ navigation, route }) => {
     
@@ -31,8 +30,7 @@ const MyPageStackScreen = ({ navigation, route }) => {
         <Stack.Navigator initialRouteName="MyPageScreen">
             <Stack.Screen name="MyPageScreen" component={MyPageScreen} options={{ headerShown: true }} />
             <Stack.Screen name="Profile" component={Profile} options={{}} />
-            <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: true }} />
-            <Stack.Screen name="MyPage2" component={MyPage2} options={{ headerShown: true }} />
+            <Stack.Screen name="MissionCompletedList" component={MissionCompletedList} options={{}} />
             <Stack.Screen name="Certification" component={Certification} options={{ headerShown: true }} />
             <Stack.Screen name="AuthStackScreen" component={AuthStackScreen} options={{headerShown:false}}/>
             <Stack.Screen name="PurchaseHistory" component={PurchaseHistory} options={{ headerShown: true }} />

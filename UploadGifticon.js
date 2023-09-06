@@ -39,7 +39,6 @@ const UploadGifticon = ({ }) => {
     const sendImage = async () => {
         const user_email = await AsyncStorage.getItem('user_email')
         const accessToken = await AsyncStorage.getItem('accessToken')
-        console.log(formData)
         try {
             const preURL = PreURL.preURL
             const response = await fetch(preURL + '/api/gifticon/upload', {
@@ -76,13 +75,11 @@ const UploadGifticon = ({ }) => {
                         navigation.goBack();
                     }
                 } catch (error) {
-                    console.log(response.status)
-                    console.error(error)
+
                 }
             }
             else if (response.status == 500) {
                 Alert.alert(`${data.message}`)
-                throw new Error(`HTTP error! status: ${response.status}`);
             }else{
                 Alert.alert(`${data.message}`)
             }

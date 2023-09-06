@@ -4,10 +4,10 @@ import { StyleSheet, Alert } from "react-native";
 import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
-
+import PreURL from '../../PreURL/PreURL';
+import { checkLoginStatus } from '../../CommonMethods/CheckLoginStatus';
 const MyPageScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
-    const [modalVisible, setModalVisible] = useState(false)
 
     const isFocused = useIsFocused();
     useEffect(() => {
@@ -19,6 +19,18 @@ const MyPageScreen = ({ navigation }) => {
             fetchEmail()
         }
     }, [isFocused]);
+    const handleCertificationScreen = async () =>{
+        if(!userEmail){
+            return Alert.alert('로그인 후 이용해주세요')
+        }
+        const response = await fetch(PreURL.preURL+`/api/card?email=${userEmail}`)
+        const data = await response.json();
+        if(response.status == 500){
+            return Alert.alert(`${data.message}`)
+        }else{
+            return navigation.navigate('Certification')
+        }
+    }
     return (
 
         <View style={styles.container}>
@@ -38,13 +50,17 @@ const MyPageScreen = ({ navigation }) => {
             </View>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate('Certification', { screen: 'Certification' })
+                    handleCertificationScreen();
                 }}><Text>수혜자 인증</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
+<<<<<<< HEAD
                     navigation.navigate('MissionComplete')
+=======
+                    navigation.navigate('MissionCompletedList')
+>>>>>>> main
                 }}>
                     <Text>미션 완료 리스트</Text>
                 </TouchableOpacity>

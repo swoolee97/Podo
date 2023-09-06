@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
+import styles from '../Styles/Styles.js';
+
 const GiftIconList = ({navigation}) => {
     const [gifts, setGifts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -47,18 +49,36 @@ const GiftIconList = ({navigation}) => {
     }
     return (
         <View style={styles.container}>
-            <FlatList
+            <TouchableOpacity
+                style={[styles.Input, {top:20, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}]}
+                onPress={() => {navigation.navigate('SearchingScreen');}}
+            >
+                <Image 
+                    source={require('../../images/Searchicon.png')}
+                    style={{width:20, height:20,  marginLeft: 10, tintColor: '#A9A9A9'}} 
+                    resizeMode="contain"/>
+                <Text 
+                 style={ {fontFamily: 'Pretendard-Regular', fontSize:14 ,marginLeft: 8, color: '#666666'}}>
+                    원하는 상품이 있으신가요?
+                </Text>
+            </TouchableOpacity>
+
+            
+            <FlatList 
+                style={{top:70, marginHorizontal: '5%'}}
+                columnWrapperStyle={styles.columnWrapper}
                 data={gifts}
                 numColumns={2}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress = {() => handleItemPress(item)}>
-                        <View style={styles.listItem}>
-                            <Image source={{ uri: item.url }} style={styles.image} />
-                            <Text style={styles.itemName}>{item.gifticon_name}</Text>
-                            <Text>{item.price}원</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <View style={styles.listItem}>
+                        <TouchableOpacity onPress = {() => handleItemPress(item)}>
+                                <Image source={{ uri: item.url }} style={styles.image}/>
+                                <Text style={styles.brandtext}>{item.company}</Text>
+                                <Text style={styles.itemName}>{item.gifticon_name}</Text>
+                                <Text style={styles.price}>{item.price}포인트</Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
                 onEndReached={() => fetchGifts()}
                 onEndReachedThreshold={0.8} // 리스트의 80% 스크롤하면 추가 데이터 로드
@@ -71,29 +91,9 @@ const GiftIconList = ({navigation}) => {
                     />
                 }
             />
+            
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-    },
-    listItem: {
-        flex: 1,
-        margin: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image: {
-        width: 150,
-        height: 150,
-        borderRadius: 15,
-    },
-    itemName: {
-        marginTop: 10,
-    },
-});
 
 export default GiftIconList;
