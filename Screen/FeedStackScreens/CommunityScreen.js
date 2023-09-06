@@ -83,7 +83,7 @@ const CommunityScreen = () => {
               >
                 {item.imageUrl.map((uri, index) => (
                       <View style={styles.imageContainer} key={index}>
-                        <Image source={{ uri }} style={styles.image}/>
+                        <Image source={{ uri }} style={styles.imageStyle}/>
                       </View>
                 ))}
               </ScrollView>
