@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('PointDetailScreen')
                 }}>
-                    <Text>포인트 적립내역화면: {userPoints} 포인트</Text>
+                    {/* <Text>포인트 적립내역화면: {userPoints} 포인트</Text> */}
                 </TouchableOpacity>
             </View>
         )}

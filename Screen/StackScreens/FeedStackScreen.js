@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import CommunityScreen from '/Users/joseongju/Desktop/reactnative/Gibu/Screen/FeedStackScreens/CommunityScreen.js';
+import CommunityScreen from '../FeedStackScreens/CommunityScreen';
 import CommunityDetail from '../FeedStackScreens/CommunityDetail';
 import WriteCommunity from '../FeedStackScreens/WriteCommunity';
 const Stack = createStackNavigator();

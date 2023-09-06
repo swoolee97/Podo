@@ -9,7 +9,6 @@ const Profile = ({ navigation }) => {
     
     return (
         <View>
-<<<<<<< HEAD
             <Stack.Navigator>
                 <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: false }} />
             </Stack.Navigator>
@@ -18,9 +17,6 @@ const Profile = ({ navigation }) => {
             }}>
                 <Text>마이페이지1</Text>
             </TouchableOpacity>
-=======
-            
->>>>>>> main
         </View>
     )
 }

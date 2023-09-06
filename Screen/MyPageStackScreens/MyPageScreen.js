@@ -56,11 +56,7 @@ const MyPageScreen = ({ navigation }) => {
             </View>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
-<<<<<<< HEAD
-                    navigation.navigate('MissionComplete')
-=======
                     navigation.navigate('MissionCompletedList')
->>>>>>> main
                 }}>
                     <Text>미션 완료 리스트</Text>
                 </TouchableOpacity>
