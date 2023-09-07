@@ -6,6 +6,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
 import PreURL from '../../PreURL/PreURL';
 import { checkLoginStatus } from '../../CommonMethods/CheckLoginStatus';
+import styles from '../Styles/Styles.js';
+import Toast from 'react-native-toast-message';
+import FocusableInput from "../Styles/FocusableInput"
 const MyPageScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
 
@@ -31,6 +34,27 @@ const MyPageScreen = ({ navigation }) => {
             return navigation.navigate('Certification')
         }
     }
+    const logout = async () => {
+        const preURL = PreURL.preURL
+        const response = await fetch(preURL + '/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_email: userEmail
+            })
+        })
+        if (response.status == 200) {
+            const data = await response.json();
+            AsyncStorage.removeItem('accessToken')
+            AsyncStorage.removeItem('user_email')
+            Toast.hide();
+            Alert.alert(`${data.message}`)
+            navigation.replace('MyPageScreen')
+        }
+
+    }
     return (
 
         <View style={styles.container}>
@@ -48,10 +72,26 @@ const MyPageScreen = ({ navigation }) => {
                 }}><Text>프로필 관리</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.section}>
+
+            <View style={[styles.touchbox, {position:'relative' ,}]}>
                 <TouchableOpacity onPress={() => {
                     handleCertificationScreen();
-                }}><Text>수혜자 인증</Text>
+                }}><Text style = {styles.buttonText}>수혜자 인증받기</Text>
+                </TouchableOpacity>
+            </View>
+            
+            <View style={styles.section}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('DonationHistoryScreen')
+                }}>
+                    <Text>기부내역</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.section}>
+                <TouchableOpacity onPress={() => {
+                    navigation.navigate('WishListScreen')
+                }}>
+                    <Text>장바구니화면</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.section}>
@@ -61,7 +101,8 @@ const MyPageScreen = ({ navigation }) => {
                     <Text>미션 완료 리스트</Text>
                 </TouchableOpacity>
             </View>
-
+            <Text style={[styles.lefttext, {top: '30%'}]}>기부 내역</Text>
+            <Text style={[styles.lefttext, {top: '60%'}]}>교환 내역</Text>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('PurchaseHistory')
@@ -69,6 +110,15 @@ const MyPageScreen = ({ navigation }) => {
                     <Text>상품 구매 내역</Text>
                 </TouchableOpacity>
             </View>
+            {userEmail &&
+                <View style={styles.section}>
+                    <TouchableOpacity onPress={() => {
+                        logout()
+                    }}>
+                        <Text>로그아웃</Text>
+                    </TouchableOpacity>
+                </View>
+            }
 
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
@@ -81,16 +131,5 @@ const MyPageScreen = ({ navigation }) => {
         </View>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    section: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: 'black',
-        borderWidth: 1,
-    },
-});
+
 export default MyPageScreen

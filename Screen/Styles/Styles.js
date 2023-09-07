@@ -177,7 +177,14 @@ const styles = StyleSheet.create({
   navtext: {
     fontFamily:'Pretendard-Regular',
     fontSize: 14,
-  }
+  },
+  section: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+},
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
 

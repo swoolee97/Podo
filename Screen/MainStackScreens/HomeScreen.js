@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation }) => {
             text2: '미션하러 가기',
             visibilityTime: 4000,
             autoHide: false,
-            bottomOffset: 30,
+            bottomOffset: 70,
             onPress: () => {
                 conductMission();
                 Toast.hide()
@@ -116,13 +116,7 @@ const HomeScreen = ({ navigation }) => {
                     <Text>포인트 적립내역화면: {userPoints} 포인트</Text>
                 </TouchableOpacity>
             </View>
-            <View>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('WishListScreen')
-                }}>
-                    <Text>장바구니화면</Text>
-                </TouchableOpacity>
-            </View>
+           
             <View>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('NotificationScreen')
@@ -130,24 +124,6 @@ const HomeScreen = ({ navigation }) => {
                     <Text>알림화면</Text>
                 </TouchableOpacity>
             </View>
-            <View>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('DonationHistoryScreen')
-                }}>
-                    <Text>기부내역화면</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-            </View>
-            <>{userEmail &&
-                <View style={{}}>
-                    <TouchableOpacity onPress={() => {
-                        logout()
-                    }}>
-                        <Text>로그아웃</Text>
-                    </TouchableOpacity>
-                </View>
-            }</>
             <View>
                 <TouchableOpacity onPress={async () => {
                     const response = await fetch(PreURL.preURL + '/api/card/fake');
