@@ -3,12 +3,14 @@ import { View, TextInput, Button, Image,Alert } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PreURL from '../../PreURL/PreURL';
+import { useNavigation } from '@react-navigation/native';
 
 const WriteCommunityScreen = () => {
   const [newPostText, setNewPostText] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
   const [isWriting, setIsWriting] = useState(false);
   const [posts, setPosts] = useState([]);
+  const navigation = useNavigation();
 
   const pickImage = () => {
     ImagePicker.openPicker({
@@ -65,6 +67,8 @@ const WriteCommunityScreen = () => {
           setNewPostText('');
           setNewPostImage(null);
           fetchData();
+          navigation.goBack();
+
         } else {
             Alert.alert('실패', `${data.message}`);
         }

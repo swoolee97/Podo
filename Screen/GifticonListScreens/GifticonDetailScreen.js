@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, Text, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PreURL from "../../PreURL/PreURL";
+import { Image } from 'react-native'
 
 const GifticonDetailScreen = ({ navigation, route }) => {
     const gifticonId = route.params.gifticonId;
@@ -22,6 +23,10 @@ const GifticonDetailScreen = ({ navigation, route }) => {
             <View>
                 {gifticon ? (
                     <View>
+                        <Image 
+                            source={{ uri: gifticon.url }} 
+                            style={{ width: 200, height: 200 }}
+                        />
                         <Text>{gifticon.gifticon_name}</Text>
                         <Text>{gifticon.price}원</Text>
                         <Text>{gifticon.company}</Text>

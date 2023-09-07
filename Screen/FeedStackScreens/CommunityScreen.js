@@ -43,12 +43,14 @@ const CommunityScreen = () => {
   };
   
   useEffect(() => {
-    fetchData();
-    const subscription = Dimensions.addEventListener('change', updateDimensions);
+    const navListener = navigation.addListener('focus', fetchData);
+    const dimensionSubscription = Dimensions.addEventListener('change', updateDimensions);
+
     return () => {
-      subscription.remove();
+        navListener.remove();
+        dimensionSubscription.remove();
     };
-  }, []);
+}, []);
 
   const fetchData = async () => {
     try {
