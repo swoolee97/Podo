@@ -9,7 +9,14 @@ const Profile = ({ navigation }) => {
     
     return (
         <View>
-            
+            <Stack.Navigator>
+                <Stack.Screen name="MyPage1" component={MyPage1} options={{ headerShown: false }} />
+            </Stack.Navigator>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('MyPage1')
+            }}>
+                <Text>마이페이지1</Text>
+            </TouchableOpacity>
         </View>
     )
 }

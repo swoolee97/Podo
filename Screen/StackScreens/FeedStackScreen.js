@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react"
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
-import { createStackNavigator } from "@react-navigation/stack"
-import CommunityScreen from "../FeedStackScreens/CommunityScreen"
+import { createStackNavigator } from '@react-navigation/stack';
+import CommunityScreen from '../FeedStackScreens/CommunityScreen';
+import CommunityDetail from '../FeedStackScreens/CommunityDetail';
+import WriteCommunity from '../FeedStackScreens/WriteCommunity';
+const Stack = createStackNavigator();
 
-const Stack = createStackNavigator()
-
-const FeedStackScreen = ({ navigation, route }) => {
-    React.useLayoutEffect(() => {
-        const routeName = getFocusedRouteNameFromRoute(route) ?? 'CommunityScreen'
-        if (routeName != 'CommunityScreen') {
-            navigation.setOptions({ tabBarStyle: { display: 'none' } })
-        } else {
-            navigation.setOptions({ tabBarStyle: { display: undefined } })
-        }
-    }, [navigation, route])
-    return (
-        <Stack.Navigator initialRouteName="CommunityScreen">
-            <Stack.Screen name='CommunityScreen' component={CommunityScreen} options={{ headerShown: true }} />
-        </Stack.Navigator>
-    )
+function App() {
+  return (
+      <Stack.Navigator initialRouteName="Community">
+        <Stack.Screen name="Community" component={CommunityScreen} />
+        <Stack.Screen name="CommunityDetail" component={CommunityDetail} />
+        <Stack.Screen name="WriteCommunity" component={WriteCommunity} />
+      </Stack.Navigator>
+  );
 }
-export default FeedStackScreen
+
+export default App;
