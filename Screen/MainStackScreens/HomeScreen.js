@@ -4,13 +4,20 @@ import { View, Text, SafeAreaView, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-toast-message'
 
 const HomeScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
     const isFocused = useIsFocused();
     const [userPoints, setUserPoints] = useState(0);
+    useFocusEffect(
+        React.useCallback(() => {
+          return () => {
+            Toast.hide()
+          };
+        }, [])
+      );
     const fetchUserDetails = async (user_email) => {
         if (user_email) {
             try {
