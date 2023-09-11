@@ -43,7 +43,7 @@ const CommunityScreen = () => {
   };
   
   useEffect(() => {
-    const navListener = navigation.addListener('focus', fetchData);
+    let navListener = navigation.addListener('focus', fetchData);
     const dimensionSubscription = Dimensions.addEventListener('change', updateDimensions);
 
     return () => {
