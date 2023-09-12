@@ -100,22 +100,15 @@ const ForgotPasswordScreen = ({navigation}) => {
           emailCheck(email);
         }}
       />
-      <TextInput
-        placeholder="인증번호"
-        editable={!checkCode}
-        style={[styles.Input, {top: 220}]}
-        onChangeText={code => setVerificationCode(code)}
-      />
 
       <TouchableOpacity
         onPress={() => {
-          emailAuthentication(); // 이메일 인증 요청을 먼저 수행합니다.
-
+          // emailAuthentication(); // 이메일 인증 요청을 먼저 수행합니다.
           // 이후에 필요한 다른 동작을 추가할 수 있습니다.
           navigation.navigate('ForgotPasswordScreen2'); // 예를 들어 다음 화면으로 이동할 수 있습니다.
           // clearInterval() 또는 다른 동작을 추가할 수 있습니다.
         }}
-        style={[styles.touchbox, {top: 130}]}>
+        style={[styles.touchbox, {top: 170}]}>
         <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize: 16}]}>
           인증번호 전송
         </Text>

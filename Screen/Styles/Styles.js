@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+    alignItems: 'center', // 수평 중앙 정렬
   },
 
   title: {
@@ -12,24 +13,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   lefttext: {
-    fontFamily:'Pretendard-Regular',
+    fontFamily: 'Pretendard-Regular',
     position: 'absolute',
-    left: '4%', 
+    left: '4%',
     fontSize: 14,
     color: '#000000',
   },
   timeout: {
-    fontFamily:'Pretendard-Regular',
+    fontFamily: 'Pretendard-Regular',
     position: 'absolute',
-    right: '35%', 
+    right: '35%',
     fontSize: 14,
     color: '#ff2f2f',
-
   },
   smallInput: {
     position: 'absolute',
     height: 45,
-    left: '2.56%', 
+    left: '2.56%',
     right: '34.62%',
     backgroundColor: '#F4F4F4',
     borderColor: '#D9D9D9',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   podo: {
     position: 'absolute',
     top: 132,
-    fontFamily:'Pretendard-ExtraBold',
+    fontFamily: 'Pretendard-ExtraBold',
     lineHeight: 40,
     fontSize: 40,
     textAlign: 'center',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     color: '#3BCDA1',
   },
   postDonation: {
-    fontFamily:'Pretendard-Bold',
+    fontFamily: 'Pretendard-Bold',
     position: 'absolute',
     top: 167,
     fontSize: 14,
@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
     color: '#3BCDA1',
   },
   PretendardRegular: {
-    fontFamily:'Pretendard-Regular',
+    fontFamily: 'Pretendard-Regular',
   },
   PretendardBold: {
-    fontFamily:'Pretendard-Bold',
+    fontFamily: 'Pretendard-Bold',
   },
   smalltouchbox: {
     position: 'absolute',
@@ -86,9 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
     alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
-    
-
-  },  
+  },
   touchbox: {
     position: 'absolute',
     left: '2.56%',
@@ -98,7 +96,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
     alignItems: 'center', // 텍스트를 가로로 중앙에 위치시키기 위해 추가
-    
   },
   registerText: {
     position: 'absolute',
@@ -113,10 +110,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#FEE500',
     top: 532,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   innerContainer: {
-    flexDirection: 'row',  // 가로로 배열
+    flexDirection: 'row', // 가로로 배열
     justifyContent: 'center', // 가운데 정렬
     alignItems: 'center', // 세로 방향으로도 가운데 정렬
   },
@@ -139,10 +136,9 @@ const styles = StyleSheet.create({
     color: '#3BCDA1',
   },
 
-
   listItem: {
     width: '45%',
-    marginTop: '5%'
+    marginTop: '5%',
   },
   image: {
     aspectRatio: 1,
@@ -151,35 +147,32 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   brandtext: {
-    fontFamily:'Pretendard-Regular',
+    fontFamily: 'Pretendard-Regular',
     fontSize: 10,
     color: '#8C8989',
     marginTop: '5%',
-    left: 1
-
+    left: 1,
   },
   itemName: {
-    fontFamily:'Pretendard-Regular',
+    fontFamily: 'Pretendard-Regular',
     fontSize: 12,
-    color: '#000000', 
-    marginTop: '3%' 
+    color: '#000000',
+    marginTop: '3%',
   },
   price: {
-    fontFamily:'Pretendard-Medium',
+    fontFamily: 'Pretendard-Medium',
     fontSize: 14,
     color: '#000000',
-    marginTop: '3%'
-
+    marginTop: '3%',
   },
   columnWrapper: {
     justifyContent: 'space-between',
   },
   navtext: {
-    fontFamily:'Pretendard-Regular',
+    fontFamily: 'Pretendard-Regular',
     fontSize: 14,
-  }
+  },
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
 
 export default styles;
-

@@ -13,12 +13,11 @@ import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 import timer from '../../CommonMethods/timer';
 
-const ForgotPasswordScreen = ({navigation}) => {
+const ForgotPasswordScreen2 = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
   const [codeSent, setCodeSent] = useState(false);
-  const [emailValid, setEmailValid] = useState(null);
   const [checkCode, setCheckCode] = useState(false);
   const {timeRemaining, isExpired, startTimer} = timer(300);
 
@@ -74,25 +73,21 @@ const ForgotPasswordScreen = ({navigation}) => {
       <TextInput
         placeholder="인증번호"
         editable={!checkCode}
-        style={[styles.Input, {top: 220}]}
+        style={[styles.Input, {top: 120}]}
         onChangeText={code => setVerificationCode(code)}
       />
 
-      <TouchableOpacity style={[styles.touchbox, {top: 130}]}>
-        <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize: 16}]}>
-          인증번호 전송
-        </Text>
-      </TouchableOpacity>
-
       <TouchableOpacity
         onPress={() => {
-          checkRandomCode();
+          // checkRandomCode();
           // 이후에 필요한 다른 동작을 추가할 수 있습니다.
-          navigation.navigate('ForgotPasswordScreen'); // 예를 들어 다음 화면으로 이동할 수 있습니다.
+          navigation.navigate('PasswordResetScreen'); // 예를 들어 다음 화면으로 이동할 수 있습니다.
           // clearInterval() 또는 다른 동작을 추가할 수 있습니다.
         }}
-        style={[styles.touchbox, {top: 280}]}>
-        <Text style={styles.PretendardBold}>인증번호 확인</Text>
+        style={[styles.touchbox, {top: 170}]}>
+        <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize: 16}]}>
+          인증번호 확인
+        </Text>
       </TouchableOpacity>
 
       <Text style={[styles.title, {top: 330}]}>
@@ -102,4 +97,4 @@ const ForgotPasswordScreen = ({navigation}) => {
   );
 };
 
-export default ForgotPasswordScreen;
+export default ForgotPasswordScreen2;
