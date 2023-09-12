@@ -20,13 +20,16 @@ const ForgotPasswordScreen = ({navigation}) => {
   const [codeSent, setCodeSent] = useState(false);
   const [emailValid, setEmailValid] = useState(null);
   const [checkCode, setCheckCode] = useState(false);
-  const emailRegEx =
-    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+  const {timeRemaining, isExpired, startTimer} = timer(300);
 
-  const emailCheck = inputEmail => {
-    setEmail(inputEmail);
-    setEmailValid(emailRegEx.test(inputEmail));
+  const formatTime = seconds => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, '0')}:${sec
+      .toString()
+      .padStart(2, '0')}`;
   };
+
   const createRandomCode = () => {
     return String(Math.floor(Math.random() * 1000000)).padStart(6, '0');
   };
@@ -54,38 +57,6 @@ const ForgotPasswordScreen = ({navigation}) => {
     }
   };
 
-  const emailAuthentication = async () => {
-    setCodeSent(true);
-    if (!emailValid) {
-      Alert.alert('오류', '유효한 이메일 주소를 적어주세요.');
-      return;
-    }
-    const code = createRandomCode();
-    setGeneratedCode(code);
-    let dataToSend = {user_email: email, randomCode: code, purpose: 'password'};
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-    const response = await fetch(PreURL.preURL + '/api/emailAuth', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    });
-    const data = await response.json();
-    if (data.success) {
-      startTimer();
-      Alert.alert('성공', '인증 메일이 전송되었습니다.');
-    } else {
-      Alert.alert('오류', data.message || '메일 전송 실패');
-      setCodeSent(false);
-    }
-  };
   return (
     <SafeAreaView style={[styles.container]}>
       <Text style={[styles.title, {top: 20}]}>
@@ -107,19 +78,26 @@ const ForgotPasswordScreen = ({navigation}) => {
         onChangeText={code => setVerificationCode(code)}
       />
 
-      <TouchableOpacity
-        onPress={() => {
-          emailAuthentication(); // 이메일 인증 요청을 먼저 수행합니다.
-
-          // 이후에 필요한 다른 동작을 추가할 수 있습니다.
-          navigation.navigate('ForgotPasswordScreen2'); // 예를 들어 다음 화면으로 이동할 수 있습니다.
-          // clearInterval() 또는 다른 동작을 추가할 수 있습니다.
-        }}
-        style={[styles.touchbox, {top: 130}]}>
+      <TouchableOpacity style={[styles.touchbox, {top: 130}]}>
         <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize: 16}]}>
           인증번호 전송
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => {
+          checkRandomCode();
+          // 이후에 필요한 다른 동작을 추가할 수 있습니다.
+          navigation.navigate('ForgotPasswordScreen'); // 예를 들어 다음 화면으로 이동할 수 있습니다.
+          // clearInterval() 또는 다른 동작을 추가할 수 있습니다.
+        }}
+        style={[styles.touchbox, {top: 280}]}>
+        <Text style={styles.PretendardBold}>인증번호 확인</Text>
+      </TouchableOpacity>
+
+      <Text style={[styles.title, {top: 330}]}>
+        {formatTime(timeRemaining)}
+      </Text>
     </SafeAreaView>
   );
 };
