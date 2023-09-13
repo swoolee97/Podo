@@ -4,11 +4,7 @@ import { StyleSheet, Alert } from "react-native";
 import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
-import PreURL from '../../PreURL/PreURL';
-import { checkLoginStatus } from '../../CommonMethods/CheckLoginStatus';
-import styles from '../Styles/Styles.js';
-import Toast from 'react-native-toast-message';
-import FocusableInput from "../Styles/FocusableInput"
+
 const MyPageScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
 
