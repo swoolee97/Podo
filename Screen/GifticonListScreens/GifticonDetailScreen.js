@@ -6,7 +6,8 @@ import { Image } from 'react-native'
 import styles from '../Styles/Styles.js';
 import favoriteImage from '../../images/Favorite.png';
 import heartImage from '../../images/Heart2.png';
-
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const GifticonDetailScreen = ({ navigation, route }) => {
     const gifticonId = route.params.gifticonId;
     const [gifticon, setGifticon] = useState(null);
@@ -25,7 +26,7 @@ const GifticonDetailScreen = ({ navigation, route }) => {
     })
     const handleBuyPress = async () => {
         const email = await AsyncStorage.getItem('user_email')
-        const gifticonResponse = await fetch(PreURL.preURL + `/api/gifticon/buy`, {
+        const response = await fetch(PreURL.preURL + `/api/gifticon/buy`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,15 +36,12 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                 email
             })
         })
-        const gifticonData = await gifticonResponse.json();
-        const pointResponse = await fetch(PreURL.preURL + `/api/point/sum?email=${email}`)
-        const pointData = await pointResponse.json();
-        console.log(gifticonData.gifticon.price)
-        console.log(pointData.sum)
-        // if(!response.ok){
-        //     return Alert.alert(gifticonData.message)
-        // }
-        // 여기다가 창 뜨는거
+        const data = await response.json();
+        if(!data.buy){
+            return Alert.alert(`${data.message}`)
+        }else{
+            return Alert.alert(`${data.message}`)
+        }
 
     }
 
@@ -96,7 +94,14 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {
-                    navigation.navigate('PurchaseScreen', { gifticon })
+                    Alert.alert('구매 확인', '정말 구매하시겠어요?', [
+                        {
+                            text: 'Cancel',
+                            onPress: () => console.log('구매 취소'),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => handleBuyPress() },
+                    ]);
                 }
                 }
                     style={{
@@ -110,19 +115,6 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                     }}
                 >
                     <Text style={styles.buttonText}>구매하기</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <TouchableOpacity onPress={() => {
-                    Alert.alert('구매 확인', '정말 구매하시겠어요?', [
-                        {
-                            text: 'Cancel',
-                            onPress: () => console.log('구매 취소'),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => handleBuyPress() },
-                    ]);
-                }}><Text>구매하기</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

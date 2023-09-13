@@ -4,6 +4,8 @@ import { StyleSheet, Alert } from "react-native";
 import { View, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useIsFocused } from '@react-navigation/native';
+import PreURL from '../../PreURL/PreURL';
+import styles from '../Styles/Styles';
 
 const MyPageScreen = ({ navigation }) => {
     const [userEmail, setUserEmail] = useState(null)
@@ -45,7 +47,7 @@ const MyPageScreen = ({ navigation }) => {
             const data = await response.json();
             AsyncStorage.removeItem('accessToken')
             AsyncStorage.removeItem('user_email')
-            Toast.hide();
+            // Toast.hide();
             Alert.alert(`${data.message}`)
             navigation.replace('MyPageScreen')
         }
