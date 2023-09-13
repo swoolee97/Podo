@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
         try {
             result = await login();
         } catch (error) {
-            return;
+            return Alert.alert('오류');
         }
         if (result) {
             let profile = await getProfile();

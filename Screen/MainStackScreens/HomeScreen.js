@@ -21,11 +21,9 @@ const HomeScreen = ({ navigation }) => {
     const fetchUserDetails = async (user_email) => {
         if (user_email) {
             try {
-                const [pointResponse, missionResponse] = await Promise.all([
-                    fetch(PreURL.preURL + `/api/point/points?user_email=${user_email}`),
-                    fetch(PreURL.preURL + `/api/mission/isMissionCompleted?user_email=${user_email}`)
-                ]);
-
+                
+                const pointResponse = await fetch(PreURL.preURL + `/api/point/sum?email=${user_email}`)
+                const missionResponse = await fetch(PreURL.preURL + `/api/mission/isMissionCompleted?email=${user_email}`)
                 if (!pointResponse.ok) {
                     throw new Error(`HTTP Error in pointResponse: ${pointResponse.status}`);
                 }
@@ -34,11 +32,7 @@ const HomeScreen = ({ navigation }) => {
                 }
                 const pointData = await pointResponse.json();
                 const missionData = await missionResponse.json();
-
-                if (pointData && pointData.point !== undefined) {
-                    setUserPoints(pointData.point);
-                }
-
+                setUserPoints(pointData.sum)
                 if (!missionData.completed) {
                     showMissionIncompleteToast();
                 }
@@ -116,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('PointDetailScreen')
                 }}>
-                    <Text>포인트 적립내역화면: {userPoints} 포인트</Text>
+                    <Text>총 {userPoints} 포인트</Text>
                 </TouchableOpacity>
             </View>
         )}
