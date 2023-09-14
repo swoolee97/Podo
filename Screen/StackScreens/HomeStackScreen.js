@@ -6,10 +6,10 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import UploadGifticon from "../../UploadGifticon"
 import PointDetailScreen from "../MainStackScreens/PointDetailScreen"
-import WishListScreen from "../MainStackScreens/WishListScreen"
+// import WishListScreen from "../MyPageStackScreens/WishListScreen"
 import MissionDetailScreen from "../MissionStackScreens/MissionDetailScreen"
 import NotificationScreen from "../MainStackScreens/NotificationScreen"
-import DonationHistoryScreen from "../MainStackScreens/DonationHistory"
+// import DonationHistoryScreen from "../MyPageStackScreens/DonationHistory"
 import AuthStackScreen from "./AuthStackScreen"
 
 const Stack = createStackNavigator()
@@ -33,8 +33,6 @@ const HomeScreenStack = ({ navigation, route }) => {
                 )
             }}></Stack.Screen>
             <Stack.Screen component={PointDetailScreen} name = "PointDetailScreen"></Stack.Screen>
-            <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
-            <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
             <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
             <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"></Stack.Screen>
             <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
