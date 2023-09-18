@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, FlatList, Text, Image, Button, ScrollView,Dimensions, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, Image, Button, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
@@ -34,9 +34,6 @@ const CommunityScreen = () => {
       console.error('There was an error fetching data', error);
     }
   };
-
-  const isLargeScreen = windowDimensions.width >= 500;
-
   const goToPostDetail = (post) => {
     navigation.navigate('CommunityDetail', post);
   };
@@ -53,22 +50,22 @@ const CommunityScreen = () => {
             <View style={styles.listItem}>
               <TouchableOpacity  onPress={() => goToPostDetail(item)}>
                 {Array.isArray(item.imageUrl) && (
-                  <ScrollView 
+                  <ScrollView  style={{width: '100%', aspectRatio: 1}}
                     horizontal={true} 
                     pagingEnabled={true} 
-                    showsHorizontalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={true}
                   >
-                    {item.imageUrl.map((uri, index) => (
-                          <View style={styles.imageContainer} key={index}>
-                            <Image source={{ uri }} style={styles.image}/>
-                          </View>
+                    {item.imageUrl.map((uri) => (
+                          
+                      <Image source={{ uri }} style={styles.image}/>
+                          
                     ))}
                   </ScrollView>
                 )}
-                <Text style={styles.itemName}>{item.text}</Text>
+                <Text style={styles.price}>{item.text}</Text>
               </TouchableOpacity>
-              <Text  style={styles.price}>{item.email}</Text>
-              <Text style={styles.brandtext}>작성 시간: {new Date(item.createdAt).toLocaleString()}</Text>
+              <Text  style={styles.itemName}>{item.email}</Text>
+              <Text style={styles.brandtext}>{new Date(item.createdAt).toLocaleString()}</Text>
             </View>
           )}
           numColumns={2}
