@@ -80,7 +80,7 @@ const UploadGifticon = ({ }) => {
             }
             else if (response.status == 500) {
                 Alert.alert(`${data.message}`)
-            } else {
+            }else{
                 Alert.alert(`${data.message}`)
             }
 
@@ -94,7 +94,7 @@ const UploadGifticon = ({ }) => {
             <TouchableOpacity onPress={() => showPicker(setImageUris)}>
                 <Text>기프티콘 찾기</Text>
             </TouchableOpacity>
-            {imageUris && imageUris.length > 0 && <Image source={{ uri: imageUris[0] }} style={{ width: 200, height: 200 }} />}
+            {imageUris && <Image source={{ uri: imageUris[0] }} style={{ width: 200, height: 200 }} />}
 
             <TouchableOpacity onPress={() => sendImage()}
                 disabled={!imageUris}>
