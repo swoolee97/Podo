@@ -99,8 +99,8 @@ const MyPageScreen = ({ navigation }) => {
                     <Text>미션 완료 리스트</Text>
                 </TouchableOpacity>
             </View>
-            <Text style={[styles.lefttext, {top: '30%'}]}>기부 내역</Text>
-            <Text style={[styles.lefttext, {top: '60%'}]}>교환 내역</Text>
+            {/* <Text style={[styles.lefttext, {top: '30%'}]}>기부 내역</Text> */}
+            {/* <Text style={[styles.lefttext, {top: '60%'}]}>교환 내역</Text> */}
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('PurchaseHistory')
