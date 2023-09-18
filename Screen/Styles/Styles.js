@@ -7,9 +7,10 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    position: 'absolute',
+    fontFamily: 'Pretendard-Bold',
+    textAlign: 'center',
     fontSize: 20,
-    fontWeight: 'bold',
+    color: '#000000',
   },
   lefttext: {
     fontFamily:'Pretendard-Regular',

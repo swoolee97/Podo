@@ -121,9 +121,13 @@ const ForgotPasswordScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={checkRandomCode}style={[styles.touchbox, {top: 280}]}>
-          <Text style={styles.PretendardBold}>인증번호 확인</Text>
+          <Text style={[styles.PretendardBold, {color: '#ffffff', fontSize:16}]}>인증번호 확인</Text>
         </TouchableOpacity>
-        <Text style = {[styles.title,{top : 330}]}>{formatTime(timeRemaining)}</Text>
+        {codeSent && (   
+          <Text style={[styles.timeout, {top:232, right:'5%'}]} >
+            {formatTime(timeRemaining)}
+          </Text>
+        )}
     </SafeAreaView>
   );
 };
