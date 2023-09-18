@@ -1,6 +1,7 @@
 import React, { useState, useEffect  } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
+import {SafeAreaView, View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
+import styles from '../Styles/Styles';
 // 비밀번호 정규식 검사는 나중에. 로그인하기 편하게 일단 빼둠
 const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$#!%*?&])[A-Za-z\d@$#!%*?&]{8,20}$/;
 const PasswordResetScreen = ({ route, navigation }) => {
@@ -44,13 +45,15 @@ const PasswordResetScreen = ({ route, navigation }) => {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>비밀번호 재설정</Text>
-
+        <SafeAreaView style={styles.container}>
+            <Text style={[styles.title, {top:20}]}>새로운 비밀번호를 입력해주세요.</Text>
+            {newPassword &&(<Text style={[styles.PretendardRegular, {position:'absolute',top:60, right:"3%", color:'#ff2f2f'}]}>
+                {passwordValid == null ? '' : passwordValid ? 'OK' :'숫자, 영문, 특수문자(@$#!%*?&)를 포함해야 합니다.'}
+            </Text>)}
             <TextInput
                 placeholder="새로운 비밀번호"
                 secureTextEntry
-                style={styles.input}
+                style={[styles.Input, {top:83}]}
                 onChangeText={(newPassword) => {
                     setNewPassword(newPassword)
                     passwordCheck(newPassword);
@@ -61,58 +64,25 @@ const PasswordResetScreen = ({ route, navigation }) => {
                     }
                 }}
             />
-            <Text style={[styles.PretendardRegular, { position: 'absolute', top: 306, right: "3%", color: '#ff2f2f' }]}>
-                {passwordValid == null ? '' : passwordValid ? 'OK' : '특수문자,영문,숫자를 포함해야 합니다'}
-            </Text>
+            
+            {checkPassword && (<Text style={[styles.PretendardRegular, {position:'absolute',top:137, right:"3%", color:'#ff2f2f'}]}>
+                {doubleCheck == null ? '' : doubleCheck ? 'OK' : '비밀번호가 일치하지 않습니다.'}
+            </Text>)}
             <TextInput
                 placeholder="비밀번호 확인"
                 secureTextEntry
-                style={styles.input}
+                style={[styles.Input, {top:160}]}
                 onChangeText={(confirmPassword) => {
                     passwordDoubleCheck(confirmPassword)
                 }}
             />
-            <Text style={[styles.PretendardRegular, { position: 'absolute', top: 356, right: "3%", color: '#ff2f2f' }]}>
-                {doubleCheck == null ? '' : doubleCheck ? 'OK' : '비밀번호가 일치하지 않습니다'}
-            </Text>
-            <TouchableOpacity onPress={handlePasswordReset} style={styles.button}>
+            
+            <TouchableOpacity onPress={handlePasswordReset} style={[styles.touchbox, {top: 223}]}>
                 <Text style={styles.buttonText}>비밀번호 재설정</Text>
             </TouchableOpacity>
-        </ScrollView>
+        </SafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20,
-    },
-    input: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        borderRadius: 8,
-    },
-    button: {
-        backgroundColor: '#4e9bde',
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 10,
-    },
-    buttonText: {
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: 18,
-    },
-});
 
 export default PasswordResetScreen;
