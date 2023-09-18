@@ -87,6 +87,13 @@ const MyPageScreen = ({ navigation }) => {
             </View>
             <View style={styles.section}>
                 <TouchableOpacity onPress={() => {
+                    navigation.navigate('PointListScreen')
+                }}>
+                    <Text>적립내역</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.section}>
+                <TouchableOpacity onPress={() => {
                     navigation.navigate('WishListScreen')
                 }}>
                     <Text>장바구니화면</Text>

@@ -41,6 +41,7 @@ const UploadGifticon = ({ }) => {
         const accessToken = await AsyncStorage.getItem('accessToken')
         try {
             const preURL = PreURL.preURL
+            console.log(preURL + '/api/gifticon/upload')
             const response = await fetch(preURL + '/api/gifticon/upload', {
                 method: 'POST',
                 body: formData,
@@ -80,7 +81,7 @@ const UploadGifticon = ({ }) => {
             }
             else if (response.status == 500) {
                 Alert.alert(`${data.message}`)
-            }else{
+            } else {
                 Alert.alert(`${data.message}`)
             }
 
@@ -94,7 +95,7 @@ const UploadGifticon = ({ }) => {
             <TouchableOpacity onPress={() => showPicker(setImageUris)}>
                 <Text>기프티콘 찾기</Text>
             </TouchableOpacity>
-            {imageUris && <Image source={{ uri: imageUris[0] }} style={{ width: 200, height: 200 }} />}
+            {imageUris && imageUris.length > 0 && <Image source={{ uri: imageUris[0] }} style={{ width: 200, height: 200 }} />}
 
             <TouchableOpacity onPress={() => sendImage()}
                 disabled={!imageUris}>

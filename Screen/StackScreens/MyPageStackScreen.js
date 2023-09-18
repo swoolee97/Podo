@@ -15,6 +15,7 @@ import DonationHistoryScreen from "../MyPageStackScreens/DonationHistory";
 import WishListScreen from "../MyPageStackScreens/WishListScreen";
 import AuthStackScreen from "./AuthStackScreen";
 import MissionCompletedList from "../MissionStackScreens/MissionCompletedList";
+import PointListScreen from "../MyPageStackScreens/PointListScreen";
 const Stack = createStackNavigator()
 const MyPageStackScreen = ({ navigation, route }) => {
     
@@ -31,6 +32,7 @@ const MyPageStackScreen = ({ navigation, route }) => {
             <Stack.Screen name="MyPageScreen" component={MyPageScreen} options={{ headerShown: true }} />
             <Stack.Screen name="Profile" component={Profile} options={{}} />
             <Stack.Screen name="WishListScreen" component={WishListScreen}/>
+            <Stack.Screen name = "PointListScreen" component={PointListScreen}/>
             <Stack.Screen name="DonationHistoryScreen" component = {DonationHistoryScreen}/>
             <Stack.Screen name="MissionCompletedList" component={MissionCompletedList} options={{}} />
             <Stack.Screen name="Certification" component={Certification} options={{ headerShown: true }} />
