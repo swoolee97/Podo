@@ -41,7 +41,6 @@ const UploadGifticon = ({ }) => {
         const accessToken = await AsyncStorage.getItem('accessToken')
         try {
             const preURL = PreURL.preURL
-            console.log(preURL + '/api/gifticon/upload')
             const response = await fetch(preURL + '/api/gifticon/upload', {
                 method: 'POST',
                 body: formData,
