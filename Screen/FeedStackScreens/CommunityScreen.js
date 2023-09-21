@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
+import myPageIcon from '../../images/Profileicon.png';
 
 const { width } = Dimensions.get('window');
 const itemWidth = width / 2-10;
@@ -49,18 +50,8 @@ const CommunityScreen = () => {
           renderItem={({ item }) => (
             <View style={styles.listItem}>
               <TouchableOpacity  onPress={() => goToPostDetail(item)}>
-                {Array.isArray(item.imageUrl) && (
-                  <ScrollView  style={{width: '100%', aspectRatio: 1}}
-                    horizontal={true} 
-                    pagingEnabled={true} 
-                    showsHorizontalScrollIndicator={true}
-                  >
-                    {item.imageUrl.map((uri) => (
-                          
-                      <Image source={{ uri }} style={styles.image}/>
-                          
-                    ))}
-                  </ScrollView>
+                {Array.isArray(item.imageUrl) && item.imageUrl.length > 0 && (
+                    <Image source={{ uri: item.imageUrl[0] }} style={styles.image}/>
                 )}
                 <Text style={styles.price}>{item.text}</Text>
               </TouchableOpacity>

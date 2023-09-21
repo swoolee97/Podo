@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: '#A1A1A1',
     borderWidth: 1,
+  
   },
   brandtext: {
     fontFamily:'Pretendard-Regular',
