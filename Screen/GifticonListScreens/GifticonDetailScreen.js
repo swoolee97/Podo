@@ -53,7 +53,7 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                     <View style={{ marginTop: '10%' }}>
                         <View style={{ width: '60%', left: '20%' }}>
                             <Image
-                                source={{ uri: gifticon.url }}
+                                source={{ uri: gifticon.image_url }}
                                 style={styles.image}
                             />
                         </View>
