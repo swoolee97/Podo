@@ -36,12 +36,14 @@ const UploadGifticon = ({ }) => {
             setImageUris(images.map(image => image.path));
         });
     }
+
     const sendImage = async () => {
         const user_email = await AsyncStorage.getItem('user_email')
         const accessToken = await AsyncStorage.getItem('accessToken')
         try {
             const preURL = PreURL.preURL
-            const response = await fetch(preURL + '/api/gifticon/upload', {
+            // const response = await fetch(preURL + '/api/gifticon/upload', {
+                const response = await fetch('http://3.36.92.49:8000/upload', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -50,6 +52,16 @@ const UploadGifticon = ({ }) => {
                 }
             })
             const data = await response.json();
+            return navigation.navigate('ModifyGifticonScreen',{
+                data,
+                formData,
+            })
+
+            if(data.result.coupon_status != "사용안함"){
+                return Alert.alert("사용하지 않은 기프티콘을 올려주세요");
+            }
+            navigation.navigate('')
+
             if (response.status == 200) {
                 await AsyncStorage.setItem('accessToken', data.accessToken)
                 Alert.alert(`${data.message}`)
