@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, Alert } from 'react-native';
+import { Text, View, Image, Alert,StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 //카메라, 앨범 접근 라이브러리
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -102,18 +102,53 @@ const UploadGifticon = ({ }) => {
     }
 
     return (
-        <View>
-            <TouchableOpacity onPress={() => showPicker(setImageUris)}>
-                <Text>기프티콘 찾기</Text>
+        <View style={styles.container}>
+            {imageUris && <Image source={{ uri: imageUris[0] }} style={styles.image} />}
+            <TouchableOpacity 
+                style={styles.button} 
+                onPress={() => showPicker(setImageUris)}>
+                <Text style={styles.buttonText}>기프티콘 찾기</Text>
             </TouchableOpacity>
-            {imageUris && <Image source={{ uri: imageUris[0] }} style={{ width: 200, height: 200 }} />}
 
-            <TouchableOpacity onPress={() => sendImage()}
+            <TouchableOpacity 
+                style={[styles.button, !imageUris && styles.disabledButton]} 
+                onPress={() => sendImage()}
                 disabled={!imageUris}>
-                <Text>기부하기</Text>
+                <Text style={styles.buttonText}>기부하기</Text>
             </TouchableOpacity>
         </View>
     );
 };
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        backgroundColor: '9d8dff'
+    },
+    button: {
+        marginVertical: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        backgroundColor: '#9d8dff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    disabledButton: {
+        backgroundColor: '#9d8dff'
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    image: {
+        width: 200,
+        height: 200,
+        borderRadius: 10,
+        marginVertical: 15
+    }
+});
 export default UploadGifticon;

@@ -46,55 +46,74 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
         // console.log(data)
     }
     return (
-        <View>
-            <View>
-                <Image source={{ uri: result.image_url }}
-                    style={styles.image} />
-                <Text>이름</Text>
-                <FocusableInput>
-                    {result.name}
-                </FocusableInput>
-                <Text>
-                    유효기간
-                </Text>
-                <Text>년</Text>
-                <FocusableInput>
-                    {expiration_date.getFullYear()}
-                </FocusableInput>
-                <Text>
-                    월
-                </Text>
-                <FocusableInput>
-                    {expiration_date.getMonth()}
-                </FocusableInput>
-                <Text>
-                    일
-                </Text>
-                <FocusableInput>
-                    {expiration_date.getUTCDate()}
-                </FocusableInput>
+        <View style={styles.container}>
+            <Text>추출된 기프티콘 정보를 확인해주세요.</Text>
+            
+            <Image source={{ uri: result.image_url }} style={styles.image} />
+
+            <View style={styles.field}>
+                <Text style={styles.label}>상품명</Text>
+                <TextInput style={styles.input} value={result.name}
+                multiline={true} 
+                numberOfLines={4} />
+            </View>
+
+            <View style={styles.field}>
+                <Text style={styles.label}>유효기간</Text>
+                <TextInput style={styles.input} value={`${expiration_date.getFullYear()}년`} />
+                <TextInput style={styles.input} value={`${expiration_date.getMonth()}월`} />
+                <TextInput style={styles.input} value={`${expiration_date.getUTCDate()}일`} />
             </View>
 
             <View>
-                <TouchableOpacity onPress={fetchGifticon}>
-                    <Text>
-                        보내기
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={fetchGifticon} style={styles.button}>
+                <Text style={styles.buttonText}>기부하기</Text>
+            </TouchableOpacity>
+        </View>
         </View>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        padding: 20,
     },
     image: {
-        width: 200,
+        width: '100%',
         height: 200,
-    }
+        resizeMode: 'contain',
+        marginBottom: 20,
+    },
+    field: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    label: {
+        flex: 2,
+        fontSize: 10,
+    },
+    input: {
+        flex: 4,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        borderRadius: 5,
+        fontSize: 16,
+    },
+    button: {
+        marginTop: 20,
+        backgroundColor: '#9d8dff',
+        padding: 15,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });
 
 export default ModifyGifticonScreen
