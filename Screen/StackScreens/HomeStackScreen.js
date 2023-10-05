@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Button } from "react-native"
+import { Button,Text } from "react-native"
 
 import HomeScreen from "../MainStackScreens/HomeScreen"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
@@ -16,6 +16,7 @@ import ModifyGifticonScreen from "../GifticonListScreens/ModifyGifticonScreen"
 const Stack = createStackNavigator()
 
 const HomeScreenStack = ({ navigation, route }) => {
+    const [headerPoints, setHeaderPoints] = useState(0);
     React.useLayoutEffect(() => {
         const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen'
         if (routeName != 'HomeScreen') {
@@ -27,10 +28,14 @@ const HomeScreenStack = ({ navigation, route }) => {
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
             <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
+                headerLeft: () => (
+                    <Text style={{ marginLeft: 15 }}>포인트 현황: {headerPoints}</Text>
+                ),
                 headerRight: () => (
                     <Button title='기프티콘등록' onPress={() => {
                         navigation.navigate('UploadGifticon')
-                    }} />
+                    }}
+                    initialParams={{ setHeaderPoints }} />
                 )
             }}></Stack.Screen>
             <Stack.Screen component={PointDetailScreen} name = "PointDetailScreen"></Stack.Screen>
