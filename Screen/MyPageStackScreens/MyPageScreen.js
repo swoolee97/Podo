@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Alert } from "react-native";
 import { View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { useIsFocused } from '@react-navigation/native';
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles';
@@ -68,13 +68,6 @@ const MyPageScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => {
                     navigation.navigate('Profile', { screen: 'Profile' })
                 }}><Text>프로필 관리</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={[styles.touchbox, {position:'relative' ,}]}>
-                <TouchableOpacity onPress={() => {
-                    handleCertificationScreen();
-                }}><Text style = {styles.buttonText}>수혜자 인증받기</Text>
                 </TouchableOpacity>
             </View>
             

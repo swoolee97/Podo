@@ -6,6 +6,7 @@ import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 import myPageIcon from '../../images/Profileicon.png';
 
+
 const { width } = Dimensions.get('window');
 const itemWidth = width / 2-10;
 const CommunityScreen = () => {
@@ -53,10 +54,20 @@ const CommunityScreen = () => {
                 {Array.isArray(item.imageUrl) && item.imageUrl.length > 0 && (
                     <Image source={{ uri: item.imageUrl[0] }} style={styles.image}/>
                 )}
-                <Text style={styles.price}>{item.text}</Text>
               </TouchableOpacity>
-              <Text  style={styles.itemName}>{item.email}</Text>
-              <Text style={styles.brandtext}>{new Date(item.createdAt).toLocaleString()}</Text>
+
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:'5%'}}>
+                  <Image 
+                    source={myPageIcon}
+                    style={{ width: '15%', aspectRatio:1, borderRadius: 20, backgroundColor:'grey', marginRight: 10 }} 
+                  />
+                  <Text  style={styles.itemName}>{item.email.split('@')[0]}</Text>
+                </View>
+                <TouchableOpacity  onPress={() => goToPostDetail(item)}>
+                  <Text style={styles.price} numberOfLines={1} ellipsizeMode="tail">
+                    {item.text}
+                  </Text>  
+                </TouchableOpacity>
             </View>
           )}
           numColumns={2}

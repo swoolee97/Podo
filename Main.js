@@ -1,5 +1,5 @@
-import React from "react"
-import { Image, Text } from 'react-native';
+import React from "react";
+import { Image, Text, Keyboard } from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createStackNavigator } from "@react-navigation/stack"
 import HomeStackScreen from "./Screen/StackScreens/HomeStackScreen"
@@ -19,7 +19,15 @@ const Stack = createStackNavigator()
 const Main = () => {
     return (
             <Tab.Navigator
-
+            screenOptions={{
+                tabBarHideOnKeyboard: true,
+                tabBarStyle: [
+                    {
+                        display: "flex"
+                    },
+                    null
+                ]
+            }}
             >
                 <Tab.Screen name="홈" 
                 component={HomeStackScreen}
