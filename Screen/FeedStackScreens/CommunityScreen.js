@@ -59,12 +59,12 @@ const CommunityScreen = () => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:'5%'}}>
                   <Image 
                     source={myPageIcon}
-                    style={{ width: '15%', aspectRatio:1, borderRadius: 20, backgroundColor:'grey', marginRight: 10 }} 
+                    style={{ width: '13%', aspectRatio:1, borderRadius: 20, backgroundColor:'grey', marginRight: 10 }} 
                   />
                   <Text  style={styles.itemName}>{item.email.split('@')[0]}</Text>
                 </View>
                 <TouchableOpacity  onPress={() => goToPostDetail(item)}>
-                  <Text style={styles.price} numberOfLines={1} ellipsizeMode="tail">
+                  <Text style={[styles.itemName,{marginTop:'2%'}]} numberOfLines={1} ellipsizeMode="tail">
                     {item.text}
                   </Text>  
                 </TouchableOpacity>

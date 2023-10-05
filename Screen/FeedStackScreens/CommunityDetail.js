@@ -53,7 +53,7 @@ const CommunityDetail = ({ route }) => {
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
             <Image 
               source={myPageIcon}
-              style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} 
+              style={{ width: '10%', aspectRatio:1, borderRadius: 30, backgroundColor:'grey', marginRight: 10 }} 
             />
             <View>
               <Text style={styles.itemName}>{email}</Text>
@@ -96,23 +96,20 @@ const CommunityDetail = ({ route }) => {
                 style={{ width: 24, height: 24, marginRight: 10 }} 
               />
             </TouchableOpacity>
-            <Text>{likes}</Text>
-            <TouchableOpacity onPress={toggleComments}>
-              <Text style={{marginLeft:'79%'}}>댓글 {comments.length}개</Text>
-            </TouchableOpacity>
+            <Text style={styles.itemName}>{likes}</Text>
+            
+            <Text style={[styles.itemName,{marginLeft:'77%'}]}>댓글 {comments.length}개</Text>
+            
           </View>
 
           
-          {/* 댓글 개수를 눌렀을 때 댓글 목록 토글 */}
+         
           
-
-          {/* 댓글 목록 */}
-          
-          <Text style={[styles.price,{ marginHorizontal: '3%' }]}>{text}</Text>
+          <Text style={[styles.itemName,{ marginHorizontal: '3%', fontSize:14 }]}>{text}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
             <Image 
               source={myPageIcon}
-              style={{ width: 40, height: 40, borderRadius: 20, marginRight: 10 }} 
+              style={{ width: '10%', aspectRatio:1, borderRadius: 30, backgroundColor:'grey', marginRight: 10 }} 
             />
             <FocusableInput
               value={newComment}

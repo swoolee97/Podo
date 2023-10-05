@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     fontFamily:'Pretendard-Regular',
     fontSize: 12,
     color: '#000000', 
-    marginTop: '3%' 
+    
   },
   price: {
     fontFamily:'Pretendard-Medium',
