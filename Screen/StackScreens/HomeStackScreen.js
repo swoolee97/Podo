@@ -11,6 +11,7 @@ import MissionDetailScreen from "../MissionStackScreens/MissionDetailScreen"
 import NotificationScreen from "../MainStackScreens/NotificationScreen"
 import DonationHistoryScreen from "../MainStackScreens/DonationHistory"
 import AuthStackScreen from "./AuthStackScreen"
+import ModifyGifticonScreen from "../GifticonListScreens/ModifyGifticonScreen"
 
 const Stack = createStackNavigator()
 
@@ -40,6 +41,7 @@ const HomeScreenStack = ({ navigation, route }) => {
             <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
             <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
             <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
+            <Stack.Screen name = "ModifyGifticonScreen" component = {ModifyGifticonScreen}></Stack.Screen>
         </Stack.Navigator>
     )
 }
