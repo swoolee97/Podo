@@ -7,7 +7,7 @@ import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-toast-message'
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userEmail, setUserEmail] = useState(null)
     const isFocused = useIsFocused();
     const [userPoints, setUserPoints] = useState(0);
@@ -52,6 +52,12 @@ const HomeScreen = ({ navigation }) => {
 
         }
     }, [isFocused]);
+
+    useEffect(() => {
+        if (setHeaderPoints) {
+            setHeaderPoints(userPoints);
+        }
+    }, [userPoints]);
 
     const showMissionIncompleteToast = () => {
         Toast.show({
@@ -100,11 +106,6 @@ const HomeScreen = ({ navigation }) => {
             <View style={{}}>
                 <Text>{userEmail}님, 안녕하세요!</Text>
             </View>
-            <View style={{}}>
-                <Text></Text>
-                <Text>나무 그림</Text>
-                <Text></Text>
-            </View>
             {userEmail && (
             <View>
                 <TouchableOpacity onPress={() => {
@@ -122,9 +123,6 @@ const HomeScreen = ({ navigation }) => {
                     <Text>알림화면</Text>
                 </TouchableOpacity>
             </View>
-           
-            
-          
             <View>
                 <TouchableOpacity onPress={async () => {
                     const response = await fetch(PreURL.preURL + '/api/card/fake');
