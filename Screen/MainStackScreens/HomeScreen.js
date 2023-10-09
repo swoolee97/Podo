@@ -1,11 +1,27 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext } from "react";
-import { View, Text, SafeAreaView, Alert } from "react-native";
+import { View, Text, Dimensions, StyleSheet, Alert, Image} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-toast-message'
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
+});
+
+const { width, height } = Dimensions.get('window');
+const isSmallScreen = width < 400 || height < 800;
+
+const grapeImageSize = isSmallScreen ? 210 : 300;
+const grapeCharSize = isSmallScreen ? 55 : 90;
 
 const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userEmail, setUserEmail] = useState(null)
@@ -80,58 +96,12 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         const data = await response.json()
         navigation.navigate('MissionDetailScreen', { data, email })
     }
-    const logout = async () => {
-        const preURL = PreURL.preURL
-        const response = await fetch(preURL + '/api/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                user_email: userEmail
-            })
-        })
-        if (response.status == 200) {
-            const data = await response.json();
-            AsyncStorage.removeItem('accessToken')
-            AsyncStorage.removeItem('user_email')
-            Toast.hide();
-            Alert.alert(`${data.message}`)
-            navigation.replace('HomeScreen')
-        }
 
-    }
     return (
-        <View>
-            <View style={{}}>
-                <Text>{userEmail}님, 안녕하세요!</Text>
-            </View>
-            {userEmail && (
-            <View>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('PointDetailScreen')
-                }}>
-                    <Text>총 {userPoints} 포인트</Text>
-                </TouchableOpacity>
-            </View>
-        )}
-           
-            <View>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('NotificationScreen')
-                }}>
-                    <Text>알림화면</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <TouchableOpacity onPress={async () => {
-                    const response = await fetch(PreURL.preURL + '/api/card/fake');
-                    const data = await response.json();
-                    console.log(data)
-                }}>
-                    <Text>카드생성버튼(임시용)</Text>
-                </TouchableOpacity>
-            </View>
+        <View style={styles.container}>
+            
+            <Image source={require('../../images/grape.png')} style={{ width: grapeImageSize, height: grapeImageSize * 1.5 }} />
+            <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
         </View >
     )
 }

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { Button,Text } from "react-native"
+import { Button,Text,Image,View, Dimensions } from "react-native"
 
 import HomeScreen from "../MainStackScreens/HomeScreen"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import UploadGifticon from "../../UploadGifticon"
-import PointDetailScreen from "../MainStackScreens/PointDetailScreen"
 import WishListScreen from "../MainStackScreens/WishListScreen"
 import MissionDetailScreen from "../MissionStackScreens/MissionDetailScreen"
 import NotificationScreen from "../MainStackScreens/NotificationScreen"
@@ -14,6 +13,9 @@ import AuthStackScreen from "./AuthStackScreen"
 import ModifyGifticonScreen from "../GifticonListScreens/ModifyGifticonScreen"
 
 const Stack = createStackNavigator()
+const { width } = Dimensions.get('window');
+const imageSize = width < 400 ? 20 : 25;  // 화면 너비가 400 미만일 때와 그렇지 않을 때의 이미지 크기
+const marginSize = width < 400 ? 10 : 15;
 
 const HomeScreenStack = ({ navigation, route }) => {
     const [headerPoints, setHeaderPoints] = useState(0);
@@ -27,10 +29,19 @@ const HomeScreenStack = ({ navigation, route }) => {
     }, [navigation, route])
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
-            <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
-                headerLeft: () => (
-                    <Text style={{ marginLeft: 15 }}>포인트 현황: {headerPoints}</Text>
-                ),
+            <Stack.Screen 
+                name='HomeScreen' 
+                component={HomeScreen} 
+                options={{
+                    headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
+                        <Image 
+                            source={require('../../images/point_grape.png')}
+                            style={{ width: imageSize, height: imageSize, marginRight: marginSize }}
+                        />
+                        <Text>{headerPoints}</Text>
+                    </View>
+                        ),
                 headerRight: () => (
                     <Button title='기프티콘등록' onPress={() => {
                         navigation.navigate('UploadGifticon')
@@ -38,7 +49,6 @@ const HomeScreenStack = ({ navigation, route }) => {
                     initialParams={{ setHeaderPoints }} />
                 )
             }}></Stack.Screen>
-            <Stack.Screen component={PointDetailScreen} name = "PointDetailScreen"></Stack.Screen>
             <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
             <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
             <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
