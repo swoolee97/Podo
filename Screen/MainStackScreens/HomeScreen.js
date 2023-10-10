@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
     }
 });
 
@@ -27,6 +28,15 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userEmail, setUserEmail] = useState(null)
     const isFocused = useIsFocused();
     const [userPoints, setUserPoints] = useState(0);
+    const [completedMissions, setCompletedMissions] = useState(0);
+    const [missionData, setMissionData] = useState(null);
+    
+    const grapeImages = [
+        require('../../images/grape.png'),
+        require('../../images/grape1.png'),
+        // ... 나머지 이미지들을 여기에 추가
+      ];
+
     useFocusEffect(
         React.useCallback(() => {
           return () => {
@@ -48,6 +58,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 }
                 const pointData = await pointResponse.json();
                 const missionData = await missionResponse.json();
+                setMissionData(missionData); // 상태 업데이트
                 setUserPoints(pointData.sum)
                 if (!missionData.completed) {
                     showMissionIncompleteToast();
@@ -95,12 +106,18 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         const response = await fetch(PreURL.preURL + `/api/mission/createMission?email=${email}`)
         const data = await response.json()
         navigation.navigate('MissionDetailScreen', { data, email })
-    }
+    };
+
+    useEffect(() => {
+        if (missionData) {
+            setCompletedMissions(missionData.completedMissions);
+        }
+    }, [missionData]);
 
     return (
         <View style={styles.container}>
             
-            <Image source={require('../../images/grape.png')} style={{ width: grapeImageSize, height: grapeImageSize * 1.5 }} />
+            <Image source={grapeImages[completedMissions]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5 }} />
             <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
         </View >
     )
