@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, FlatList, Text, Image, Button, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, FlatList, Text, Image, Button, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
@@ -41,56 +41,45 @@ const CommunityScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{flex:9}}>
-        <FlatList
-          style={{margin: '5%'}}
-          columnWrapperStyle={styles.columnWrapper}
-          data={posts}
-          keyExtractor={(item) => item._id ? item._id.toString() : Math.random().toString()}
-          renderItem={({ item }) => (
-            <View style={styles.listItem}>
-              <TouchableOpacity  onPress={() => goToPostDetail(item)}>
-                {Array.isArray(item.imageUrl) && item.imageUrl.length > 0 && (
-                    <Image source={{ uri: item.imageUrl[0] }} style={styles.image}/>
-                )}
-              </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      
+      <FlatList
+        style={{marginHorizontal: '5%', marginTop: '5%'}}
+        columnWrapperStyle={styles.columnWrapper}
+        data={posts}
+        keyExtractor={(item) => item._id ? item._id.toString() : Math.random().toString()}
+        renderItem={({ item }) => (
+          <View style={styles.listItem}>
+            <TouchableOpacity  onPress={() => goToPostDetail(item)}>
+              {Array.isArray(item.imageUrl) && item.imageUrl.length > 0 && (
+                  <Image source={{ uri: item.imageUrl[0] }} style={styles.image}/>
+              )}
+            </TouchableOpacity>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:'5%'}}>
-                  <Image 
-                    source={myPageIcon}
-                    style={{ width: '13%', aspectRatio:1, borderRadius: 20, backgroundColor:'grey', marginRight: 10 }} 
-                  />
-                  <Text  style={styles.itemName}>{item.email.split('@')[0]}</Text>
-                </View>
-                <TouchableOpacity  onPress={() => goToPostDetail(item)}>
-                  <Text style={[styles.itemName,{marginTop:'2%'}]} numberOfLines={1} ellipsizeMode="tail">
-                    {item.text}
-                  </Text>  
-                </TouchableOpacity>
-            </View>
-          )}
-          numColumns={2}
-        />
-      </View>
-      <View style={{flex:1, justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
-          alignItems: 'center'}}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('WriteCommunity')}
-          style={{
-            marginHorizontal: '5%',
-            width: '90%',
-            height: '70%',
-            backgroundColor: '#3BCDA1',
-            borderRadius: 8,
-            justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
-            alignItems: 'center'}}
-        >
-          <Text style={styles.buttonText}>글쓰기</Text>  
-        
-        </TouchableOpacity>
-      </View>
-    </View>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:'5%'}}>
+                <Image 
+                  source={myPageIcon}
+                  style={{ width: '13%', aspectRatio:1, borderRadius: 20, backgroundColor:'grey', marginRight: 10 }} 
+                />
+                <Text  style={styles.itemName}>{item.email.split('@')[0]}</Text>
+              </View>
+              <TouchableOpacity  onPress={() => goToPostDetail(item)}>
+                <Text style={[styles.itemName,{marginTop:'2%'}]} numberOfLines={1} ellipsizeMode="tail">
+                  {item.text}
+                </Text>  
+              </TouchableOpacity>
+          </View>
+        )}
+        numColumns={2}
+      />
+      
+      <TouchableOpacity
+        onPress={() => navigation.navigate('WriteCommunity')}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>글쓰기</Text>  
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 

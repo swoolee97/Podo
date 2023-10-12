@@ -19,13 +19,15 @@ const Stack = createStackNavigator()
 const MyPageStackScreen = ({ navigation, route }) => {
     
     React.useLayoutEffect(() => {
-        const routeName = getFocusedRouteNameFromRoute(route) ?? 'MyPageScreen';
-        if (routeName != 'MyPageScreen') { //MyPage이외의 화면에 대해 tabBar none을 설정한다.
+        const routeName =
+          getFocusedRouteNameFromRoute(route) ?? 'MyPageScreen';
+        if (routeName != 'MyPageScreen') {
           navigation.setOptions({tabBarStyle: {display: 'none'}});
-        } else {
-          navigation.setOptions({tabBarStyle: {display: undefined}});
+        } 
+        else {
+          navigation.setOptions({tabBarStyle: {display: 'flex', height: 60}});
         }
-      }, [navigation,route]);
+      }, [navigation, route]);
     return (
         <Stack.Navigator initialRouteName="MyPageScreen">
             <Stack.Screen name="MyPageScreen" component={MyPageScreen} options={{ headerShown: true }} />

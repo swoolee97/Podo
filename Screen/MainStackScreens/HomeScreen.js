@@ -101,6 +101,21 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         }
 
     }
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          headerLeft: () => (
+            userEmail && (
+              <TouchableOpacity 
+                onPress={() => {
+                  navigation.navigate('PointDetailScreen');
+                }}
+              >
+                <Text>총 {userPoints} 포인트</Text>
+              </TouchableOpacity>
+            )
+          )
+        });
+      }, [navigation, userEmail, userPoints]);
     return (
         <View>
             <View style={{}}>

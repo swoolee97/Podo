@@ -15,8 +15,9 @@ const SearchingStackScreen = ({navigation, route}) => {
       getFocusedRouteNameFromRoute(route) ?? 'GifticonListScreen';
     if (routeName != 'GifticonListScreen') {
       navigation.setOptions({tabBarStyle: {display: 'none'}});
-    } else {
-      navigation.setOptions({tabBarStyle: {display: undefined}});
+    } 
+    else {
+      navigation.setOptions({tabBarStyle: {display: 'flex', height: 60}});
     }
   }, [navigation, route]);
   return (

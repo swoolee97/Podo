@@ -15,22 +15,21 @@ import ModifyGifticonScreen from "../GifticonListScreens/ModifyGifticonScreen"
 
 const Stack = createStackNavigator()
 
-const HomeScreenStack = ({ navigation, route }) => {
+const HomeStackScreen = ({ navigation, route }) => {
     const [headerPoints, setHeaderPoints] = useState(0);
     React.useLayoutEffect(() => {
-        const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen'
+        const routeName =
+          getFocusedRouteNameFromRoute(route) ?? 'HomeScreen';
         if (routeName != 'HomeScreen') {
-            navigation.setOptions({ tabBarStyle: { display: 'none' } })
-        } else {
-            navigation.setOptions({ tabBarStyle: { display: undefined } })
+          navigation.setOptions({tabBarStyle: {display: 'none'}});
+        } 
+        else {
+          navigation.setOptions({tabBarStyle: {display: 'flex', height: 60}});
         }
-    }, [navigation, route])
+      }, [navigation, route]);
     return (
         <Stack.Navigator initialRouteName="HomeScreen">
             <Stack.Screen name='HomeScreen' component={HomeScreen} options={{
-                headerLeft: () => (
-                    <Text style={{ marginLeft: 15 }}>포인트 현황: {headerPoints}</Text>
-                ),
                 headerRight: () => (
                     <Button title='기프티콘등록' onPress={() => {
                         navigation.navigate('UploadGifticon')
@@ -51,4 +50,4 @@ const HomeScreenStack = ({ navigation, route }) => {
     )
 }
 
-export default HomeScreenStack;
+export default HomeStackScreen;

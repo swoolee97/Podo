@@ -118,7 +118,7 @@ const CommunityDetail = ({ route }) => {
               
               style={{
                 flex:1,
-                height: 40,
+                height: '70%',
                 backgroundColor: '#F4F4F4',
                 borderColor: '#D9D9D9',
                 borderWidth: 1,
