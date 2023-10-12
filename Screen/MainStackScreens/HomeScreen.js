@@ -139,7 +139,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         navigation.setOptions({
           headerLeft: () => (
             userEmail && (
-                <TouchableOpacity onPress={() => navigation.navigate('PointHistoryScreen')}>
+                <TouchableOpacity onPress={() => navigation.navigate('PointHistoryScreen',userEmail)}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
                     <Image 
                         source={require('../../images/point_grape.png')}
