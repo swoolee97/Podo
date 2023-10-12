@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
+import {SafeAreaView ,View, Text, FlatList, Image, ActivityIndicator, RefreshControl, TouchableOpacity } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 
@@ -46,11 +46,11 @@ const GiftIconList = ({navigation}) => {
         navigation.navigate('GifticonDetailScreen',{
             gifticonId : item._id
         })
-    }
+    };
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <TouchableOpacity
-                style={[styles.Input, {top:20, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}]}
+                style={styles.searchbutton}
                 onPress={() => {navigation.navigate('SearchingScreen');}}
             >
                 <Image 
@@ -62,10 +62,9 @@ const GiftIconList = ({navigation}) => {
                     원하는 상품이 있으신가요?
                 </Text>
             </TouchableOpacity>
-
-            
+            <View style={styles.section1}/>
             <FlatList 
-                style={{top:70, marginHorizontal: '5%'}}
+                style={{marginHorizontal: '5%'}}
                 columnWrapperStyle={styles.columnWrapper}
                 data={gifts}
                 numColumns={2}
@@ -92,7 +91,7 @@ const GiftIconList = ({navigation}) => {
                 }
             />
             
-        </View>
+        </SafeAreaView>
     );
 };
 

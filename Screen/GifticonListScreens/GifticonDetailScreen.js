@@ -78,7 +78,7 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                     style={{
 
                         aspectRatio: 1,
-                        height: '70%',
+                        height: 45,
                         borderColor: "#c9c9c9",
                         borderWidth: 1,
                         borderRadius: 8,
@@ -107,7 +107,7 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                     style={{
                         marginLeft: '4%',
                         width: '75%',
-                        height: '70%',
+                        height: 45,
                         backgroundColor: '#3BCDA1',
                         borderRadius: 8,
                         justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가

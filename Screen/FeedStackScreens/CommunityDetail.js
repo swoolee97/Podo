@@ -89,7 +89,7 @@ const CommunityDetail = ({ route }) => {
           
 
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal:'3%' }}>
             <TouchableOpacity onPress={handleLike}>
               <Image 
                 source={liked ? heartImage : favoriteImage}
@@ -97,8 +97,8 @@ const CommunityDetail = ({ route }) => {
               />
             </TouchableOpacity>
             <Text style={styles.itemName}>{likes}</Text>
-            
-            <Text style={[styles.itemName,{marginLeft:'77%'}]}>댓글 {comments.length}개</Text>
+            <View style={{flex:1}}/>
+            <Text style={styles.itemName}>댓글 {comments.length}개</Text>
             
           </View>
 

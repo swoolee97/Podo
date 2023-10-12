@@ -47,6 +47,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
   },
+  searchbutton: {
+    height: 45,
+    backgroundColor: '#F4F4F4',
+    borderColor: '#D9D9D9',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginHorizontal: '4%',
+    marginVertical: '3%',
+    flexDirection: 'row', 
+    alignItems: 'center',
+  
+
+  },
   buttonText: {
     fontFamily: 'Pretendard-Bold',
     color: '#ffffff',
@@ -153,7 +166,7 @@ const styles = StyleSheet.create({
 
   listItem: {
     width: '45%',
-    marginTop: '5%'
+    marginBottom: '4%'
   },
   image: {
     aspectRatio: 1,
@@ -197,6 +210,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
 },
+section1: {
+  borderBottomWidth: 1, // 라인의 두께
+  borderBottomColor: '#e0e0e0',
+  marginBottom:'3%'
+}
   // 나머지 스타일들도 동일한 패턴으로 추가
 });
 
