@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext } from "react";
-import { View, Text, Dimensions, StyleSheet, Alert, Image} from "react-native";
+import { View, Text, Dimensions, StyleSheet, Alert, Image,TouchableOpacity} from "react-native";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
@@ -18,10 +18,14 @@ const styles = StyleSheet.create({
 });
 
 const { width, height} = Dimensions.get('window');
-const isSmallScreen = width < 400 || height < 800;
-const toastOffset = isSmallScreen ? 70 : 150;
-const grapeImageSize = isSmallScreen ? 230 : 400;
-const grapeCharSize = isSmallScreen ? 60 : 100;
+const isSmallScreen = width < 200 || height < 500;
+
+const toastOffset = isSmallScreen ? 50 : (width < 200 ? 60 : 130);
+const grapeImageSize = isSmallScreen ? 100 : 250;
+const grapeCharSize = isSmallScreen ? 40 : 60;
+
+const imageSize = width < 400 ? 20 : 25; 
+const marginSize = width < 400 ? 10 : 15;
 
 const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userEmail, setUserEmail] = useState(null)
@@ -34,9 +38,9 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         require('../../images/grape.png'),
         require('../../images/grape1.png'),
         require('../../images/grape1.png'),
-        require('../../images/grape4.png'),
-        require('../../images/grape4.png'),
-        require('../../images/grape4.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape1.png'),
         require('../../images/grape4.png'),
         // ... 나머지 이미지들을 여기에 추가
       ];
@@ -131,21 +135,32 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         navigation.navigate('MissionDetailScreen', { data, email })
     };
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+          headerLeft: () => (
+            userEmail && (
+                <TouchableOpacity onPress={() => navigation.navigate('PointHistoryScreen')}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
+                    <Image 
+                        source={require('../../images/point_grape.png')}
+                        style={{ width: imageSize, height: imageSize, marginRight: marginSize }}
+                    />
+                    <Text>{userPoints}</Text>
+                </View>
+            </TouchableOpacity>
+            )
+          )
+        });
+      }, [navigation, userEmail, userPoints]);
+
     useEffect(() => {
         if (missionData) {
-            setCompletedMissions(missionData.completedMissions || 0);
         }
     }, [missionData]);
 
-    useEffect(() => {
-        console.log("completedMissions:", completedMissions);
-        console.log("grapeImages.length - 1:", grapeImages.length - 1);
-        console.log("Math.min value:", Math.min(completedMissions, grapeImages.length - 1));
-    }, [completedMissions]);
-
     return (
         <View style={styles.container}>
-            <Image source={grapeImages[Math.min(completedMissions)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5, marginTop: -50}} />
+            <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5, marginTop: -50}} />
             <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
         </View >
         

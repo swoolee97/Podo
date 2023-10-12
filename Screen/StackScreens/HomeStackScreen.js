@@ -35,17 +35,6 @@ const HomeScreenStack = ({ navigation, route }) => {
                 name='HomeScreen' 
                 component={HomeScreen} 
                 options={{
-                    headerLeft: () => (
-                        <TouchableOpacity onPress={() => navigation.navigate('PointHistoryScreen')}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
-                            <Image 
-                                source={require('../../images/point_grape.png')}
-                                style={{ width: imageSize, height: imageSize, marginRight: marginSize }}
-                            />
-                            <Text>{headerPoints}</Text>
-                        </View>
-                    </TouchableOpacity>
-                        ),
                 headerRight: () => (
                     <Button title='기프티콘등록' onPress={() => {
                         navigation.navigate('UploadGifticon')
