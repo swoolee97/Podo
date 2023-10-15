@@ -46,7 +46,8 @@ const GiftIconList = ({navigation}) => {
         navigation.navigate('GifticonDetailScreen',{
             gifticonId : item._id
         })
-    }
+    };
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -63,7 +64,12 @@ const GiftIconList = ({navigation}) => {
                 </Text>
             </TouchableOpacity>
 
-            
+            <TouchableOpacity 
+            style={styles.donationButton} 
+            onPress={() => navigation.navigate('UploadGifticon')}>
+            <Text style={styles.donationButtonText}>기부</Text>
+            </TouchableOpacity>
+
             <FlatList 
                 style={{top:70, marginHorizontal: '5%'}}
                 columnWrapperStyle={styles.columnWrapper}

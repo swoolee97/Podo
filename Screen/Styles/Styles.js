@@ -187,7 +187,32 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
 },
-  // 나머지 스타일들도 동일한 패턴으로 추가
+donationButton: {
+  position: 'absolute', // 절대위치로 화면 우측 하단에 위치시키기 위함
+  right: 20,
+  bottom: 20,
+  width: 60,
+  height: 60,
+  borderRadius: 30,
+  backgroundColor: '#9d8dff',
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowColor: "#000",
+  zIndex: 1000,
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+},
+
+donationButtonText: {
+  color: 'white',
+  fontSize: 20,
+  fontWeight: 'bold',
+},
 });
 
 export default styles;

@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext } from "react";
-import { View, Text, Dimensions, StyleSheet, Alert, Image,TouchableOpacity} from "react-native";
+import { View, Text, Dimensions, StyleSheet, Button, Image,TouchableOpacity} from "react-native";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
@@ -14,13 +14,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-    }
+    },
+    button: {
+        backgroundColor: 'white',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 10,
+        // iOS에서의 그림자 설정
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+    },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    
+        // Android에서의 그림자 설정
+        elevation: 5,
+    },
+    buttonText: {
+        color: 'black',
+        fontSize: 16,
+        textAlign: 'center',
+    },
 });
 
 const { width, height} = Dimensions.get('window');
 const isSmallScreen = width < 200 || height < 500;
 
-const toastOffset = isSmallScreen ? 50 : (width < 200 ? 60 : 130);
+const toastOffset = isSmallScreen ? 30 : 160;
 const grapeImageSize = isSmallScreen ? 100 : 250;
 const grapeCharSize = isSmallScreen ? 40 : 60;
 
@@ -162,8 +185,13 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         <View style={styles.container}>
             <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5, marginTop: -50}} />
             <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
+            <TouchableOpacity 
+            style={styles.button}
+            onPress={() => conductMission()}
+        >
+            <Text style={styles.buttonText}>오늘 할 수 있는 미션이 있어요</Text>
+        </TouchableOpacity>
         </View >
-        
     )
 }
 export default HomeScreen

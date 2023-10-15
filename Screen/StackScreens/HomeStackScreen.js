@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Button,Text,Image,View, Dimensions,TouchableOpacity } from "react-native"
+import { Button, Text,Dimensions,StyleSheet,TouchableOpacity,View } from "react-native"
 
 import HomeScreen from "../MainStackScreens/HomeScreen"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
@@ -20,39 +20,36 @@ const imageSize = width < 400 ? 20 : 25;  // 화면 너비가 400 미만일 때�
 const marginSize = width < 400 ? 10 : 15;
 
 const HomeScreenStack = ({ navigation, route }) => {
-    const [headerPoints, setHeaderPoints] = useState(0);
+    const [currentRoute, setCurrentRoute] = useState(0);
     React.useLayoutEffect(() => {
         const routeName = getFocusedRouteNameFromRoute(route) ?? 'HomeScreen'
+        setCurrentRoute(routeName);
         if (routeName != 'HomeScreen') {
             navigation.setOptions({ tabBarStyle: { display: 'none' } })
         } else {
             navigation.setOptions({ tabBarStyle: { display: undefined } })
         }
     }, [navigation, route])
+
     return (
-        <Stack.Navigator initialRouteName="HomeScreen">
-            <Stack.Screen 
-                name='HomeScreen' 
-                component={HomeScreen} 
-                options={{
-                headerRight: () => (
-                    <Button title='기프티콘등록' onPress={() => {
-                        navigation.navigate('UploadGifticon')
-                    }}
-                    initialParams={{ setHeaderPoints }} />
-                )
-            }}></Stack.Screen>
-            <Stack.Screen component={PointHistoryScreen} name = "PointHistoryScreen"></Stack.Screen>
-            <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
-            <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
-            <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
-            <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"></Stack.Screen>
-            <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
-            <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
-            <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
-            <Stack.Screen name = "ModifyGifticonScreen" component = {ModifyGifticonScreen}></Stack.Screen>
-        </Stack.Navigator>
-    )
+        <View style={{ flex: 1 }}>
+            <Stack.Navigator initialRouteName="HomeScreen">
+                <Stack.Screen 
+                    name='HomeScreen' 
+                    component={HomeScreen}
+                ></Stack.Screen>
+                <Stack.Screen component={PointHistoryScreen} name = "PointHistoryScreen"></Stack.Screen>
+                <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
+                <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
+                <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
+                <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"></Stack.Screen>
+                <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
+                <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
+                <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
+                <Stack.Screen name = "ModifyGifticonScreen" component = {ModifyGifticonScreen}></Stack.Screen>
+            </Stack.Navigator>
+            </View>
+            )
 }
 
 export default HomeScreenStack;
