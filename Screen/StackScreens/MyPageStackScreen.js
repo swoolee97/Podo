@@ -15,6 +15,8 @@ import CustomerService from "../MyPageStackScreens/CustomerService";
 import { useEffect, useState } from "react";
 import AuthStackScreen from "./AuthStackScreen";
 import MissionCompletedList from "../MissionStackScreens/MissionCompletedList";
+import WishListScreen from "../MainStackScreens/WishListScreen";
+import PurchaseDetailScreen from "../GifticonListScreens/PurchaseDetailScreen";
 const Stack = createStackNavigator()
 const MyPageStackScreen = ({ navigation, route }) => {
     
@@ -31,10 +33,12 @@ const MyPageStackScreen = ({ navigation, route }) => {
             <Stack.Screen name="MyPageScreen" component={MyPageScreen} options={{ headerShown: true }} />
             <Stack.Screen name="Profile" component={Profile} options={{}} />
             <Stack.Screen name="MissionCompletedList" component={MissionCompletedList} options={{}} />
+            <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
             <Stack.Screen name="Certification" component={Certification} options={{ headerShown: true }} />
             <Stack.Screen name="AuthStackScreen" component={AuthStackScreen} options={{headerShown:false}}/>
             <Stack.Screen name="PurchaseHistory" component={PurchaseHistory} options={{ headerShown: true }} />
             <Stack.Screen name="CustomerService" component={CustomerService} options={{ headerShown: true }} />
+            <Stack.Screen name="PurchaseDetailScreen" component={PurchaseDetailScreen} options={{ headerShown: true }} />
         </Stack.Navigator>
     )
 }

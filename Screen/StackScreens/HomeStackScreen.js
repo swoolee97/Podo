@@ -34,7 +34,6 @@ const HomeScreenStack = ({ navigation, route }) => {
                 )
             }}></Stack.Screen>
             <Stack.Screen component={PointDetailScreen} name = "PointDetailScreen"></Stack.Screen>
-            <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
             <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
             <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
             <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"></Stack.Screen>
