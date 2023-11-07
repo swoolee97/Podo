@@ -1,16 +1,73 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useContext } from "react";
-import { View, Text, SafeAreaView, Alert } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text, Dimensions, StyleSheet, Button, Image,TouchableOpacity} from "react-native";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-toast-message'
 
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    button: {
+        backgroundColor: 'white',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 10,
+        // iOS에서의 그림자 설정
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+    },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    
+        // Android에서의 그림자 설정
+        elevation: 5,
+    },
+    buttonText: {
+        color: 'black',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+});
+
+const { width, height} = Dimensions.get('window');
+const isSmallScreen = width < 200 || height < 500;
+
+const toastOffset = isSmallScreen ? 30 : 160;
+const grapeImageSize = isSmallScreen ? 100 : 250;
+const grapeCharSize = isSmallScreen ? 40 : 60;
+
+const imageSize = width < 400 ? 20 : 25; 
+const marginSize = width < 400 ? 10 : 15;
+
 const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userEmail, setUserEmail] = useState(null)
     const isFocused = useIsFocused();
     const [userPoints, setUserPoints] = useState(0);
+    const [completedMissions, setCompletedMissions] = useState(0);
+    const [missionData, setMissionData] = useState(null);
+    
+    const grapeImages = [
+        require('../../images/grape.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape1.png'),
+        require('../../images/grape4.png'),
+        // ... 나머지 이미지들을 여기에 추가
+      ];
+
     useFocusEffect(
         React.useCallback(() => {
           return () => {
@@ -32,6 +89,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 }
                 const pointData = await pointResponse.json();
                 const missionData = await missionResponse.json();
+                setMissionData(missionData); // 상태 업데이트
                 setUserPoints(pointData.sum)
                 if (!missionData.completed) {
                     showMissionIncompleteToast();
@@ -41,12 +99,26 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             }
         }
     };
+
+    const fetchCompletedMissionCount = async (user_email) => {
+        try {
+            const response = await fetch(PreURL.preURL + `/api/mission/list?email=${user_email}`);
+            const data = await response.json();
+            if (data && data.missions) {
+                setCompletedMissions(data.missions.length);
+            }
+        } catch (error) {
+            console.error("Error fetching completed missions count:", error);
+        }
+    };
+    
     useEffect(() => {
         if (isFocused) {
             const fetchUserEmailAndDetails = async () => {
                 const email = await AsyncStorage.getItem('user_email');
                 setUserEmail(email);
                 fetchUserDetails(email);
+                fetchCompletedMissionCount(email);
             };
             fetchUserEmailAndDetails();
 
@@ -67,10 +139,15 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             text2: '미션하러 가기',
             visibilityTime: 4000,
             autoHide: false,
-            bottomOffset: 70,
+            bottomOffset: toastOffset,
             onPress: () => {
                 conductMission();
                 Toast.hide()
+            },
+            style: {
+                container: {
+                    height: 100, 
+                }
             }
         });
     };
@@ -79,74 +156,41 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         const response = await fetch(PreURL.preURL + `/api/mission/createMission?email=${email}`)
         const data = await response.json()
         navigation.navigate('MissionDetailScreen', { data, email })
-    }
-    const logout = async () => {
-        const preURL = PreURL.preURL
-        const response = await fetch(preURL + '/api/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                user_email: userEmail
-            })
-        })
-        if (response.status == 200) {
-            const data = await response.json();
-            AsyncStorage.removeItem('accessToken')
-            AsyncStorage.removeItem('user_email')
-            Toast.hide();
-            Alert.alert(`${data.message}`)
-            navigation.replace('HomeScreen')
-        }
+    };
 
-    }
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerLeft: () => (
             userEmail && (
-              <TouchableOpacity 
-                onPress={() => {
-                  navigation.navigate('PointDetailScreen');
-                }}
-              >
-                <Text>총 {userPoints} 포인트</Text>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('PointHistoryScreen',userEmail)}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
+                    <Image 
+                        source={require('../../images/point_grape.png')}
+                        style={{ width: imageSize, height: imageSize, marginRight: marginSize }}
+                    />
+                    <Text>{userPoints}</Text>
+                </View>
+            </TouchableOpacity>
             )
           )
         });
       }, [navigation, userEmail, userPoints]);
+
+    useEffect(() => {
+        if (missionData) {
+        }
+    }, [missionData]);
+
     return (
-        <View>
-            <View style={{}}>
-                <Text>{userEmail}님, 안녕하세요!</Text>
-            </View>
-            {userEmail && (
-            <View>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('PointDetailScreen')
-                }}>
-                    <Text>총 {userPoints} 포인트</Text>
-                </TouchableOpacity>
-            </View>
-        )}
-           
-            <View>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('NotificationScreen')
-                }}>
-                    <Text>알림화면</Text>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <TouchableOpacity onPress={async () => {
-                    const response = await fetch(PreURL.preURL + '/api/card/fake');
-                    const data = await response.json();
-                    console.log(data)
-                }}>
-                    <Text>카드생성버튼(임시용)</Text>
-                </TouchableOpacity>
-            </View>
+        <View style={styles.container}>
+            <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5, marginTop: -50}} />
+            <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
+            <TouchableOpacity 
+            style={styles.button}
+            onPress={() => conductMission()}
+        >
+            <Text style={styles.buttonText}>오늘 할 수 있는 미션이 있어요</Text>
+        </TouchableOpacity>
         </View >
     )
 }

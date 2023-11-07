@@ -47,6 +47,7 @@ const GiftIconList = ({navigation}) => {
             gifticonId : item._id
         })
     };
+
     return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
@@ -62,7 +63,13 @@ const GiftIconList = ({navigation}) => {
                     원하는 상품이 있으신가요?
                 </Text>
             </TouchableOpacity>
-            <View style={styles.section1}/>
+
+            <TouchableOpacity 
+            style={styles.donationButton} 
+            onPress={() => navigation.navigate('UploadGifticon')}>
+            <Text style={styles.donationButtonText}>기부</Text>
+            </TouchableOpacity>
+
             <FlatList 
                 style={{marginHorizontal: '5%'}}
                 columnWrapperStyle={styles.columnWrapper}
