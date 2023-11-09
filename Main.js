@@ -24,14 +24,12 @@ const Main = () => {
                 tabBarStyle: [
                     {
                         display: "flex",
-                        height: 60
                     },
 
                     null
                 ],
                 tabBarItemStyle: {
                     justifyContent: 'center', // 아이콘과 라벨의 수직 정렬
-                    paddingVertical: 7,       // 바닥 패딩을 줄여서 라벨을 위로 올립니다.
                 }
             }}
             >

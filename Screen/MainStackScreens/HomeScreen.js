@@ -58,9 +58,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 const missionData = await missionResponse.json();
                 setMissionData(missionData);
                 setUserPoints(pointData.sum)
-                if (!missionData.completed) {
-                    showMissionIncompleteToast();
-                }
+                
             } catch (error) {
                 console.error("Error fetching user details:", error);
             }
@@ -98,26 +96,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         }
     }, [userPoints]);
 
-    const showMissionIncompleteToast = () => {
-        Toast.show({
-            type: 'error',
-            position: 'bottom',
-            text1: '오늘 할 수 있는 미션이 있어요',
-            text2: '미션하러 가기',
-            visibilityTime: 4000,
-            autoHide: false,
-            bottomOffset: toastOffset,
-            onPress: () => {
-                conductMission();
-                Toast.hide()
-            },
-            style: {
-                container: {
-                    height: 100, 
-                }
-            }
-        });
-    };
+    
     const conductMission = async () => {
         const email = await AsyncStorage.getItem('user_email');
         const response = await fetch(PreURL.preURL + `/api/mission/createMission?email=${email}`)
@@ -150,8 +129,21 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
 
     return (
         <View style={styles.container}>
-            <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5, marginTop: -50}} />
+            <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5}} />
             <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
+            <View style={{flex: 1}}/>
+            {missionData && !missionData.completed ? (
+            <TouchableOpacity style={{width:'90%', height: 40, borderColor: 'grey', borderWidth: 1, borderRadius: 15, justifyContent: 'center'}}
+                onPress={() => {
+                    conductMission();
+                    Toast.hide()
+                }}>
+                <Text>오늘 할 수 있는 미션이 있어요</Text>
+            </TouchableOpacity>) : (
+            <TouchableOpacity style={{width:'90%', height:100, borderColor: 'grey', borderWidth: 1, borderRadius: 15 ,justifyContent: 'center'}}
+                disabled={true} >
+                <Text style={{alignSelf:'center', fontFamily: 'Pretendard-SemiBold'}}>오늘은 미션이 없어요</Text>
+            </TouchableOpacity>)}
         </View >
     )
 }
