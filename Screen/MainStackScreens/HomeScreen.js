@@ -133,12 +133,12 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
             <View style={{flex: 1}}/>
             {missionData && !missionData.completed ? (
-            <TouchableOpacity style={{width:'90%', height: 40, borderColor: 'grey', borderWidth: 1, borderRadius: 15, justifyContent: 'center'}}
+            <TouchableOpacity style={{width:'90%', height: 140, borderRadius: 15, justifyContent: 'center', backgroundColor: '#FFFFFF', elevation: 5, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}}
                 onPress={() => {
                     conductMission();
                     Toast.hide()
                 }}>
-                <Text>오늘 할 수 있는 미션이 있어요</Text>
+                <Text style ={{fontFamily: 'Pretendard-SemiBold', fontSize: 18, alignSelf: 'center'}}>오늘 수행할 수 있는 미션이 있어요</Text>
             </TouchableOpacity>) : (
             <TouchableOpacity style={{width:'90%', height:100, borderColor: 'grey', borderWidth: 1, borderRadius: 15 ,justifyContent: 'center'}}
                 disabled={true} >

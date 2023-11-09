@@ -37,12 +37,21 @@ const HomeStackScreen = ({ navigation, route }) => {
                 <Stack.Screen 
                     name='HomeScreen' 
                     component={HomeScreen}
+                    options={{headerTitle : ''}}
                 ></Stack.Screen>
                 <Stack.Screen component={PointHistoryScreen} name = "PointHistoryScreen"></Stack.Screen>
                 <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
                 <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
                 <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
-                <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"></Stack.Screen>
+                <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"
+                      options={{
+                        title: '오늘의 미션',
+                        headerTitleAlign: 'center',
+                        headerTitleStyle: {
+                          fontWeight: 'bold'
+                        }
+                    }}></Stack.Screen>
+                
                 <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
                 <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
                 <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>

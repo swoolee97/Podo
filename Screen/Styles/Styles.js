@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: '5%',
     width: '90%',
-    backgroundColor: '#3BCDA1',
+    backgroundColor: '#9D8DFF',
     borderRadius: 8,
     justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
     alignItems: 'center',

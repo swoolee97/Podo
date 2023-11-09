@@ -143,7 +143,7 @@ const WriteCommunityScreen = () => {
           )}
         </View>
         <TextInput
-          style={{fontFamily: 'Pretendard-Regular', fontSize: 14, marginHorizontal:'4%'}}
+          style={{fontFamily: 'Pretendard-Regular', fontSize: 14, marginHorizontal:'4%', height:150}}
           placeholder="글을 작성해주세요"
           multiline
           numberOfLines={4}
