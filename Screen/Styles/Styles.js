@@ -205,10 +205,11 @@ const styles = StyleSheet.create({
   },
   section: {
     flex: 1,
+    borderColor: '#D0D0D0',
+    borderBottomWidth: 1,
+    width: 360,
+    height: 300,
     justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'black',
-    borderWidth: 1,
 },
 donationButton: {
   position: 'absolute', // 절대위치로 화면 우측 하단에 위치시키기 위함

@@ -17,7 +17,7 @@ const SearchingStackScreen = ({navigation, route}) => {
       navigation.setOptions({tabBarStyle: {display: 'none'}});
     } 
     else {
-      navigation.setOptions({tabBarStyle: {display: 'flex', height: 60}});
+      navigation.setOptions({tabBarStyle: {display: 'flex'}});
     }
   }, [navigation, route]);
   return (

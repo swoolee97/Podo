@@ -54,69 +54,78 @@ const MyPageScreen = ({ navigation }) => {
 
     }
     return (
-
-        <View style={styles.container}>
-            <>{!userEmail &&
-                <View>
+            <View style={styles.container}>
+                {!userEmail ? 
+                (<View style = {{  justifyContent: 'center', alignItems: 'center',flexDirection: 'row',marginHorizontal: '5%',marginTop:'8%'}}>
                     <TouchableOpacity onPress={() => {
                         navigation.navigate('AuthStackScreen')
-                    }}><Text>로그인하기</Text>
+                    }}><Text style = {{fontFamily: 'Pretendard-Medium', fontSize: 24}}>로그인을 해주세요</Text>
                     </TouchableOpacity>
-                </View>
-            }</>
-            <View style={styles.section}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('Profile', { screen: 'Profile' })
-                }}><Text>프로필 관리</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={styles.section}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('DonationHistoryScreen')
-                }}>
-                    <Text>기부내역</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.section}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('WishListScreen')
-                }}>
-                    <Text>장바구니화면</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.section}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('MissionCompletedList')
-                }}>
-                    <Text>미션 완료 리스트</Text>
-                </TouchableOpacity>
-            </View>
-            <Text style={[styles.lefttext, {top: '30%'}]}>기부 내역</Text>
-            <Text style={[styles.lefttext, {top: '60%'}]}>교환 내역</Text>
-            <View style={styles.section}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('PurchaseHistory')
-                }}>
-                    <Text>상품 구매 내역</Text>
-                </TouchableOpacity>
-            </View>
-            {userEmail &&
+                    <View style = {{flex:1}}/>
+                    <TouchableOpacity style = {{width: 115, height: 45, borderRadius: 8, backgroundColor: '#9D8DFF',justifyContent: 'center',alignItems: 'center'}}onPress={() => {
+                        navigation.navigate('AuthStackScreen')
+                    }}><Text style = {{fontFamily: 'Pretendard-Bold', fontSize: 14, color: '#FFFFFF'}}>개인정보 관리</Text>
+                    </TouchableOpacity>
+                </View>):(<View style = {{justifyContent: 'center', alignItems: 'center',flexDirection: 'row',marginHorizontal: '5%',marginTop:'8%'}}>
+                    <View style={{width: 45, height:45, borderRadius:50,backgroundColor: '#D9D9D9',marginRight: '3%'}}>
+                    </View>
+                    <Text style={{ fontFamily: 'Pretendard-Medium', fontSize: 24}}>
+                        {userEmail.split('@')[0]}
+                    </Text>
+                    <View style = {{flex:1}}/>
+                    <TouchableOpacity style = {{width: 115, height: 45, borderRadius: 8, backgroundColor: '#9D8DFF',justifyContent: 'center',alignItems: 'center'}}onPress={() => {
+                        navigation.navigate('Profile', { screen: 'Profile' })
+                    }}><Text style = {{fontFamily: 'Pretendard-Bold', fontSize: 14, color: '#FFFFFF'}}>개인정보 관리</Text>
+                    </TouchableOpacity>
+                </View>)}
+
+            <View style= {{width: 360, height: 300, borderRadius: 20, borderColor:'#D0D0D0', borderWidth: 1, marginTop: 40, alignSelf: 'center'}}>
+                
                 <View style={styles.section}>
                     <TouchableOpacity onPress={() => {
-                        logout()
+                        navigation.navigate('DonationHistoryScreen')
                     }}>
-                        <Text>로그아웃</Text>
+                        <Text style={{marginLeft: 20}}>기부내역</Text>
                     </TouchableOpacity>
                 </View>
-            }
+                <View style={styles.section}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('WishListScreen')
+                    }}>
+                        <Text style={{marginLeft: 20}}>장바구니화면</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.section}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('MissionCompletedList')
+                    }}>
+                        <Text style={{marginLeft: 20}}>완료한 미션</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.section}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('PurchaseHistory')
+                    }}>
+                        <Text style={{marginLeft: 20}}>상품 구매 내역</Text>
+                    </TouchableOpacity>
+                </View>
+                {userEmail &&
+                    <View style={styles.section}>
+                        <TouchableOpacity onPress={() => {
+                            logout()
+                        }}>
+                            <Text style={{marginLeft: 20}}>로그아웃</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
 
-            <View style={styles.section}>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('CustomerService')
-                }}>
-                    <Text>고객 센터</Text>
-                </TouchableOpacity>
+                <View style={[styles.section, {borderBottomWidth:0}]}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('CustomerService')
+                    }}>
+                        <Text style={{marginLeft: 20}}>고객 센터</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
         </View>
