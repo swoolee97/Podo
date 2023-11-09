@@ -1,44 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useContext } from "react";
-import { View, Text, Dimensions, StyleSheet, Button, Image,TouchableOpacity} from "react-native";
+import React, { useRef }  from "react";
+import { View, Text, Dimensions, StyleSheet, Button, Image,TouchableOpacity, Modal} from "react-native";
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import Toast from 'react-native-toast-message'
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-    },
-    button: {
-        backgroundColor: 'white',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        marginTop: 10,
-        // iOS에서의 그림자 설정
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-    },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    
-        // Android에서의 그림자 설정
-        elevation: 5,
-    },
-    buttonText: {
-        color: 'black',
-        fontSize: 16,
-        textAlign: 'center',
-    },
-});
+import { Modalize } from 'react-native-modalize';
 
 const { width, height} = Dimensions.get('window');
 const isSmallScreen = width < 200 || height < 500;
@@ -89,7 +56,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 }
                 const pointData = await pointResponse.json();
                 const missionData = await missionResponse.json();
-                setMissionData(missionData); // 상태 업데이트
+                setMissionData(missionData);
                 setUserPoints(pointData.sum)
                 if (!missionData.completed) {
                     showMissionIncompleteToast();
@@ -185,13 +152,40 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         <View style={styles.container}>
             <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5, marginTop: -50}} />
             <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
-            <TouchableOpacity 
-            style={styles.button}
-            onPress={() => conductMission()}
-        >
-            <Text style={styles.buttonText}>오늘 할 수 있는 미션이 있어요</Text>
-        </TouchableOpacity>
         </View >
     )
 }
 export default HomeScreen
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    button: {
+        backgroundColor: 'white',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginTop: 10,
+        // iOS에서의 그림자 설정
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+    },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    
+        // Android에서의 그림자 설정
+        elevation: 5,
+    },
+    buttonText: {
+        color: 'black',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+});

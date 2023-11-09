@@ -1,10 +1,11 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-native"
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, VirtualizedList } from "react-native"
 import { TextInput } from "react-native-gesture-handler";
 import FocusableInput from "../Styles/FocusableInput";
 import stringToDate from "../../CommonMethods/stringToDate";
 import { preURL } from "../../PreURL/PreURL";
 import stringToPrice from "../../CommonMethods/stringToPrice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Modalize } from 'react-native-modalize';
 
 const ModifyGifticonScreen = ({ navigation,route }) => {
     
@@ -13,7 +14,7 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
     const result = route.params.data.result
     const expiration_date = stringToDate(result.expiration_date) 
     const price = stringToPrice(result.price)
-    
+
     const fetchGifticon = async () => {
         const user_email = await AsyncStorage.getItem('user_email')
         const newFormData = new FormData();
@@ -29,7 +30,7 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
         newFormData.append('expiration_date', result.expiration_date);
         newFormData.append('image_url', result.image_url);
         newFormData.append('name', result.name);
-        newFormData.append('user_email',user_email)    
+        newFormData.append('user_email',user_email)
         const response = await fetch(preURL + '/api/gifticon/upload', {
             method: 'POST',
             headers: {
@@ -47,25 +48,27 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
     }
     return (
         <View style={styles.container}>
-            <Text>추출된 기프티콘 정보를 확인해주세요.</Text>
-            
-            <Image source={{ uri: result.image_url }} style={styles.image} />
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 14, textAlign:'center', marginTop:100, alignItems: 'center', justifyContent: 'center'}}>
+                추출된 쿠폰 정보를 확인해 주세요
+            </Text>
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, textAlign:'center', marginTop:10, alignItems: 'center', justifyContent: 'center', color: '#797979'}}>
+            상품명, 교환처, 유효기간, 바코드 정보가 실제 쿠폰과 일치하는지 {'\n'} 확인해 주세요.
+            </Text>
+            <View style = {{alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
+                    <Image source={{ uri: result.image_url }} style={styles.image} />
+            </View>
 
-            <View style={styles.field}>
-                <Text style={styles.label}>상품명</Text>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <Text style={styles.label}>상품명</Text>
                 <TextInput style={styles.input} value={result.name}
                 multiline={true} 
                 numberOfLines={4} />
-            </View>
 
-            <View style={styles.field}>
                 <Text style={styles.label}>유효기간</Text>
-                <TextInput style={styles.input} value={`${expiration_date.getFullYear()}년`} />
-                <TextInput style={styles.input} value={`${expiration_date.getMonth()}월`} />
-                <TextInput style={styles.input} value={`${expiration_date.getUTCDate()}일`} />
+                <TextInput style={styles.input} value={`${expiration_date.getFullYear()}년 ${expiration_date.getMonth()}월 ${expiration_date.getUTCDate()}일` } />
             </View>
 
-            <View>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity onPress={fetchGifticon} style={styles.button}>
                 <Text style={styles.buttonText}>기부하기</Text>
             </TouchableOpacity>
@@ -77,42 +80,46 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        backgroundColor: '#ffffff'
     },
     image: {
-        width: '100%',
-        height: 200,
+        width: 250,
+        height: 250,
         resizeMode: 'contain',
         marginBottom: 20,
     },
-    field: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 10,
-    },
     label: {
-        flex: 2,
-        fontSize: 10,
+        fontFamily: 'Pretendard-Regular',
+        fontSize: 14,
+        color: '#404040',
+        marginLeft: 10,
+        marginBottom: 5
     },
     input: {
-        flex: 4,
+        width: 245,
+        height: 45,
+        borderRadius: 8,
+        backgroundColor: '#F4F4F4',
+        borderColor: '#D9D9D9',
         borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 5,
-        fontSize: 16,
+        marginLeft: 10,
+        fontSize: 14,
+        fontFamily: 'Pretendard-Regular',
+        color: '#000000'
     },
     button: {
-        marginTop: 20,
+        marginTop: 50,
         backgroundColor: '#9d8dff',
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 8,
         alignItems: 'center',
+        width: 370,
+        height:45
     },
     buttonText: {
         color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 14,
+        fontFamily: 'Pretendard-Bold'
     },
 });
 

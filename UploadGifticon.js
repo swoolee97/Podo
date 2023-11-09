@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, Alert,StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//카메라, 앨범 접근 라이브러리
-import { launchImageLibrary } from 'react-native-image-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PreURL from './PreURL/PreURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { checkLoginStatus } from './CommonMethods/CheckLoginStatus';
 import ImagePicker from 'react-native-image-crop-picker';
+import example from '../Gibu/images/example.png'
 
 
 const UploadGifticon = ({ }) => {
@@ -103,19 +102,33 @@ const UploadGifticon = ({ }) => {
 
     return (
         <View style={styles.container}>
-            {imageUris && <Image source={{ uri: imageUris[0] }} style={styles.image} />}
-            <TouchableOpacity 
-                style={styles.button} 
-                onPress={() => showPicker(setImageUris)}>
-                <Text style={styles.buttonText}>기프티콘 찾기</Text>
-            </TouchableOpacity>
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 14, textAlign:'center', marginTop:100, alignItems: 'center', justifyContent: 'center',}}>
+                기프티콘 교환권과 쿠폰상태가 포함된 캡쳐본 {'\n'} 한장을 업로드 해주세요.
+            </Text>
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, marginTop:47, color: '#797979', marginLeft:25}}>
+                예시와 같이 교환처, 상품명, 유효기간, 교환처, 쿠폰상태 모두 보여야 합니다.
+            </Text>
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, marginTop:19, color: '#797979', marginLeft:25}}>
+                사진 예시
+            </Text>
+            <View style = {{alignItems: 'center', justifyContent: 'center',flexDirection: 'row'}}>
+                <Image source={example} style ={{width: 168, height:330}}/>
+                {imageUris && <Image source={{ uri: imageUris[0] }} style={styles.image} />}
+            </View> 
+            <View style ={{alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={() => showPicker(setImageUris)}>
+                    <Text style={styles.buttonText}>기프티콘 찾기</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity 
-                style={[styles.button, !imageUris && styles.disabledButton]} 
-                onPress={() => sendImage()}
-                disabled={!imageUris}>
-                <Text style={styles.buttonText}>기부하기</Text>
-            </TouchableOpacity>
+                <TouchableOpacity 
+                    style={[styles.button, !imageUris && styles.disabledButton]} 
+                    onPress={() => sendImage()}
+                    disabled={!imageUris}>
+                    <Text style={styles.buttonText}>기부하기</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -123,16 +136,15 @@ const UploadGifticon = ({ }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
-        backgroundColor: '9d8dff'
+        backgroundColor: '#ffffff'
     },
     button: {
         marginVertical: 10,
         paddingVertical: 10,
+        width: 370,
+        height: 45,
         paddingHorizontal: 20,
-        borderRadius: 5,
+        borderRadius: 8,
         backgroundColor: '#9d8dff',
         alignItems: 'center',
         justifyContent: 'center',
@@ -145,10 +157,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     image: {
-        width: 200,
-        height: 200,
+        width: 168,
+        height: 330,
         borderRadius: 10,
-        marginVertical: 15
+        marginVertical: 15,
+        marginLeft: 10
     }
 });
 export default UploadGifticon;
