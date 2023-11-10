@@ -10,6 +10,10 @@ const GiftIconList = ({navigation}) => {
     const [hasMore, setHasMore] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
 
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    // Sample categories, you can fetch these from your API as well
+    const categories = ['전체', '치킨', '피자', '카페', '편의점', '패스트푸드', '아이스크림', '상품권', '베이커리'];
+
     const onRefresh = async () => {
         setRefreshing(true);
         setHasMore(true)
@@ -18,12 +22,13 @@ const GiftIconList = ({navigation}) => {
         setRefreshing(false);
     }
 
-    const fetchGifts = async (refreshPage) => {
+    const fetchGifts = async (refreshPage, category = selectedCategory) => {
         try {
             if (!hasMore) return;
             const currentPage = refreshPage ? 1 : page
-            const response = await fetch(PreURL.preURL + `/api/gifticon/list?page=${currentPage}`);
+            const response = await fetch(PreURL.preURL + `/api/gifticon/list?page=${currentPage}${categoryQuery}`);
             const data = await response.json();
+            const categoryQuery = category !== 'all' ? `&category=${category}` : '';
             
             if (currentPage === 1) {  // 첫 페이지인 경우 기존 데이터 대체
                 setGifts(data.gifticons);
@@ -47,6 +52,33 @@ const GiftIconList = ({navigation}) => {
             gifticonId : item._id
         })
     };
+    const CategoryComponent = () => (
+        <View style={styles.categoryContainer}>
+            <FlatList
+                horizontal
+                data={categories}
+                keyExtractor={(item) => item}
+                renderItem={({ item }) => (
+                    <TouchableOpacity
+                        style={[
+                            styles.categoryButton,
+                            item === selectedCategory && styles.categoryButtonSelected,
+                        ]}
+                        onPress={() => {
+                            setSelectedCategory(item);
+                            fetchGifts(1, item);
+                        }}
+                    >
+                        <Text style={[
+                            styles.categoryButtonText,
+                            item === selectedCategory && styles.categoryButtonSelectedText,
+                        ]}>{item}</Text>
+                    </TouchableOpacity>
+                )}
+                showsHorizontalScrollIndicator={false}
+            />
+        </View>
+    );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -63,7 +95,7 @@ const GiftIconList = ({navigation}) => {
                     원하는 상품이 있으신가요?
                 </Text>
             </TouchableOpacity>
-
+            <CategoryComponent />
             <TouchableOpacity 
             style={styles.donationButton} 
             onPress={() => navigation.navigate('UploadGifticon')}>

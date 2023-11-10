@@ -5,25 +5,19 @@ import { StyleSheet } from 'react-native';
 import PreURL from '../../PreURL/PreURL';
 import styles from '../Styles/Styles.js';
 import myPageIcon from '../../images/Profileicon.png';
+import WriteIcon from '../../images/Writeicon.png';
 
 
-const { width } = Dimensions.get('window');
-const itemWidth = width / 2-10;
-const CommunityScreen = () => {
+const CommunityScreen = ({navigation}) => {
   const [posts, setPosts] = useState([]);
-  const navigation = useNavigation();
-  const [windowDimensions, setWindowDimensions] = useState(Dimensions.get('window'));
-  const updateDimensions = () => {
-    setWindowDimensions(Dimensions.get('window'));
-  };
-  
+
+
   useEffect(() => {
-    let navListener = navigation.addListener('focus', fetchData);
-    const dimensionSubscription = Dimensions.addEventListener('change', updateDimensions);
+    const navListener = navigation.addListener('focus', fetchData);
+
 
     return () => {
-        navListener.remove();
-        dimensionSubscription.remove();
+        navListener();
     };
 }, []);
 
@@ -39,7 +33,19 @@ const CommunityScreen = () => {
   const goToPostDetail = (post) => {
     navigation.navigate('CommunityDetail', post);
   };
-
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity  onPress={() => navigation.navigate('WriteCommunity')} style={{ marginRight: 15 }}>
+          <Image
+            source={WriteIcon}
+            style={{ width: 30, height: 30}} 
+          />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+  
   return (
     <SafeAreaView style={styles.container}>
       
@@ -63,22 +69,13 @@ const CommunityScreen = () => {
                 />
                 <Text  style={styles.itemName}>{item.email.split('@')[0]}</Text>
               </View>
-              <TouchableOpacity  onPress={() => goToPostDetail(item)}>
-                <Text style={[styles.itemName,{marginTop:'2%'}]} numberOfLines={1} ellipsizeMode="tail">
-                  {item.text}
-                </Text>  
-              </TouchableOpacity>
+              <Text style={[styles.itemName,{marginTop:'2%'}]} numberOfLines={1} ellipsizeMode="tail">
+                {item.text}
+              </Text>  
           </View>
         )}
         numColumns={2}
       />
-      
-      <TouchableOpacity
-        onPress={() => navigation.navigate('WriteCommunity')}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>글쓰기</Text>  
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };

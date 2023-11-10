@@ -237,6 +237,27 @@ donationButtonText: {
   fontSize: 20,
   fontWeight: 'bold',
 },
+categoryButton: {
+  
+  
+},
+categoryButtonSelected: {
+  borderBottomColor: 'black',
+  borderBottomWidth: 2
+},
+categoryButtonText: {
+  marginHorizontal: 10,
+  marginBottom:3,
+  fontFamily: 'Pretendard-SemiBold',
+  fontSize: 16
+
+},
+categoryButtonSelectedText: {
+  color: 'black',
+},
+categoryContainer: {
+  marginBottom: 15
+}
 });
 
 export default styles;
