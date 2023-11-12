@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Image, Alert,StyleSheet } from 'react-native';
+import { Text, View, Image, Alert,StyleSheet, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import PreURL from './PreURL/PreURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { checkLoginStatus } from './CommonMethods/CheckLoginStatus';
 import ImagePicker from 'react-native-image-crop-picker';
-import example from '../Gibu/images/example.png'
-
+import imageicon from '../Gibu/images/Imageicon.png';
+import exampleimage from '../Gibu/images/example.png'
 
 const UploadGifticon = ({ }) => {
     // const [imageUri, setImageUri] = useState(null);
@@ -18,6 +18,7 @@ const UploadGifticon = ({ }) => {
     useEffect(() => {
         checkLoginStatus(navigation);
     }, []);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const showPicker = () => {
         ImagePicker.openPicker({
@@ -102,26 +103,54 @@ const UploadGifticon = ({ }) => {
 
     return (
         <View style={styles.container}>
-            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 14, textAlign:'center', marginTop:100, alignItems: 'center', justifyContent: 'center',}}>
-                기프티콘 교환권과 쿠폰상태가 포함된 캡쳐본 {'\n'} 한장을 업로드 해주세요.
-            </Text>
-            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, marginTop:47, color: '#797979', marginLeft:25}}>
-                예시와 같이 교환처, 상품명, 유효기간, 교환처, 쿠폰상태 모두 보여야 합니다.
-            </Text>
-            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, marginTop:19, color: '#797979', marginLeft:25}}>
-                사진 예시
-            </Text>
-            <View style = {{alignItems: 'center', justifyContent: 'center',flexDirection: 'row'}}>
-                <Image source={example} style ={{width: 168, height:330}}/>
-                {imageUris && <Image source={{ uri: imageUris[0] }} style={styles.image} />}
-            </View> 
-            <View style ={{alignItems: 'center', justifyContent: 'center'}}>
-                <TouchableOpacity 
-                    style={styles.button} 
-                    onPress={() => showPicker(setImageUris)}>
-                    <Text style={styles.buttonText}>기프티콘 찾기</Text>
+            <View style = {{alignSelf: 'center', justifyContent: 'center'}}>
+                <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 14, textAlign:'center', marginTop: '10%', alignItems: 'center', justifyContent: 'center'}}>
+                    기프티콘 교환권과 쿠폰상태가 포함된 캡쳐본 {'\n'} 한장을 업로드 해주세요.
+                </Text>
+                <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, marginTop:'5%', color: '#797979', marginLeft:'5%'}}>
+                    예시와 같이 교환처, 상품명, 유효기간, 가격, 쿠폰상태 모두 보여야 합니다.
+                </Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, marginTop:'3%', color: '#797979', marginBottom: '5%',alignItems: 'center', justifyContent: 'center',textAlign:'center' }}>
+                        사진 예시 보기
+                    </Text>
                 </TouchableOpacity>
+                <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                setModalVisible(!modalVisible);
+                }}
+                >
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
+                            <Image source={exampleimage} style={{ width: 200, height: 400}} />
+                            <TouchableOpacity
+                                style={{ marginTop: 15 }}
+                                onPress={() => setModalVisible(!modalVisible)}
+                                >
+                                <Text style = {{fontFamily: 'Pretendard-Regular', fontSize:14}}>닫기</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    </Modal>
+                </View>
 
+            <View style={{ width: '90%', height: '40%', borderRadius: 8, backgroundColor: '#A1A1A1', alignItems: 'center', alignSelf: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={() => showPicker(setImageUris)} style = {{alignSelf: 'center', justifyContent: 'center'}}>
+                    <View style = {{ width: '75%', height:'100%', flexDirection: 'row'}}>
+                        {imageUris.length > 0 && imageUris.slice(0, 2).map((uri, index) => (
+                            <Image key={index} source={{ uri: uri }} style={{ width: '60%', height: '100%', marginHorizontal: '3%'}} />
+                        ))}
+                        {imageUris.length === 0 && (
+                            <Image source={imageicon} style={{ width: '40%', height: '35%', marginTop: '35%'}} />
+                        )}
+                    </View>
+                </TouchableOpacity>
+            </View>
+
+            <View style ={{alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity 
                     style={[styles.button, !imageUris && styles.disabledButton]} 
                     onPress={() => sendImage()}
@@ -139,11 +168,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     button: {
-        marginVertical: 10,
-        paddingVertical: 10,
-        width: 370,
-        height: 45,
-        paddingHorizontal: 20,
+        marginVertical: '10%',
+        paddingVertical: '3%',
+        paddingHorizontal: '40%',
         borderRadius: 8,
         backgroundColor: '#9d8dff',
         alignItems: 'center',
@@ -157,8 +184,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     image: {
-        width: 168,
-        height: 330,
+        width: '50%',
+        height: 200,
         borderRadius: 10,
         marginVertical: 15,
         marginLeft: 10

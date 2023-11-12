@@ -48,25 +48,44 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
     }
     return (
         <View style={styles.container}>
-            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 14, textAlign:'center', marginTop:100, alignItems: 'center', justifyContent: 'center'}}>
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 14, textAlign:'center', marginTop:'20%', alignItems: 'center', justifyContent: 'center'}}>
                 추출된 쿠폰 정보를 확인해 주세요
             </Text>
-            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, textAlign:'center', marginTop:10, alignItems: 'center', justifyContent: 'center', color: '#797979'}}>
+            <Text style = {{fontFamily: 'Pretendard-SemiBold', fontSize: 12, textAlign:'center', marginTop:'3%', alignItems: 'center', justifyContent: 'center', color: '#797979'}}>
             상품명, 교환처, 유효기간, 바코드 정보가 실제 쿠폰과 일치하는지 {'\n'} 확인해 주세요.
             </Text>
-            <View style = {{alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
+            <View style = {{alignItems: 'center', justifyContent: 'center', marginTop: '5%'}}>
                     <Image source={{ uri: result.image_url }} style={styles.image} />
             </View>
 
-            <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <Text style={styles.label}>상품명</Text>
-                <TextInput style={styles.input} value={result.name}
+            <View style={{ flexDirection: 'row', alignItems: 'center',marginTop: '3%'}}>
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040',marginLeft:'5%'}}>상품명</Text>
+                <View style={{ marginHorizontal: '25%'}}/> 
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040'}}>교환처</Text>
+            </View>
+            <View style={{ flexDirection: 'row', height: '6%', marginTop:'2%'}}>
+            <TextInput style={{width: '30%', height:'100%',backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '3%'}} value={result.name}
                 multiline={true} 
                 numberOfLines={4} />
-
-                <Text style={styles.label}>유효기간</Text>
-                <TextInput style={styles.input} value={`${expiration_date.getFullYear()}년 ${expiration_date.getMonth()}월 ${expiration_date.getUTCDate()}일` } />
+                <View style = {{width: '30%', height:'100%', backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '9%'}}>
+                </View>
             </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center',marginTop: '3%'}}>
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040',marginLeft:'5%'}}>유효기간</Text>
+                <View style={{ marginHorizontal: '11%'}}/> 
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040'}}>쿠폰상태</Text>
+                <View style={{ marginHorizontal: '9%'}}/> 
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040'}}>가격</Text>
+            </View>
+            <View style={{ flexDirection: 'row', height: '6%', marginTop:'2%'}}>
+                <TextInput style={styles.input} value={`${expiration_date.getFullYear()}년 ${expiration_date.getMonth()}월 ${expiration_date.getUTCDate()}일` } />
+                <View style = {{width: '25%', height:'100%', backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '5%'}}>
+                </View>
+                <View style = {{width: '25%', height:'100%', backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '5%'}}>
+                </View>
+            </View>
+            
+            
 
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <TouchableOpacity onPress={fetchGifticon} style={styles.button}>
@@ -96,7 +115,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     input: {
-        width: 245,
+        width: '30%',
         height: 45,
         borderRadius: 8,
         backgroundColor: '#F4F4F4',
