@@ -61,8 +61,6 @@ const SearchingScreen = ({ navigation }) => {
                 onSubmitEditing={handleOnSubmitEditing} 
                 returnKeyType="search" 
             />
-            
-            
 
             <FlatList 
                 style={{top:70, marginHorizontal: '5%'}}
@@ -73,7 +71,7 @@ const SearchingScreen = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <View style={styles.listItem}>
                         <TouchableOpacity onPress = {() => handleItemPress(item)}>
-                                <Image source={{ uri: item.url }} style={styles.image}/>
+                                <Image source={{ uri: item.image_url }} style={styles.image}/>
                                 <Text style={styles.brandtext}>{item.company}</Text>
                                 <Text style={styles.itemName}>{item.gifticon_name}</Text>
                                 <Text style={styles.price}>{item.price}포인트</Text>
