@@ -155,7 +155,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             <View style={{flex: 0.3}}/>
             <TouchableOpacity 
                 style={{flexDirection: 'row', width:'100%', height:48, alignItems: 'center', backgroundColor: '#b774e0', borderRadius: 10}}
-                onPress={() => navigation.navigate('Community')}
+                onPress={() => navigation.navigate('피드')}
                 >
                 <Image source={Imageicon} style={{width:16, height:16, tintColor: '#fff', marginHorizontal:'3%'}}/>
                 <Text style={{fontFamily: 'Pretendard-Bold', fontSize:14, color:'#fff'}}>피드 확인하러 가기</Text>

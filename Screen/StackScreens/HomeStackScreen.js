@@ -6,7 +6,7 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import UploadGifticon from "../../UploadGifticon"
 import WishListScreen from "../MainStackScreens/WishListScreen"
-import MissionDetailScreen from "../MissionStackScreens/MissionDetailScreen"
+import MissionDetailScreen from "../MainStackScreens/MissionDetailScreen"
 import NotificationScreen from "../MainStackScreens/NotificationScreen"
 import DonationHistoryScreen from "../MainStackScreens/DonationHistory"
 import AuthStackScreen from "./AuthStackScreen"
@@ -51,8 +51,6 @@ const HomeStackScreen = ({ navigation, route }) => {
                           fontWeight: 'bold'
                         }
                     }}></Stack.Screen>
-                
-                <Stack.Screen component={MissionDetailScreen} name = "MissionScreen"></Stack.Screen>
                 <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
                 <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
                 <Stack.Screen name = "ModifyGifticonScreen" component = {ModifyGifticonScreen}></Stack.Screen>

@@ -14,7 +14,7 @@ import CustomerService from "../MyPageStackScreens/CustomerService";
 
 import { useEffect, useState } from "react";
 import AuthStackScreen from "./AuthStackScreen";
-import MissionCompletedList from "../MissionStackScreens/MissionCompletedList";
+import MissionCompletedList from "../MainStackScreens/MissionCompletedList";
 const Stack = createStackNavigator()
 const MyPageStackScreen = ({ navigation, route }) => {
     

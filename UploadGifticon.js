@@ -128,7 +128,7 @@ const UploadGifticon = ({ }) => {
                             <Image source={exampleimage} style={{ width: 200, height: 400}} />
                             <TouchableOpacity
                                 style={{ marginTop: 15 }}
-                                onPress={() => setModalVisible(!modalVisible)}
+                                onPress={() => setModalVisible(false)}
                                 >
                                 <Text style = {{fontFamily: 'Pretendard-Regular', fontSize:14}}>닫기</Text>
                             </TouchableOpacity>
