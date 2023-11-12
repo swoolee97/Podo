@@ -10,7 +10,7 @@ const GiftIconList = ({navigation}) => {
     const [hasMore, setHasMore] = useState(true)
     const [refreshing, setRefreshing] = useState(false);
 
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('전체');
     // Sample categories, you can fetch these from your API as well
     const categories = ['전체', '치킨', '피자', '카페', '편의점', '패스트푸드', '아이스크림', '상품권', '베이커리'];
 
