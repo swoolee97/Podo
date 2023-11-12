@@ -4,18 +4,10 @@ import { View, Text, Dimensions, StyleSheet, Button, Image,TouchableOpacity, Mod
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
-import Toast from 'react-native-toast-message'
-import { Modalize } from 'react-native-modalize';
-
-const { width, height} = Dimensions.get('window');
-const isSmallScreen = width < 200 || height < 500;
-
-const toastOffset = isSmallScreen ? 30 : 160;
-const grapeImageSize = isSmallScreen ? 100 : 250;
-const grapeCharSize = isSmallScreen ? 40 : 60;
-
-const imageSize = width < 400 ? 20 : 25; 
-const marginSize = width < 400 ? 10 : 15;
+import Toast from 'react-native-toast-message';
+import PodoChr from '../../images/PODOcharacter.png';
+import Imageicon from '../../images/Imageicon.png';
+import Arrow from '../../images/arrow.png';
 
 const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userEmail, setUserEmail] = useState(null)
@@ -23,18 +15,8 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [userPoints, setUserPoints] = useState(0);
     const [completedMissions, setCompletedMissions] = useState(0);
     const [missionData, setMissionData] = useState(null);
+    const donationLevel = ['첫걸음']
     
-    const grapeImages = [
-        require('../../images/grape.png'),
-        require('../../images/grape1.png'),
-        require('../../images/grape1.png'),
-        require('../../images/grape1.png'),
-        require('../../images/grape1.png'),
-        require('../../images/grape1.png'),
-        require('../../images/grape4.png'),
-        // ... 나머지 이미지들을 여기에 추가
-      ];
-
     useFocusEffect(
         React.useCallback(() => {
           return () => {
@@ -110,10 +92,6 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             userEmail && (
                 <TouchableOpacity onPress={() => navigation.navigate('PointHistoryScreen',userEmail)}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 15 }}>
-                    <Image 
-                        source={require('../../images/point_grape.png')}
-                        style={{ width: imageSize, height: imageSize, marginRight: marginSize }}
-                    />
                     <Text>{userPoints}</Text>
                 </View>
             </TouchableOpacity>
@@ -129,11 +107,64 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
 
     return (
         <View style={styles.container}>
-            <Image source={grapeImages[Math.min(completedMissions, grapeImages.length - 1)]} style={{ width: grapeImageSize, height: grapeImageSize * 1.5}} />
-            <Image source={require('../../images/grape_char.png')} style={{ width: grapeCharSize, height: grapeCharSize * 1.5, alignSelf: 'flex-start' }} />
+            <Text style={{fontFamily: 'Pretendard-Medium', fontSize:26, color:'#000'}}>현재까지{'\n'}<Text style={{fontFamily: 'Pretendard-Bold'}}>77명의 아이들</Text>이{'\n'}기프티콘을 사용했어요!</Text>
+            <View style={{flex: 0.5}}/>
+            <View style={{width:'100%', height: 200, padding: '5%', borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}} >
+                <View style={{flex: 1, flexDirection:'row', alignItems: "center", alignSelf:'center'}}>
+                    <Text style={{fontFamily: 'Pretendard-Bold', fontSize:20, color:'#000'}}>
+                        김수환님,{'\n'}3개<Text style={{fontFamily: 'Pretendard-Medium'}}>의 기프티콘을 기부했어요</Text>
+                    </Text>
+                    <View style={{flex: 1}}/>
+                    <Image source={PodoChr} style={{width: 60, height: 60}}/>
+                </View>
+                <View style={{flex:1, justifyContent:'center'}}>
+                    <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:14, color:'#000'}}><Text style={{color:'#aa57dd'}}>{donationLevel}</Text> 단계</Text>
+                    <View style={{flexDirection: 'row', alignItems:'center'}}>
+                        <View style={{width: '60%', height:8, backgroundColor:'#eaeaea', borderRadius: 20}}>
+
+                        </View>
+                        <View style={{flex: 0.2}}/>
+                        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>3</Text>
+                        <View style={{flex: 0.1}}/>
+                        <Text style={{fontFamily: 'Pretendard-Bold',fontSize:14, color:'#606060'}}>/</Text>
+                        <View style={{flex: 0.1}}/>
+                        <Text style={{fontFamily: 'Pretendard-Bold',fontSize:18, color:'#606060'}}>5</Text>
+                        <View style={{flex: 2}}/>
+                    </View>
+                </View>
+            </View>
             <View style={{flex: 1}}/>
-            {missionData && !missionData.completed ? (
-            <TouchableOpacity style={{width:'90%', height: 140, borderRadius: 15, justifyContent: 'center', backgroundColor: '#FFFFFF', elevation: 5, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}}
+            <View style={{flexDirection:'row', width:'100%', height: 80, borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}}>
+                <TouchableOpacity 
+                    style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
+                    onPress={() => navigation.navigate('UploadGifticon')}
+                >
+                    <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>기부하기</Text>
+                </TouchableOpacity>
+                <View style={{width:2, height:48, backgroundColor:'#eaeaea', alignSelf: 'center'}}/>          
+                <TouchableOpacity 
+                    style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
+                    onPress={() => navigation.navigate('DonationHistoryScreen')}
+                    >
+                        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>3개</Text>
+                        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:14, color:'#484848'}}>기부내역</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex: 1}}/>
+            <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:20, color:'#000'}}>당신의 나눔,{'\n'}그 생생한 이야기를 확인하세요!</Text>
+            <View style={{flex: 0.3}}/>
+            <TouchableOpacity 
+                style={{flexDirection: 'row', width:'100%', height:48, alignItems: 'center', backgroundColor: '#b774e0', borderRadius: 10}}
+                onPress={() => navigation.navigate('Community')}
+                >
+                <Image source={Imageicon} style={{width:16, height:16, tintColor: '#fff', marginHorizontal:'3%'}}/>
+                <Text style={{fontFamily: 'Pretendard-Bold', fontSize:14, color:'#fff'}}>피드 확인하러 가기</Text>
+                <View style={{flex: 1}}/>
+                <Image source={Arrow} style={{width:12, height:12, tintColor: '#fff', marginHorizontal:'3%'}}/>
+            </TouchableOpacity>
+            <View style={{flex: 1}}/>
+            {/*{missionData && !missionData.completed ? (
+            <TouchableOpacity style={{width:'100%', height: 140, borderRadius: 15, justifyContent: 'center', backgroundColor: '#FFFFFF', elevation: 5, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}}
                 onPress={() => {
                     conductMission();
                     Toast.hide()
@@ -143,7 +174,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             <TouchableOpacity style={{width:'90%', height:100, borderColor: 'grey', borderWidth: 1, borderRadius: 15 ,justifyContent: 'center'}}
                 disabled={true} >
                 <Text style={{alignSelf:'center', fontFamily: 'Pretendard-SemiBold'}}>오늘은 미션이 없어요</Text>
-            </TouchableOpacity>)}
+            </TouchableOpacity>)}*/}
         </View >
     )
 }
@@ -152,9 +183,7 @@ export default HomeScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+        paddingHorizontal: '5%',
         backgroundColor: 'white',
     },
     button: {

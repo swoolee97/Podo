@@ -50,16 +50,18 @@ const CommunityScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       
       <FlatList
-        style={{marginHorizontal: '5%', marginTop: '5%'}}
+        style={{marginHorizontal: '5%'}}
         columnWrapperStyle={styles.columnWrapper}
         data={posts}
-        keyExtractor={(item) => item._id ? item._id.toString() : Math.random().toString()}
+        keyExtractor={(item) => item._id ? item._id.toString() : Math.random().toString()} 
+        //키 추출기(keyExtractor): FlatList의 keyExtractor에서 임의의 문자열(Math.random().toString())을 반환하고 있습니다. 이는 성능 문제를 일으킬 수 있으며, 리액트가 컴포넌트를 효율적으로 재사용하지 못하게 만듭니다. 각 항목의 고유 식별자(item._id)가 없을 경우, 리스트의 데이터 구조를 검토하고 항상 일정한 고유 키를 제공해야 합니다.
         renderItem={({ item }) => (
           <View style={styles.listItem}>
             <TouchableOpacity  onPress={() => goToPostDetail(item)}>
-              {Array.isArray(item.imageUrl) && item.imageUrl.length > 0 && (
+              {Array.isArray(item.imageUrl) && item.imageUrl.length > 0 && ( 
+                // 하지만, URL이 유효한지, 혹은 네트워크 오류가 발생할 경우의 처리가 없습니다.
                   <Image source={{ uri: item.imageUrl[0] }} style={styles.image}/>
-              )}
+              )} 
             </TouchableOpacity>
 
               <View style={{ flexDirection: 'row', alignItems: 'center', marginTop:'5%'}}>
