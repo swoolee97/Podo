@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useIsFocused } from '@react-navigation/native';
 import { TouchableOpacity } from "react-native";

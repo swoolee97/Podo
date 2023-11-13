@@ -10,20 +10,43 @@ import Imageicon from '../../images/Imageicon.png';
 import Arrow from '../../images/arrow.png';
 
 const HomeScreen = ({ navigation, setHeaderPoints}) => {
-    const [userEmail, setUserEmail] = useState(null)
-    const isFocused = useIsFocused();
+  
     const [userPoints, setUserPoints] = useState(0);
     const [completedMissions, setCompletedMissions] = useState(0);
     const [missionData, setMissionData] = useState(null);
     const donationLevel = ['첫걸음']
-    
-    useFocusEffect(
-        React.useCallback(() => {
-          return () => {
-            Toast.hide()
-          };
-        }, [])
-      );
+    const [userEmail, setUserEmail] = useState(null);
+    const [isCertified, setIsCertified] = useState(false);
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused) {
+            const fetchData = async () => {
+                const email = await AsyncStorage.getItem('user_email');
+                if (!email) return;
+
+                setUserEmail(email);
+                try {
+                    const [pointResponse, certificationResponse] = await Promise.all([
+                        fetch(PreURL.preURL + `/api/point/sum?email=${email}`),
+                        fetch(PreURL.preURL + `/api/card?email=${email}`)
+                    ]);
+
+                    if (!pointResponse.ok) {
+                        throw new Error(`HTTP Error in pointResponse: ${pointResponse.status}`);
+                    }
+                    const pointData = await pointResponse.json();
+                    setUserPoints(pointData.sum);
+
+                    setIsCertified(certificationResponse.status == 500);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+            fetchData();
+        }
+    }, [isFocused]);
+
     const fetchUserDetails = async (user_email) => {
         if (user_email) {
             try {
@@ -85,7 +108,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
         const data = await response.json()
         navigation.navigate('MissionDetailScreen', { data, email })
     };
-
+    
     React.useLayoutEffect(() => {
         navigation.setOptions({
           headerLeft: () => (
@@ -106,13 +129,14 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
     }, [missionData]);
 
     return (
-        <View style={styles.container}>
+        userEmail && 
+        (<View style={styles.container}>
             <Text style={{fontFamily: 'Pretendard-Medium', fontSize:26, color:'#000'}}>현재까지{'\n'}<Text style={{fontFamily: 'Pretendard-Bold'}}>77명의 아이들</Text>이{'\n'}기프티콘을 사용했어요!</Text>
             <View style={{flex: 0.5}}/>
             <View style={{width:'100%', height: 200, padding: '5%', borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}} >
                 <View style={{flex: 1, flexDirection:'row', alignItems: "center", alignSelf:'center'}}>
                     <Text style={{fontFamily: 'Pretendard-Bold', fontSize:20, color:'#000'}}>
-                        김수환님,{'\n'}3개<Text style={{fontFamily: 'Pretendard-Medium'}}>의 기프티콘을 기부했어요</Text>
+                        {userEmail}님,{'\n'}3개{isCertified ? (<Text style={{fontFamily: 'Pretendard-Medium'}}>의 미니게임을 완료했어요</Text>) : (<Text style={{fontFamily: 'Pretendard-Medium'}}>의 기프티콘을 기부했어요</Text>)}
                     </Text>
                     <View style={{flex: 1}}/>
                     <Image source={PodoChr} style={{width: 60, height: 60}}/>
@@ -135,12 +159,18 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             </View>
             <View style={{flex: 1}}/>
             <View style={{flexDirection:'row', width:'100%', height: 80, borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}}>
-                <TouchableOpacity 
+                {isCertified ? (<TouchableOpacity 
+                    style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
+                    onPress={() => navigation.navigate('PointHistoryScreen',userEmail)}
+                >
+                    <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>{userPoints}P</Text>
+                    <Text style={{fontFamily: 'Pretendard-Bold', fontSize:14, color:'#484848'}}>포인트내역</Text>
+                </TouchableOpacity>) :(<TouchableOpacity 
                     style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
                     onPress={() => navigation.navigate('UploadGifticon')}
                 >
                     <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>기부하기</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>)}
                 <View style={{width:2, height:48, backgroundColor:'#eaeaea', alignSelf: 'center'}}/>          
                 <TouchableOpacity 
                     style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
@@ -175,7 +205,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 disabled={true} >
                 <Text style={{alignSelf:'center', fontFamily: 'Pretendard-SemiBold'}}>오늘은 미션이 없어요</Text>
             </TouchableOpacity>)}*/}
-        </View >
+        </View >)
     )
 }
 export default HomeScreen
