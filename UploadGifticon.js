@@ -124,10 +124,10 @@ const UploadGifticon = ({ }) => {
                     }}
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
-                            <Image source={exampleimage} style={{ width: 200, height: 400}} />
+                        <View style={{width: '80%',height: '60%' ,backgroundColor: '#FFFFFF', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
+                            <Image source={exampleimage} style={{ width: '80%', height: '95%'}} />
                             <TouchableOpacity
-                                style={{ marginTop: 15, padding: 10 }}
+                                style={{ marginTop: '5%', width:'50%',alignSelf: 'center' }}
                                 onPress={() => setModalVisible(false)}
                                 >
                                 <Text style = {{fontFamily: 'Pretendard-Regular', fontSize:14, textAlign: 'center'}}>닫기</Text>
@@ -183,12 +183,5 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-    image: {
-        width: '50%',
-        height: 200,
-        borderRadius: 10,
-        marginVertical: 15,
-        marginLeft: 10
-    }
 });
 export default UploadGifticon;
