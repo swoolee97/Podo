@@ -116,21 +116,21 @@ const UploadGifticon = ({ }) => {
                     </Text>
                 </TouchableOpacity>
                 <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                setModalVisible(!modalVisible);
-                }}
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                    }}
                 >
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                         <View style={{ backgroundColor: '#FFFFFF', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
                             <Image source={exampleimage} style={{ width: 200, height: 400}} />
                             <TouchableOpacity
-                                style={{ marginTop: 15 }}
+                                style={{ marginTop: 15, padding: 10 }}
                                 onPress={() => setModalVisible(false)}
                                 >
-                                <Text style = {{fontFamily: 'Pretendard-Regular', fontSize:14}}>닫기</Text>
+                                <Text style = {{fontFamily: 'Pretendard-Regular', fontSize:14, textAlign: 'center'}}>닫기</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
