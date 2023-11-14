@@ -59,19 +59,23 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center',marginTop: '3%'}}>
-                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040',marginLeft:'5%'}}>상품명</Text>
-                <View style={{ marginHorizontal: '25%'}}/> 
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14, color:'#404040', marginLeft:'4%'}}>상품명</Text>
+                <View style={{ marginHorizontal: '17%'}}/> 
                 <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040'}}>교환처</Text>
             </View>
             <View style={{ flexDirection: 'row', height: '6%', marginTop:'2%'}}>
-            <TextInput style={{width: '30%', height:'100%',backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '3%'}} value={result.name}
-                multiline={true} 
-                numberOfLines={4} />
-                <View style = {{width: '30%', height:'100%', backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '9%'}}>
-                </View>
+                <TextInput style={{fontFamily: 'Pretendard-Regular',fontSize: 14, width: '35%', height:'100%',backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '3%'}}
+                    value={result.name}
+                    multiline={true} 
+                    numberOfLines={4} />
+                <View style={{ marginHorizontal: '3%'}}/> 
+                <TextInput style={{fontFamily: 'Pretendard-Regular',fontSize: 14, width: '35%', height:'100%',backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '3%'}}
+                    value={result.exchange_place}
+                    multiline={true} 
+                    numberOfLines={4} />
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center',marginTop: '3%'}}>
-                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040',marginLeft:'5%'}}>유효기간</Text>
+                <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040',marginLeft:'4%'}}>유효기간</Text>
                 <View style={{ marginHorizontal: '11%'}}/> 
                 <Text style = {{fontFamily: 'Pretendard-Regular',fontSize: 14,color:'#404040'}}>쿠폰상태</Text>
                 <View style={{ marginHorizontal: '9%'}}/> 
@@ -79,9 +83,11 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
             </View>
             <View style={{ flexDirection: 'row', height: '6%', marginTop:'2%'}}>
                 <TextInput style={styles.input} value={`${expiration_date.getFullYear()}년 ${expiration_date.getMonth()}월 ${expiration_date.getUTCDate()}일` } />
-                <View style = {{width: '25%', height:'100%', backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '5%'}}>
+                <View style = {{width: '25%', height:'100%', backgroundColor: '#B9B9B9',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '5%',justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ textAlign: 'center', fontFamily: 'Pretendard-Regular', fontSize: 14 }}>{result.coupon_status}</Text> 
                 </View>
-                <View style = {{width: '25%', height:'100%', backgroundColor: '#F4F4F4',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '5%'}}>
+                <View style = {{width: '25%', height:'100%', backgroundColor: '#B9B9B9',borderColor: '#D9D9D9', borderWidth:1, borderRadius: 8, marginLeft: '5%',justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ textAlign: 'center', fontFamily: 'Pretendard-Regular', fontSize: 14 }}>{result.price}</Text> 
                 </View>
             </View>
             
