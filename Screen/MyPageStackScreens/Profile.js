@@ -53,6 +53,26 @@ const Profile = ({ navigation }) => {
             {renderCheckmark(`프로필 사진${index + 1}`)}
         </View>
       );
+    const onModifyPress = async () => {
+        const userEmail = await AsyncStorage.getItem('user_email')
+        data = {
+            'user_email' : userEmail,
+            'nick_name' : inputValue
+        }
+        const response = await fetch(PreURL.preURL + '/api/auth/update',{
+            method : 'POST',
+            body : JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        const responseData = await response.json();
+        console.log(responseData.message)
+        if(response.status == 500){
+            return Alert.alert('이미 사용중인 닉네임');
+        }
+        return Alert.alert('변경되었습니다')
+    }
 
     return(
         <ScrollView style={styles.container}>
@@ -103,6 +123,11 @@ const Profile = ({ navigation }) => {
                 </View>
             )}
             <View style = {{flex:1}}/>
+            <TouchableOpacity onPress={onModifyPress}>
+                <Text>
+                    수정하기
+                </Text>
+            </TouchableOpacity>
         </ScrollView>
     )
 }
