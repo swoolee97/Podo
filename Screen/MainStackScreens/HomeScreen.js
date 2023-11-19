@@ -4,19 +4,16 @@ import { View, Text, Dimensions, StyleSheet, Button, Image,TouchableOpacity, Mod
 import { useEffect, useState } from "react";
 import PreURL from "../../PreURL/PreURL";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
-import Toast from 'react-native-toast-message';
 import PodoChr from '../../images/PODOcharacter.png';
 import Imageicon from '../../images/Imageicon.png';
 import gameicon from '../../images/gameicon.png';
 import Arrow from '../../images/arrow.png';
 
-const HomeScreen = ({ navigation, setHeaderPoints}) => {
-  
+const HomeScreen = ({ navigation}) => {
+    const [userEmail, setUserEmail] = useState(null);
     const [userPoints, setUserPoints] = useState(0);
     const [completedMissionCount, setCompletedMissions] = useState(0);
-    const [missionData, setMissionData] = useState(null);
     const donationLevel = ['첫걸음']
-    const [userEmail, setUserEmail] = useState(null);
     const [isCertified, setIsCertified] = useState(false);
     const isFocused = useIsFocused();
 
