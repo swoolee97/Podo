@@ -7,6 +7,7 @@ const MinigameScreen = () => {
     const [angle, setAngle] = useState(new Animated.Value(0));
     const [result, setResult] = useState('');
     const [modalVisible, setModalVisible] = useState(false); // 모달 상태
+    const [isSpinning, setIsSpinning] = useState(false); // 추가된 상태 변수
     const data = [
         { color: '#3f297e', text: 500, minAngle: -36, maxAngle: 36 }, // 섹터 1
         { color: '#1d61ac', text: 100, minAngle: 253, maxAngle: 324 }, // 섹터 2
@@ -17,6 +18,9 @@ const MinigameScreen = () => {
     
   
       const rotateRoulette = () => {
+        if (isSpinning) return; // 이미 회전 중이면 함수를 종료
+        setIsSpinning(true);
+
         angle.setValue(0);
         
         // 랜덤한 섹터 번호 선택 (0 ~ 4)
@@ -46,9 +50,11 @@ const MinigameScreen = () => {
               duration: 5000,
               useNativeDriver: true,
             }).start(() => {
-              setResult(`선택된 섹터: ${selectedSection.text}`);
+              setResult(`${selectedSection.text}`);
               setModalVisible(true);
-        
+              setTimeout(() => {
+                setIsSpinning(false); // 3초 후에 회전 상태를 종료
+            }, 1000);
               // 다음 회전을 위해 각도를 다시 0으로 설정
 
             });
@@ -62,36 +68,62 @@ const MinigameScreen = () => {
 
   return (
     <View style={styles.container}>
-        <Image source={require('../../images/RouletteArrow.png')} style={{ width: 36, height: 55, marginBottom: -35, zIndex: 1}} />
         <LinearGradient 
-        colors={['#84A5F6', '#8573D9']}
-        style={{ width: 300, height: 300, borderRadius: 150, justifyContent:'center', alignItems: 'center'}}
+        colors={['#C0A7EB','#F4C0E8','#C0A7EB']}
+        style={{flex:1, width:'100%', alignItems: 'center'}}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}>
-            <Animated.View style={[styles.roulette, {position: 'absolute', transform: [{ rotate: spin }] }]}>
-                <Image source={require('../../images/Roulette.png')} style={{ width: 360, height: 360, position: 'absolute', }} />
-            </Animated.View>
-            <View style={{ width: 60, height: 60, borderRadius: 150, backgroundColor:'#6993DB', alignSelf: 'center', justifyContent: 'center'}}>
-                <LinearGradient 
+            <View style={{flex:2}}/>
+            <Image source={require('../../images/Roulettetitle.png')} style={{ width: 240, height:70}} />
+            <Image source={require('../../images/Roulettecontents.png')} style={{ width: 340, height:95, marginBottom: -35 }} />
+            <Image source={require('../../images/RouletteArrow.png')} style={{ width: 36, height: 55, marginBottom: -35, zIndex: 1}} />
+            <LinearGradient 
+            colors={['#84A5F6', '#8573D9']}
+            style={{ width: 300, height: 300, borderRadius: 150, justifyContent:'center', alignItems: 'center', elevation: 10}}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}>
+                <Animated.View style={[styles.roulette, {position: 'absolute', transform: [{ rotate: spin }] }]}>
+                    <Image source={require('../../images/Roulette.png')} style={{ width: 360, height: 360, position: 'absolute', }} />
+                </Animated.View>
+                <View style={{ width: 60, height: 60, borderRadius: 150, backgroundColor:'#6993DB', alignSelf: 'center', justifyContent: 'center'}}>
+                    <LinearGradient 
                     colors={['#FECC2F', '#F39401']}
                     style={{ width: 50, height: 50, borderRadius: 150, justifyContent:'center', alignSelf: 'center'}}
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}>
-                        <LinearGradient 
+                            <LinearGradient 
                             colors={['#FEB010', '#FFE073']}
                             style={{ width: 42, height: 42, borderRadius: 150, justifyContent:'center', alignSelf: 'center'}}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 0, y: 1 }}>
-                        </LinearGradient>
-                </LinearGradient>
-            </View>
+                            </LinearGradient>
+                    </LinearGradient>
+                </View>
+            </LinearGradient>
+            <View style={{flex:1}}/>
+            <TouchableOpacity
+            style={{width:'80%', backgroundColor: '#B774E0', height:48, borderRadius:10, justifyContent: 'center', alignItems:'center'}} 
+            onPress={rotateRoulette}
+            disabled={isSpinning}>
+                <Text style={{fontFamily: 'Pretendard-Bold', color: '#fff', fontSize:18}}>
+                    룰렛 돌리기
+                </Text>
+            </TouchableOpacity>
+            <View style={{flex:1}}/>
         </LinearGradient>
-        <TouchableOpacity onPress={rotateRoulette}>
-            <Text>Start</Text>
-        </TouchableOpacity>
-        <Text style={styles.result}>{result}</Text>
+        <View style={{flex:0.2, paddingHorizontal:'6%'}}>
+            <View style={{flex:3}}/>
+            <Text style={{fontFamily: 'Pretendard-Bold', color: '#000', fontSize:20}}>
+                이벤트 정보
+            </Text>
+            <View style={{flex:1}}/>
+            <Text style={{fontFamily: 'Pretendard-Regular', color: '#000', fontSize:18}}>
+                룰렛 돌리기는 하루에 한번 참여할 수 있어요
+            </Text>
+            <View style={{flex:6}}/>
+        </View>
         <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -100,12 +132,15 @@ const MinigameScreen = () => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>{result}</Text>
+                        <View style={{flex:4, justifyContent:'center'}}>
+                            <Text style={{fontFamily: 'Pretendard-SemiBold', color: '#000', fontSize:20, textAlign:'center'}}>축하합니다.</Text>
+                            <Text style={{fontFamily: 'Pretendard-SemiBold', color: '#000', fontSize:20}}><Text style={{ color: '#B774E0'}}>{result}P{'\u00A0'}</Text>획득했어요!</Text>
+                        </View>
                         <TouchableOpacity
-                            style={[styles.button, styles.buttonClose]}
+                            style={{flex:1, width: '100%', justifyContent:'center', alignItems:'center', backgroundColor:'#B774E0', borderBottomLeftRadius:10, borderBottomRightRadius:10}}
                             onPress={() => setModalVisible(!modalVisible)}
                         >
-                            <Text style={styles.textStyle}>닫기</Text>
+                            <Text style={{fontFamily: 'Pretendard-SemiBold', color: '#fff', fontSize:16}}>닫기</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -117,8 +152,6 @@ const MinigameScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   roulette: {
     width: 262,
@@ -139,13 +172,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    backgroundColor: 'rgba(0,0,0,0.3)'
 },
 modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 10,
+    width:'80%',
+    height: 200,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
