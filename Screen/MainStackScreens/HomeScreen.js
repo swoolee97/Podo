@@ -14,6 +14,8 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
   
     const [userPoints, setUserPoints] = useState(0);
     const [completedMissionCount, setCompletedMissions] = useState(0);
+    const [donatedGifticonCount, setDonatdedGifticonCount] = useState(0);
+    const [receivedGifticonCount, setReceivedGifticonCount] = useState(0);
     const [missionData, setMissionData] = useState(null);
     const donationLevel = ['첫걸음']
     const [userEmail, setUserEmail] = useState(null);
@@ -34,7 +36,8 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 }
 
                 try {
-                    const [pointResponse, certificationResponse, completedMissionCountResponse] = await Promise.all([
+                    const [pointResponse, certificationResponse, completedMissionCountResponse, 
+                        donatedGificonCountResponse, receivedGifticonCountResponse] = await Promise.all([
                         fetch(PreURL.preURL + `/api/point/sum?email=${email}`),
                         fetch(PreURL.preURL + `/api/auth/isReceiver`,{
                             method :'POST',
@@ -44,7 +47,20 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                             },
                         }),
                         fetch(PreURL.preURL + `/api/mission/sum?email=${email}`),
-                        fetch(PreURL.preURL + `/api/mission/list?email=${email}`),
+                        fetch(PreURL.preURL + `/api/gifticon/count`,{
+                            method :'POST',
+                            body : JSON.stringify({'email' : email}),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        }),
+                        fetch(PreURL.preURL + `/api/gifticon/received`,{
+                            method :'POST',
+                            body : JSON.stringify({'email' : email}),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        }),
                     ]);
 
                     if (!pointResponse.ok) {
@@ -60,6 +76,12 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                         // if (data && data.missions) {
                         setCompletedMissions(data.length);
                     // }
+
+                    const donatedGificonCountResponseData = await donatedGificonCountResponse.json();
+                    setDonatdedGifticonCount(donatedGificonCountResponseData.count);
+
+                    const receivedGifticonCountResponseData = await receivedGifticonCountResponse.json();
+                    setReceivedGifticonCount(receivedGifticonCountResponseData.count);
 
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -93,7 +115,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 <View style={{width:'100%', height: 200, padding: '5%', borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}} >
                     <View style={{flex: 1, flexDirection:'row', alignItems: "center", alignSelf:'center'}}>
                         <Text style={{fontFamily: 'Pretendard-Bold', fontSize:20, color:'#000'}}>
-                            {userEmail.split('@')[0]}님,{'\n'}{completedMissionCount}개
+                            {userEmail.split('@')[0]}님,{'\n'}{donatedGifticonCount}개
                             <Text style={{fontFamily: 'Pretendard-Medium'}}>의 기프티콘을 기부했어요</Text>
                         </Text>
                         <View style={{flex: 1}}/>
@@ -106,7 +128,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
 
                             </View>
                             <View style={{flex: 0.2}}/>
-                            <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>3</Text>
+                            <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{donatedGifticonCount}</Text>
                             <View style={{flex: 0.1}}/>
                             <Text style={{fontFamily: 'Pretendard-Bold',fontSize:14, color:'#606060'}}>/</Text>
                             <View style={{flex: 0.1}}/>
@@ -156,7 +178,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                         style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
                         onPress={() => navigation.navigate('DonationHistoryScreen')}
                         >
-                            <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>3개</Text>
+                            <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>{donatedGifticonCount}개</Text>
                             <Text style={{fontFamily: 'Pretendard-Bold', fontSize:14, color:'#484848'}}>기부내역</Text>
                     </TouchableOpacity>
                 </View> 
@@ -174,7 +196,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                         style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
                         onPress={() => navigation.navigate('DonationHistoryScreen')}
                         >
-                            <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>3개</Text>
+                            <Text style={{fontFamily: 'Pretendard-Bold', fontSize:18, color:'#aa57dd'}}>{receivedGifticonCount}개</Text>
                             <Text style={{fontFamily: 'Pretendard-Bold', fontSize:14, color:'#484848'}}>교환내역</Text>
                     </TouchableOpacity>
                 </View>)}
