@@ -12,6 +12,7 @@ import DonationHistoryScreen from "../MainStackScreens/DonationHistory"
 import AuthStackScreen from "./AuthStackScreen"
 import ModifyGifticonScreen from "../GifticonListScreens/ModifyGifticonScreen"
 import PointHistoryScreen from "../MainStackScreens/PointHistoryScreen"
+import MinigameScreen from "../MainStackScreens/MinigameScreen"
 
 
 const Stack = createStackNavigator()
@@ -51,6 +52,14 @@ const HomeStackScreen = ({ navigation, route }) => {
                           fontWeight: 'bold'
                         }
                     }}></Stack.Screen>
+                <Stack.Screen component={MinigameScreen} name = "MinigameScreen"
+                      options={{
+                        title: '미니 게임',
+                        headerTitleAlign: 'center',
+                        headerTitleStyle: {
+                          fontWeight: 'bold'
+                        }
+                    }}></Stack.Screen>    
                 <Stack.Screen component={AuthStackScreen} name = "AuthStackScreen"></Stack.Screen>
                 <Stack.Screen name='UploadGifticon' component={UploadGifticon}></Stack.Screen>
                 <Stack.Screen name = "ModifyGifticonScreen" component = {ModifyGifticonScreen}></Stack.Screen>
