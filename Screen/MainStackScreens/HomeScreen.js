@@ -17,8 +17,9 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
     const [missionData, setMissionData] = useState(null);
     const donationLevel = ['첫걸음']
     const [userEmail, setUserEmail] = useState(null);
-    const [isCertified, setIsCertified] = useState(false);
+    const [isReceiver, setIsReceiver] = useState(false);
     const isFocused = useIsFocused();
+    const dailyMissionLimit = 5;
 
     useEffect(() => {
         if (isFocused) {
@@ -26,7 +27,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 const email = await AsyncStorage.getItem('user_email');
                 setUserEmail(email);
                 if (!email) {
-                    setIsCertified(false);
+                    setIsReceiver(false);
                     setUserPoints(0);
                     setCompletedMissions(0);
                     return;
@@ -35,8 +36,15 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                 try {
                     const [pointResponse, certificationResponse, completedMissionCountResponse] = await Promise.all([
                         fetch(PreURL.preURL + `/api/point/sum?email=${email}`),
-                        fetch(PreURL.preURL + `/api/card?email=${email}`),
-                        fetch(PreURL.preURL + `/api/mission/list?email=${email}`)
+                        fetch(PreURL.preURL + `/api/auth/isReceiver`,{
+                            method :'POST',
+                            body : JSON.stringify({'user_email' : email}),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        }),
+                        fetch(PreURL.preURL + `/api/mission/sum?email=${email}`),
+                        fetch(PreURL.preURL + `/api/mission/list?email=${email}`),
                     ]);
 
                     if (!pointResponse.ok) {
@@ -45,13 +53,13 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                     const pointData = await pointResponse.json();
                     setUserPoints(pointData.sum);
 
-                    setIsCertified(certificationResponse.status == 500);
+                    const certificationResponseData = await certificationResponse.json()
+                    setIsReceiver(certificationResponseData.isReceiver);
 
                     const data = await completedMissionCountResponse.json();
-                        if (data && data.missions) {
-                        setCompletedMissions(data.missions.length);
-            }
-
+                        // if (data && data.missions) {
+                        setCompletedMissions(data.length);
+                    // }
 
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -60,7 +68,14 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             fetchData();
         }
     }, [isFocused]);
-
+    const getTodayDate = () => {
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth();
+        let day = today.getDate();
+        var formattedDate = year + month.toString().padStart(2, '0') + day.toString().padStart(2, '0');
+        return formattedDate
+    }
     const conductMission = async () => {
         const email = await AsyncStorage.getItem('user_email');
         const response = await fetch(PreURL.preURL + `/api/mission/createMission?email=${email}`)
@@ -74,7 +89,7 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
             <Text style={{fontFamily: 'Pretendard-Medium', fontSize:26, color:'#000'}}>현재까지{'\n'}<Text style={{fontFamily: 'Pretendard-Bold'}}>77명의 아이들</Text>이{'\n'}기프티콘을 사용했어요!</Text>
             <View style={{flex: 0.5}}/>
 
-            {!isCertified ? (
+            {!isReceiver ? (
                 <View style={{width:'100%', height: 200, padding: '5%', borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}} >
                     <View style={{flex: 1, flexDirection:'row', alignItems: "center", alignSelf:'center'}}>
                         <Text style={{fontFamily: 'Pretendard-Bold', fontSize:20, color:'#000'}}>
@@ -117,18 +132,18 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
 
                         </View>
                         <View style={{flex: 0.2}}/>
-                        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{completedMissionCount}</Text>
+                        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{dailyMissionLimit-completedMissionCount}</Text>
                         <View style={{flex: 0.1}}/>
                         <Text style={{fontFamily: 'Pretendard-Bold',fontSize:14, color:'#606060'}}>/</Text>
                         <View style={{flex: 0.1}}/>
-                        <Text style={{fontFamily: 'Pretendard-Bold',fontSize:18, color:'#606060'}}>5</Text>
+                        <Text style={{fontFamily: 'Pretendard-Bold',fontSize:18, color:'#606060'}}>{dailyMissionLimit}</Text>
                         <View style={{flex: 2}}/>
                     </View>
                 </View>
             </View>
             )}
             <View style={{flex: 1}}/>
-            {!isCertified ? (
+            {!isReceiver ? (
                 <View style={{flexDirection:'row', width:'100%', height: 80, borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}}>
                     <TouchableOpacity 
                         style={{flex:1, justifyContent: 'center', alignItems: 'center'}}
@@ -164,12 +179,12 @@ const HomeScreen = ({ navigation, setHeaderPoints}) => {
                     </TouchableOpacity>
                 </View>)}
             <View style={{flex: 1}}/>
-            {!isCertified ? (
+            {!isReceiver ? (
                 <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:20, color:'#000'}}>당신의 나눔,{'\n'}그 생생한 이야기를 확인하세요!</Text>
                 ) : (
                 <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:20, color:'#000'}}>플레이하고{'\n'}포인트를 획득하세요!</Text>)}
             <View style={{flex: 0.3}}/>
-            {!isCertified ? (
+            {!isReceiver ? (
                 <TouchableOpacity 
                     style={{flexDirection: 'row', width:'100%', height:48, alignItems: 'center', backgroundColor: '#b774e0', borderRadius: 10}}
                     onPress={() => navigation.navigate('피드')}
