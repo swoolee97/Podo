@@ -23,6 +23,10 @@ const Profile = ({ navigation }) => {
     const [selectedProfileImage, setSelectedProfileImage] = useState(null);
     const profileImages = [profile1,profile2,profile3,profile4]
 
+    useEffect(() => {
+        
+    })
+
     const handleChangeText = (text) => {
         setInputValue(text);
         if (text.length > 3) {

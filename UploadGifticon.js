@@ -52,14 +52,18 @@ const UploadGifticon = ({ }) => {
                 }
             })
             const data = await response.json();
-            return navigation.navigate('ModifyGifticonScreen',{
-                data,
-                formData,
-            })
+            console.log(data)
+            // return;
 
             if(data.result.coupon_status != "사용안함"){
                 return Alert.alert("사용하지 않은 기프티콘을 올려주세요");
             }
+
+            return navigation.navigate('ModifyGifticonScreen',{
+                data,
+                formData,
+            })
+            
             navigation.navigate('')
 
             if (response.status == 200) {
@@ -153,7 +157,7 @@ const UploadGifticon = ({ }) => {
             <View style ={{alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity 
                     style={[styles.button, !imageUris && styles.disabledButton]} 
-                    onPress={() => sendImage()}
+                    onPress={sendImage}
                     disabled={!imageUris}>
                     <Text style={styles.buttonText}>기부하기</Text>
                 </TouchableOpacity>

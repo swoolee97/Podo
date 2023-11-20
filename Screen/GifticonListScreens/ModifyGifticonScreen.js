@@ -1,17 +1,17 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, VirtualizedList } from "react-native"
 import { TextInput } from "react-native-gesture-handler";
-import FocusableInput from "../Styles/FocusableInput";
+import { useNavigation } from '@react-navigation/native';
 import stringToDate from "../../CommonMethods/stringToDate";
 import { preURL } from "../../PreURL/PreURL";
 import stringToPrice from "../../CommonMethods/stringToPrice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Modalize } from 'react-native-modalize';
 
-const ModifyGifticonScreen = ({ navigation,route }) => {
-    
-    console.log("@@@@")
-    console.log(route.params.data.result)
+const ModifyGifticonScreen = ({route }) => {
+    const navigation = useNavigation(navigation)
     const result = route.params.data.result
+    console.log("@@@@@")
+    console.log(result)
     const expiration_date = stringToDate(result.expiration_date) 
     const price = stringToPrice(result.price)
 
@@ -29,6 +29,7 @@ const ModifyGifticonScreen = ({ navigation,route }) => {
         newFormData.append('price', price);
         newFormData.append('expiration_date', result.expiration_date);
         newFormData.append('image_url', result.image_url);
+        newFormData.append('exchange_place', result.exchange_place);
         newFormData.append('name', result.name);
         newFormData.append('user_email',user_email)
         const response = await fetch(preURL + '/api/gifticon/upload', {
