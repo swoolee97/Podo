@@ -125,7 +125,9 @@ const HomeScreen = ({ navigation}) => {
                         <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:14, color:'#000'}}><Text style={{color:'#aa57dd'}}>{donationLevel}</Text> 단계</Text>
                         <View style={{flexDirection: 'row', alignItems:'center'}}>
                             <View style={{width: '60%', height:8, backgroundColor:'#eaeaea', borderRadius: 20}}>
+                                <View style={{width: donationprogressWidth, height:8, backgroundColor:'#aa57dd', borderRadius: 20}}>
 
+                                </View>
                             </View>
                             <View style={{flex: 0.2}}/>
                             <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{donatedGifticonCount}</Text>
