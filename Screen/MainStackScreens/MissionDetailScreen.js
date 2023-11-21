@@ -52,8 +52,7 @@ const MissionDetailScreen = ({navigation}) => {
             try {
                 const [pointResponse,completedMissionCountResponse] = await Promise.all([
                     fetch(PreURL.preURL + `/api/point/sum?email=${email}`),
-                    // fetch(PreURL.preURL + `/api/card?email=${email}`),
-                    fetch(PreURL.preURL + `/api/mission/list?email=${email}`)
+                    fetch(PreURL.preURL + `/api/mission/sum?email=${email}`)
                 ]);
 
                 if (!pointResponse.ok) {
@@ -62,12 +61,8 @@ const MissionDetailScreen = ({navigation}) => {
                 const pointData = await pointResponse.json();
                 setUserPoints(pointData.sum);
 
-            
-
                 const data = await completedMissionCountResponse.json();
-                    if (data && data.missions) {
-                    setCompletedMissions(data.missions.length);
-        }
+                    setCompletedMissions(data.length);
 
 
             } catch (error) {
@@ -102,7 +97,7 @@ const MissionDetailScreen = ({navigation}) => {
           오늘 가능한{'\n'}미니게임
         </Text>                          
         <View style={{flex: 0.4}}/>
-        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{completedMissionCount}</Text>
+        <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{5-completedMissionCount}</Text>
         <View style={{flex: 0.1}}/>
         <Text style={{fontFamily: 'Pretendard-Bold',fontSize:14, color:'#606060'}}>/</Text>
         <View style={{flex: 0.1}}/>

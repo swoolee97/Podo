@@ -1,6 +1,9 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Animated, StyleSheet, Image, Modal } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import PreURL from '../../PreURL/PreURL';
+import { Alert } from 'react-native';
 
 
 const MinigameScreen = () => {
@@ -17,31 +20,40 @@ const MinigameScreen = () => {
       ];
     
   
-      const rotateRoulette = () => {
+      const rotateRoulette = async () => {
+        const email = await AsyncStorage.getItem('user_email');
+        const response = await fetch(PreURL.preURL + '/api/mission/roulette',{
+          method : 'POST',
+          body : JSON.stringify({'email' : email}),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+        const responseData = await response.json();
+
+        if(response.status == 201){
+          return Alert.alert('일일 개수 초과')
+        }
+
         if (isSpinning) return; // 이미 회전 중이면 함수를 종료
         setIsSpinning(true);
 
         angle.setValue(0);
         
         // 랜덤한 섹터 번호 선택 (0 ~ 4)
-        const randomSectionIndex = Math.floor(Math.random() * 5);
-        console.log(`선택된 섹터 인덱스: ${randomSectionIndex}`);
+        const randomSectionIndex = responseData.randomNumber;
         
         // 선택된 섹터의 데이터
         const selectedSection = data[randomSectionIndex];
-        console.log(`선택된 섹터: ${selectedSection.text}`);
         
         // 섹터 내에서 랜덤 각도 계산
         const randomAngleWithinSection = Math.random() * (selectedSection.maxAngle - selectedSection.minAngle) + selectedSection.minAngle;
-        console.log(`섹터 내 랜덤 각도: ${randomAngleWithinSection}`);
         
         // 각도 정규화
         const normalizedAngle = (randomAngleWithinSection + 360) % 360;
-        console.log(`정규화된 각도: ${normalizedAngle}`);
         
         // 최종 회전 각도
         const toValue = 360 * 5 + normalizedAngle;
-        console.log(`최종 회전 각도: ${toValue}`);
         
         // 애니메이션 실행
         setTimeout(() => {
