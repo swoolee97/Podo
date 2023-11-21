@@ -127,7 +127,7 @@ const GifticonDetailScreen = ({ navigation, route }) => {
                         marginLeft: '4%',
                         width: '75%',
                         height: 45,
-                        backgroundColor: '#3BCDA1',
+                        backgroundColor: '#B774E0',
                         borderRadius: 8,
                         justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
                         alignItems: 'center',

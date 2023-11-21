@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   button: {
     marginHorizontal: '5%',
     width: '90%',
-    backgroundColor: '#9D8DFF',
+    backgroundColor: '#B774E0',
     borderRadius: 8,
     justifyContent: 'center', // 텍스트를 세로로 중앙에 위치시키기 위해 추가
     alignItems: 'center',
@@ -218,7 +218,7 @@ donationButton: {
   width: 60,
   height: 60,
   borderRadius: 30,
-  backgroundColor: '#9d8dff',
+  backgroundColor: '#B774E0',
   justifyContent: 'center',
   alignItems: 'center',
   shadowColor: "#000",
