@@ -18,6 +18,7 @@ const UploadGifticon = ({ }) => {
     useEffect(() => {
         checkLoginStatus(navigation);
     }, []);
+    
     const [modalVisible, setModalVisible] = useState(false);
 
     const showPicker = () => {
@@ -52,7 +53,7 @@ const UploadGifticon = ({ }) => {
                 }
             })
             const data = await response.json();
-            console.log(data)
+        // console.log(data)
             // return;
 
             if(data.result.coupon_status != "사용안함"){

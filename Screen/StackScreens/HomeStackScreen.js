@@ -13,6 +13,7 @@ import AuthStackScreen from "./AuthStackScreen"
 import ModifyGifticonScreen from "../GifticonListScreens/ModifyGifticonScreen"
 import PointHistoryScreen from "../MainStackScreens/PointHistoryScreen"
 import MinigameScreen from "../MainStackScreens/MinigameScreen"
+import BarcodeScreen from "../GifticonListScreens/BarcodeScreen"
 
 
 const Stack = createStackNavigator()
@@ -43,6 +44,7 @@ const HomeStackScreen = ({ navigation, route }) => {
                 <Stack.Screen component={PointHistoryScreen} name = "PointHistoryScreen"></Stack.Screen>
                 <Stack.Screen component={WishListScreen} name = "WishListScreen"></Stack.Screen>
                 <Stack.Screen component={DonationHistoryScreen} name = "DonationHistoryScreen"></Stack.Screen>
+                <Stack.Screen component={BarcodeScreen} name = "BarcodeScreen"></Stack.Screen>
                 <Stack.Screen component={NotificationScreen} name = "NotificationScreen"></Stack.Screen>
                 <Stack.Screen component={MissionDetailScreen} name = "MissionDetailScreen"
                       options={{

@@ -10,8 +10,7 @@ import { Modalize } from 'react-native-modalize';
 const ModifyGifticonScreen = ({route }) => {
     const navigation = useNavigation(navigation)
     const result = route.params.data.result
-    console.log("@@@@@")
-    console.log(result)
+    
     const expiration_date = stringToDate(result.expiration_date) 
     const price = stringToPrice(result.price)
 
