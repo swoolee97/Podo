@@ -20,7 +20,8 @@ const HomeScreen = ({ navigation}) => {
     const [isReceiver, setIsReceiver] = useState(false);
     const isFocused = useIsFocused();
     const dailyMissionLimit = 5;
-
+    const minigameprogressWidth = ((completedMissionCount / dailyMissionLimit) * 100).toString() + '%';
+    const donationprogressWidth = ((donatedGifticonCount / 5) * 100).toString() + '%';
     useEffect(() => {
         if (isFocused) {
             const fetchData = async () => {
@@ -74,6 +75,7 @@ const HomeScreen = ({ navigation}) => {
                         // if (data && data.missions) {
                         setCompletedMissions(data.length);
                     // }
+                    
 
                     const donatedGificonCountResponseData = await donatedGificonCountResponse.json();
                     setDonatdedGifticonCount(donatedGificonCountResponseData.count);
@@ -102,7 +104,7 @@ const HomeScreen = ({ navigation}) => {
         const data = await response.json()
         navigation.navigate('MissionDetailScreen', { data, email })
     };
-
+    
     return (
         userEmail ? 
         (<View style={styles.container}>
@@ -123,7 +125,9 @@ const HomeScreen = ({ navigation}) => {
                         <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:14, color:'#000'}}><Text style={{color:'#aa57dd'}}>{donationLevel}</Text> 단계</Text>
                         <View style={{flexDirection: 'row', alignItems:'center'}}>
                             <View style={{width: '60%', height:8, backgroundColor:'#eaeaea', borderRadius: 20}}>
+                                <View style={{width: donationprogressWidth, height:8, backgroundColor:'#aa57dd', borderRadius: 20}}>
 
+                                </View>
                             </View>
                             <View style={{flex: 0.2}}/>
                             <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{donatedGifticonCount}</Text>
@@ -149,7 +153,9 @@ const HomeScreen = ({ navigation}) => {
                     <Text style={{fontFamily: 'Pretendard-SemiBold', fontSize:14, color:'#000'}}>오늘 가능한 미니게임</Text>
                     <View style={{flexDirection: 'row', alignItems:'center'}}>
                         <View style={{width: '60%', height:8, backgroundColor:'#eaeaea', borderRadius: 20}}>
+                            <View style={{width: minigameprogressWidth, height:8, backgroundColor:'#aa57dd', borderRadius: 20}}>
 
+                            </View>
                         </View>
                         <View style={{flex: 0.2}}/>
                         <Text style={{fontFamily: 'Pretendard-Bold', fontSize:22, color:'#aa57dd'}}>{dailyMissionLimit-completedMissionCount}</Text>
