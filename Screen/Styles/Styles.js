@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     textAlign: 'center',
     letterSpacing: 0.59,
-    color: '#3BCDA1',
+    color: '#B774E0',
   },
   postDonation: {
     fontFamily:'Pretendard-Bold',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     textAlign: 'center',
     letterSpacing: 0.59,
-    color: '#3BCDA1',
+    color: '#B774E0',
   },
   PretendardRegular: {
     fontFamily:'Pretendard-Regular',
