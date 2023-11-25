@@ -56,9 +56,11 @@ const WriteCommunityScreen = () => {
     try {
         const accessToken = await AsyncStorage.getItem('accessToken');
         const user_email = await AsyncStorage.getItem('user_email');
+        const nick_name = await AsyncStorage.getItem('nick_name');
         const formData = new FormData();
         
         formData.append('text', newPostText);
+        formData.append('nick_name', nick_name)
     
         if (Array.isArray(newPostImage)) {
           newPostImage.forEach((imageUri, index) => {

@@ -11,6 +11,7 @@ import Arrow from '../../images/arrow.png';
 
 const HomeScreen = ({ navigation}) => {
     const [userEmail, setUserEmail] = useState(null);
+    const [nickName, setNickName] = useState(null);
     const [userPoints, setUserPoints] = useState(0);
     const [completedMissionCount, setCompletedMissions] = useState(0);
     const [donatedGifticonCount, setDonatdedGifticonCount] = useState(0);
@@ -26,7 +27,9 @@ const HomeScreen = ({ navigation}) => {
         if (isFocused) {
             const fetchData = async () => {
                 const email = await AsyncStorage.getItem('user_email');
+                const nick_name = await AsyncStorage.getItem('nick_name')
                 setUserEmail(email);
+                setNickName(nick_name);
                 if (!email) {
                     setIsReceiver(false);
                     setUserPoints(0);
@@ -115,7 +118,7 @@ const HomeScreen = ({ navigation}) => {
                 <View style={{width:'100%', height: 200, padding: '5%', borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}} >
                     <View style={{flex: 1, flexDirection:'row', alignItems: "center", alignSelf:'center'}}>
                         <Text style={{fontFamily: 'Pretendard-Bold', fontSize:20, color:'#000'}}>
-                            {userEmail.split('@')[0]}님,{'\n'}{donatedGifticonCount}개
+                            {nickName}님,{'\n'}{donatedGifticonCount}개
                             <Text style={{fontFamily: 'Pretendard-Medium'}}>의 기프티콘을 기부했어요</Text>
                         </Text>
                         <View style={{flex: 1}}/>
@@ -143,7 +146,7 @@ const HomeScreen = ({ navigation}) => {
                 <View style={{width:'100%', height: 200, padding: '5%', borderRadius: 10, backgroundColor: '#FFFFFF', elevation: 10, shadowColor:'#000000', shadowOffset:{width:0, height:4},shadowOpacity:0.25}} >
                 <View style={{flex: 1, flexDirection:'row', alignItems: "center", alignSelf:'center'}}>
                     <Text style={{fontFamily: 'Pretendard-Bold', fontSize:20, color:'#000'}}>
-                        {userEmail.split('@')[0]}님,{'\n'}{completedMissionCount}개
+                        {nickName}님,{'\n'}{completedMissionCount}개
                         <Text style={{fontFamily: 'Pretendard-Medium'}}>의 미니게임을 완료했어요</Text>
                     </Text>
                     <View style={{flex: 1}}/>

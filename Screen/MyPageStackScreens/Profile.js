@@ -71,10 +71,10 @@ const Profile = ({ navigation }) => {
             },
         })
         const responseData = await response.json();
-        console.log(responseData.message)
         if(response.status == 500){
             return Alert.alert('이미 사용중인 닉네임');
         }
+        await AsyncStorage.setItem('nick_name', inputValue)
         return Alert.alert('변경되었습니다')
     }
 

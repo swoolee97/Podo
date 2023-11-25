@@ -69,7 +69,7 @@ const CommunityScreen = ({navigation}) => {
                   source={myPageIcon}
                   style={{ width: '13%', aspectRatio:1, borderRadius: 20, backgroundColor:'grey', marginRight: 10 }} 
                 />
-                <Text  style={styles.itemName}>{item.email.split('@')[0]}</Text>
+                <Text  style={styles.itemName}>{item.nickName}</Text>
               </View>
               <Text style={[styles.itemName,{marginTop:'2%'}]} numberOfLines={1} ellipsizeMode="tail">
                 {item.text}

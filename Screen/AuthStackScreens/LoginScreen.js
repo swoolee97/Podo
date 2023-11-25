@@ -42,6 +42,7 @@ const LoginScreen = ({ navigation }) => {
         const responseJson = await response.json();
         if (responseJson.login) {
             await AsyncStorage.setItem('user_email', responseJson.user_email)
+            await AsyncStorage.setItem('nick_name', responseJson.nick_name)
             await AsyncStorage.setItem('accessToken', responseJson.accessToken)
             navigation.replace('Main')
         }else if(response.status == 501){
