@@ -12,7 +12,7 @@ const FocusableInput = (props) => {
             {...props}
             style={[
                 props.style,
-                { borderColor: isFocused ? '#3BCDA1' : '#CECECE' }
+                { borderColor: isFocused ? '#B774E0' : '#CECECE' }
             ]}
             onFocus={handleFocus}
             onBlur={handleBlur}

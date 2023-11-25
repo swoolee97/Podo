@@ -114,7 +114,7 @@ const LoginScreen = ({ navigation }) => {
             
             <TouchableOpacity 
                 onPress={() => { loginSubmit(); }} 
-                style={[styles.touchbox, {top:412, backgroundColor: isButtonActive ? '#3BCDA1' : '#CECECE'}]}
+                style={[styles.touchbox, {top:412, backgroundColor: isButtonActive ? '#B774E0' : '#CECECE'}]}
                 disabled={!isButtonActive}>
                 <Text style={styles.buttonText}>
                     로그인
